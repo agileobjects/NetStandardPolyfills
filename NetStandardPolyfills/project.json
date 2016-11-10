@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "0.1.1-*",
   "authors": [ "Steve Wilkes" ],
   "title": "NetStandardPolyfills",
   "name": "AgileObjects.NetStandardPolyfills",
