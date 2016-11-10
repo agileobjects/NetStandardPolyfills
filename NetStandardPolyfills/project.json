@@ -8,8 +8,15 @@
   "packOptions": {
     "copyright": "2016 Steve Wilkes",
     "owners": [ "Steve Wilkes" ],
+    "licenseUrl": "https://github.com/AgileObjects/NetStandardPolyfills/blob/master/LICENCE.md",
+    "projectUrl": "https://github.com/AgileObjects/NetStandardPolyfills",
     "requireLicenseAcceptance": false,
-    "summary": "Polyfill methods for .NET Standard 1.0."
+    "summary": "Polyfill methods for .NET Standard 1.0.",
+    "tags": [ ".NETStandard", "Polyfill", "ExtensionMethods", "Reflection" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/AgileObjects/NetStandardPolyfills"
+    }
   },
 
   "buildOptions": {
