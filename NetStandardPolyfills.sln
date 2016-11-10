@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetStandardPolyfills", "NetStandardPolyfills\NetStandardPolyfills.xproj", "{471A218A-9964-4C9E-843D-26032E989F00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2B5957F8-E7DD-4B2B-9AE4-E7628FF69676}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetStandardPolyfills.UnitTests", "NetStandardPolyfills.UnitTests\NetStandardPolyfills.UnitTests.xproj", "{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{471A218A-9964-4C9E-843D-26032E989F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{471A218A-9964-4C9E-843D-26032E989F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{471A218A-9964-4C9E-843D-26032E989F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{471A218A-9964-4C9E-843D-26032E989F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
