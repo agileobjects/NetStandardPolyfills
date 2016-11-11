@@ -20,6 +20,7 @@
   },
 
   "buildOptions": {
+    "keyFile": "..\\NetStandardPolyfills.snk",
     "warningsAsErrors": true,
     "xmlDoc": true,
     "outputName": "AgileObjects.NetStandardPolyfills"
