@@ -114,6 +114,20 @@
         }
 
         /// <summary>
+        /// Returns a value indicating if the given <paramref name="type"/> is a primitive.
+        /// </summary>
+        /// <param name="type">The type for which to make the determination.</param>
+        /// <returns>True if the given <paramref name="type"/> is a primitive, otherwise false.</returns>
+        public static bool IsPrimitive(this Type type)
+        {
+#if NET_STANDARD
+            return type.GetTypeInfo().IsPrimitive;
+#else
+            return type.IsPrimitive;
+#endif
+        }
+
+        /// <summary>
         /// Returns a value indicating if the given <paramref name="type"/> is a generic type.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
