@@ -66,6 +66,18 @@
             typeof(IOrderedEnumerable<int>).IsAnonymous().ShouldBeFalse();
         }
 
+        [Fact]
+        public void ShouldFlagAPrimitiveType()
+        {
+            typeof(int).IsPrimitive().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldFlagANonPrimitiveType()
+        {
+            typeof(object).IsPrimitive().ShouldBeFalse();
+        }
+
         [MyAttribute]
         private class TestHelper
         {
