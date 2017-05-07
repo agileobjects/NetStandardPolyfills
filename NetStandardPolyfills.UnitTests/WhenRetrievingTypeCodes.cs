@@ -1,4 +1,4 @@
-﻿namespace AgileObjects.AgileMapper.UnitTests.Polyfills
+﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
     using System;
     using System.Data;

@@ -32,7 +32,7 @@
         public static IEnumerable<ConstructorInfo> GetPublicInstanceConstructors(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.IsPublic && !c.IsStatic);
+            return type.GetConstructors();
 #else
             return type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -65,7 +65,7 @@
         public static IEnumerable<MemberInfo> GetPublicInstanceMember(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredMembers.Where(m => m.Name == name);
+            return type.GetMembers().Where(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -79,7 +79,7 @@
         public static IEnumerable<FieldInfo> GetPublicInstanceFields(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredFields.Where(f => f.IsPublic && !f.IsStatic);
+            return type.GetFields().Where(f => f.IsPublic && !f.IsStatic);
 #else
             return type.GetFields(BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -93,7 +93,7 @@
         public static IEnumerable<PropertyInfo> GetPublicInstanceProperties(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredProperties.Where(p =>
+            return type.GetProperties().Where(p =>
                 !(p.GetMethod ?? p.SetMethod).IsStatic &&
                 ((p.GetMethod != null && p.GetMethod.IsPublic) || (p.SetMethod != null && p.SetMethod.IsPublic)));
 #else
@@ -114,7 +114,7 @@
         public static PropertyInfo GetPublicInstanceProperty(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().GetDeclaredProperty(name);
+            return type.GetProperty(name);
 #else
             return type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -128,7 +128,7 @@
         public static IEnumerable<MethodInfo> GetPublicInstanceMethods(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredMethods.Where(m => m.IsPublic && !m.IsStatic);
+            return type.GetMethods().WithoutPropertyGettersAnd(m => !m.IsStatic);
 #else
             return type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -142,7 +142,9 @@
         public static IEnumerable<MethodInfo> GetNonPublicInstanceMethods(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredMethods.Where(m => !m.IsPublic && !m.IsStatic);
+            const int NON_PUBLIC_INSTANCE = 36;
+
+            return GetMethods(type, NON_PUBLIC_INSTANCE);
 #else
             return type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
 #endif
@@ -156,7 +158,7 @@
         public static IEnumerable<MethodInfo> GetPublicStaticMethods(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredMethods.Where(m => m.IsPublic && m.IsStatic);
+            return type.GetMethods().WithoutPropertyGettersAnd(m => m.IsStatic);
 #else
             return type.GetMethods(BindingFlags.Public | BindingFlags.Static);
 #endif
@@ -194,10 +196,33 @@
         public static MethodInfo GetNonPublicStaticMethod(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredMethods.First(m => m.IsPublic && m.IsStatic && (m.Name == name));
+            const int NON_PUBLIC_STATIC = 40;
+
+            return GetMethods(type, NON_PUBLIC_STATIC).First(m => m.Name == name);
 #else
             return type.GetMethod(name, BindingFlags.NonPublic | BindingFlags.Static);
 #endif
         }
+
+#if NET_STANDARD
+        private static readonly MethodInfo _getMethodsMethod = typeof(TypeExtensions)
+            .GetPublicStaticMethods()
+            .First(m => (m.Name == "GetMethods") && (m.GetParameters().Length == 2));
+
+        private static IEnumerable<MethodInfo> GetMethods(Type type, int bindingFlagsConstant)
+        {
+            var methods = (IEnumerable<MethodInfo>)_getMethodsMethod
+                .Invoke(null, new object[] { type, bindingFlagsConstant });
+
+            return methods.WithoutPropertyGettersAnd(m => true);
+        }
+
+        private static IEnumerable<MethodInfo> WithoutPropertyGettersAnd(
+            this IEnumerable<MethodInfo> methods,
+            Func<MethodInfo, bool> extraFilter)
+        {
+            return methods.Where(m => !m.IsSpecialName && extraFilter.Invoke(m));
+        }
+#endif
     }
 }

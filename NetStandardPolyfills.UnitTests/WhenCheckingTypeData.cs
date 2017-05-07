@@ -1,9 +1,7 @@
-﻿namespace AgileObjects.AgileMapper.UnitTests.Polyfills
+﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using System;
     using System.Linq;
     using System.Reflection;
-    using NetStandardPolyfills;
     using Shouldly;
     using Xunit;
 
@@ -44,15 +42,6 @@
         }
 
         [Fact]
-        public void ShouldFindANonPublicInstanceMethod()
-        {
-            var method = typeof(TestHelper).GetNonPublicInstanceMethods().FirstOrDefault();
-
-            method.ShouldNotBeNull();
-            method.Name.ShouldBe("NonPublicMethod");
-        }
-
-        [Fact]
         public void ShouldFlagAnAnonymousType()
         {
             var anon = new { Value = "Value!" };
@@ -78,28 +67,6 @@
             typeof(object).IsPrimitive().ShouldBeFalse();
         }
 
-        [MyAttribute]
-        private class TestHelper
-        {
-            // ReSharper disable once UnusedMember.Local
-            // ReSharper disable once UnusedParameter.Local
-            public void DoParamsStuff(params int[] ints)
-            {
-            }
 
-            // ReSharper disable once UnusedMember.Local
-            // ReSharper disable once UnusedParameter.Local
-            public void DoNonParamsStuff(int[] ints)
-            {
-
-            }
-
-            // ReSharper disable once UnusedMember.Local
-            internal void NonPublicMethod()
-            {
-            }
-        }
-
-        internal class MyAttribute : Attribute { }
     }
 }
