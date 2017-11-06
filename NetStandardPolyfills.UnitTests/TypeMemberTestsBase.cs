@@ -1,13 +1,12 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
     using System.Linq;
-    using Shouldly;
-    using Xunit;
 
-    public class WhenRetrievingTypeMembers
+    public abstract class TypeMemberTestsBase
     {
-        [Fact]
-        public void ShouldFindAPublicInstanceConstructor()
+        public abstract void ShouldFindAnImplicitPublicInstanceConstructor();
+
+        protected void DoShouldFindAnImplicitPublicInstanceConstructor()
         {
             var constructor = typeof(TestHelper)
                 .GetPublicInstanceConstructors()
@@ -16,8 +15,20 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             constructor.ShouldNotBeNull();
         }
 
-        [Fact]
-        public void ShouldFindANonPublicInstanceConstructor()
+        public abstract void ShouldFindAPublicInstanceConstructor();
+
+        protected void DoShouldFindAPublicInstanceConstructor()
+        {
+            var constructor = typeof(TestHelper)
+                .GetPublicInstanceConstructors()
+                .FirstOrDefault();
+
+            constructor.ShouldNotBeNull();
+        }
+
+        public abstract void ShouldFindANonPublicInstanceConstructor();
+
+        protected void DoShouldFindANonPublicInstanceConstructor()
         {
             var constructor = typeof(TestHelper)
                 .GetNonPublicInstanceConstructors()
@@ -26,8 +37,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             constructor.ShouldNotBeNull();
         }
 
-        [Fact]
-        public void ShouldRetrieveAPublicInstanceField()
+        public abstract void ShouldRetrieveAPublicInstanceField();
+
+        protected void DoShouldRetrieveAPublicInstanceField()
         {
             var fields = typeof(TestHelper).GetPublicInstanceFields();
 
@@ -36,8 +48,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             fields.First().Name.ShouldBe("PublicInstanceField");
         }
 
-        [Fact]
-        public void ShouldRetrieveAPublicInstanceProperty()
+        public abstract void ShouldRetrieveAPublicInstanceProperty();
+
+        protected void DoShouldRetrieveAPublicInstanceProperty()
         {
             var properties = typeof(TestHelper).GetPublicInstanceProperties();
 
@@ -46,8 +59,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             properties.First().Name.ShouldBe("PublicInstanceProperty");
         }
 
-        [Fact]
-        public void ShouldFindAPublicInstanceMethod()
+        public abstract void ShouldFindAPublicInstanceMethod();
+
+        protected void DoShouldFindAPublicInstanceMethod()
         {
             var paramsStuff = typeof(TestHelper)
                 .GetPublicInstanceMethods()
@@ -56,8 +70,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             paramsStuff.ShouldNotBeNull();
         }
 
-        [Fact]
-        public void ShouldFindAnInheritedPublicInstanceMethod()
+        public abstract void ShouldFindAnInheritedPublicInstanceMethod();
+
+        protected void DoShouldFindAnInheritedPublicInstanceMethod()
         {
             var parameterlessToString = typeof(MyTestEnum)
                 .GetPublicInstanceMethods()
@@ -66,8 +81,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             parameterlessToString.ShouldNotBeNull();
         }
 
-        [Fact]
-        public void ShouldFindANonPublicInstanceMethod()
+        public abstract void ShouldFindANonPublicInstanceMethod();
+
+        protected void DoShouldFindANonPublicInstanceMethod()
         {
             var method = typeof(TestHelper)
                 .GetNonPublicInstanceMethods()
@@ -77,8 +93,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.Name.ShouldBe("NonPublicMethod");
         }
 
-        [Fact]
-        public void ShouldFindAPublicStaticMethod()
+        public abstract void ShouldFindAPublicStaticMethod();
+
+        protected void DoShouldFindAPublicStaticMethod()
         {
             var method = typeof(TestHelper)
                 .GetPublicStaticMethod("PublicStaticMethod");
@@ -86,8 +103,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.ShouldNotBeNull();
         }
 
-        [Fact]
-        public void ShouldFindANonPublicStaticMethod()
+        public abstract void ShouldFindANonPublicStaticMethod();
+
+        protected void DoShouldFindANonPublicStaticMethod()
         {
             var method = typeof(TestHelper)
                 .GetNonPublicStaticMethod("NonPublicStaticMethod");

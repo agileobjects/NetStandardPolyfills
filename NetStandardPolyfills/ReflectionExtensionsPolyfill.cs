@@ -130,7 +130,26 @@
 #if NET_STANDARD
             return type.GetMethods().WithoutPropertyGettersAnd(m => !m.IsStatic);
 #else
-            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance).WithoutPropertyGetters();
+#endif
+        }
+
+        /// <summary>
+        /// Gets the public, instance-scoped method with the given <paramref name="name"/>
+        /// from the given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type for which to retrieve the methods.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <returns>
+        /// The public, instance-scoped method with the given <paramref name="name"/> from 
+        /// the given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MethodInfo GetPublicInstanceMethod(this Type type, string name)
+        {
+#if NET_STANDARD
+            return type.GetMethod(name);
+#else
+            return type.GetMethod(name);
 #endif
         }
 
@@ -146,7 +165,7 @@
 
             return GetMethods(type, NON_PUBLIC_INSTANCE);
 #else
-            return type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+            return type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).WithoutPropertyGetters();
 #endif
         }
 
@@ -160,7 +179,7 @@
 #if NET_STANDARD
             return type.GetMethods().WithoutPropertyGettersAnd(m => m.IsStatic);
 #else
-            return type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            return type.GetMethods(BindingFlags.Public | BindingFlags.Static).WithoutPropertyGetters();
 #endif
         }
 
@@ -214,8 +233,12 @@
             var methods = (IEnumerable<MethodInfo>)_getMethodsMethod
                 .Invoke(null, new object[] { type, bindingFlagsConstant });
 
-            return methods.WithoutPropertyGettersAnd(m => true);
+            return methods.WithoutPropertyGetters();
         }
+#endif
+
+        private static IEnumerable<MethodInfo> WithoutPropertyGetters(this IEnumerable<MethodInfo> methods)
+            => methods.WithoutPropertyGettersAnd(m => true);
 
         private static IEnumerable<MethodInfo> WithoutPropertyGettersAnd(
             this IEnumerable<MethodInfo> methods,
@@ -223,6 +246,5 @@
         {
             return methods.Where(m => !m.IsSpecialName && extraFilter.Invoke(m));
         }
-#endif
     }
 }
