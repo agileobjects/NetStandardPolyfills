@@ -46,6 +46,21 @@
         }
 
         /// <summary>
+        /// Gets the public, static-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the named member.</param>
+        /// <param name="name">The name of the member to find.</param>
+        /// <returns>
+        /// The public, static-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MemberInfo GetPublicStaticMember(this Type type, string name)
+        {
+            return type.GetPublicStaticMembers(name).GetSingleMember(name);
+        }
+
+        /// <summary>
         /// Gets the public, instance-scoped members for the given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
@@ -81,18 +96,18 @@
         }
 
         /// <summary>
-        /// Gets the first public, instance-scoped member with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, instance-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The first public, instance-scoped member with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>, or null if none exists.
+        /// The public, instance-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetPublicInstanceMember(this Type type, string name)
         {
-            return type.GetPublicInstanceMembers(name).FirstOrDefault();
+            return type.GetPublicInstanceMembers(name).GetSingleMember(name);
         }
 
         /// <summary>
@@ -131,6 +146,21 @@
         }
 
         /// <summary>
+        /// Gets the non-public, static-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the named member.</param>
+        /// <param name="name">The name of the member to find.</param>
+        /// <returns>
+        /// The non-public, static-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MemberInfo GetNonPublicStaticMember(this Type type, string name)
+        {
+            return type.GetNonPublicStaticMembers(name).GetSingleMember(name);
+        }
+
+        /// <summary>
         /// Gets the non-public, instance-scoped members for the given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
@@ -166,18 +196,18 @@
         }
 
         /// <summary>
-        /// Gets the first non-public, instance-scoped member with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, instance-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The first non-public, instance-scoped member with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>, or null if none exists.
+        /// The non-public, instance-scoped member with the given <paramref name="name"/> for the 
+        /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetNonPublicInstanceMember(this Type type, string name)
         {
-            return type.GetNonPublicInstanceMembers(name).FirstOrDefault();
+            return type.GetNonPublicInstanceMembers(name).GetSingleMember(name);
         }
 
         #region Helper Members
@@ -223,6 +253,17 @@
         private static bool IsStatic(this Tuple<bool, bool> accessibilityAndScopeTuple) =>
             accessibilityAndScopeTuple.Item2;
 #endif
+        private static MemberInfo GetSingleMember(this IEnumerable<MemberInfo> members, string name)
+        {
+            var membersArray = members.ToArray();
+
+            if (membersArray.Length > 1)
+            {
+                throw new AmbiguousMatchException("Multiple members found named " + name);
+            }
+
+            return membersArray.FirstOrDefault();
+        }
         #endregion
     }
 }

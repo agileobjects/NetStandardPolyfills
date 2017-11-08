@@ -14,6 +14,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
         public override void ShouldExcludePublicStaticMembersByName() => DoShouldExcludePublicStaticMembersByName();
 
         [Fact]
+        public override void ShouldRetrievePublicStaticMemberByName() => DoShouldRetrievePublicStaticMemberByName();
+
+        [Fact]
         public override void ShouldRetrievePublicInstanceMembers() => DoShouldRetrievePublicInstanceMembers();
 
         [Fact]
@@ -33,6 +36,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
 
         [Fact]
         public override void ShouldExcludeNonPublicStaticMembersByName() => DoShouldExcludeNonPublicStaticMembersByName();
+
+        [Fact]
+        public override void ShouldRetrieveNonPublicStaticMemberByName() =>
+            DoShouldRetrieveNonPublicStaticMemberByName();
 
         [Fact]
         public override void ShouldRetrieveNonPublicInstanceMembers() => DoShouldRetrieveNonPublicInstanceMembers();

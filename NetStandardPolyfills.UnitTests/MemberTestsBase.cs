@@ -12,6 +12,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldExcludePublicStaticMembersByName();
 
+        public abstract void ShouldRetrievePublicStaticMemberByName();
+
         public abstract void ShouldRetrievePublicInstanceMembers();
 
         public abstract void ShouldRetrievePublicInstanceMembersByName();
@@ -25,6 +27,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldRetrieveNonPublicStaticMembersByName();
 
         public abstract void ShouldExcludeNonPublicStaticMembersByName();
+
+        public abstract void ShouldRetrieveNonPublicStaticMemberByName();
 
         public abstract void ShouldRetrieveNonPublicInstanceMembers();
 
@@ -61,6 +65,13 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             typeof(TestHelper)
                 .GetPublicStaticMembers("PublicInstanceField")
                 .ShouldBeEmpty();
+        }
+
+        protected void DoShouldRetrievePublicStaticMemberByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMember("PublicStaticProperty")
+                .ShouldNotBeNull();
         }
 
         protected void DoShouldRetrievePublicInstanceMembers()
@@ -123,6 +134,14 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             typeof(TestHelper)
                 .GetNonPublicStaticMembers("NonPublicInstanceField")
                 .ShouldBeEmpty();
+        }
+
+        protected void DoShouldRetrieveNonPublicStaticMemberByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticMember("NonPublicStaticField")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticField");
         }
 
         protected void DoShouldRetrieveNonPublicInstanceMembers()
