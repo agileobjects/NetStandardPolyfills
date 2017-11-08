@@ -9,17 +9,29 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldFindAPublicStaticMethodByName();
 
+        public abstract void ShouldFindAPublicStaticMethodByNameAndParamCount();
+
         public abstract void ShouldFindPublicInstanceMethods();
 
-        public abstract void ShouldFindAPublicInstanceMethod();
+        public abstract void ShouldFindAPublicInstanceMethodByName();
 
-        public abstract void ShouldFindAnInheritedPublicInstanceMethod();
+        public abstract void ShouldFindAPublicInstanceMethodByNameAndParamCount();
 
-        public abstract void ShouldFindANonPublicInstanceMethod();
+        public abstract void ShouldFindAnInheritedPublicInstanceMethodByName();
+
+        public abstract void ShouldFindAnInheritedPublicInstanceMethodByNameAndParamCount();
 
         public abstract void ShouldFindNonPublicStaticMethods();
 
-        public abstract void ShouldFindANonPublicStaticMethod();
+        public abstract void ShouldFindANonPublicStaticMethodByName();
+
+        public abstract void ShouldFindANonPublicStaticMethodByNameAndParamCount();
+
+        public abstract void ShouldFindNonPublicInstanceMethods();
+
+        public abstract void ShouldFindANonPublicInstanceMethodByName();
+
+        public abstract void ShouldFindANonPublicInstanceMethodByNameAndParamCount();
 
         #region Test Implementations
 
@@ -31,13 +43,25 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .ToList();
 
             methods.ShouldContain("PublicStaticMethod");
+            methods.ShouldNotContain("ReferenceEquals");
         }
 
         protected void DoShouldFindAPublicStaticMethodByName()
         {
             typeof(TestHelper)
                 .GetPublicStaticMethod("PublicStaticMethod")
-                .ShouldNotBeNull();
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicStaticMethod");
+        }
+
+        protected void DoShouldFindAPublicStaticMethodByNameAndParamCount()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetPublicStaticMethod("PublicStatic", 1);
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicStatic");
+            method.GetParameters().ShouldHaveSingleItem();
         }
 
         protected void DoShouldFindPublicInstanceMethods()
@@ -49,48 +73,101 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
             methods.ShouldContain("DoParamsStuff");
             methods.ShouldContain("DoNonParamsStuff");
+            methods.ShouldContain("GetHashCode");
         }
 
-        protected void DoShouldFindAPublicInstanceMethod()
+        protected void DoShouldFindAPublicInstanceMethodByName()
         {
             typeof(TestHelper)
                 .GetPublicInstanceMethod("DoParamsStuff")
                 .ShouldNotBeNull();
         }
 
-        protected void DoShouldFindAnInheritedPublicInstanceMethod()
+        protected void DoShouldFindAPublicInstanceMethodByNameAndParamCount()
         {
-            var parameterlessToString = typeof(MyTestEnum)
-                .GetPublicInstanceMethods()
-                .First(m => m.Name == "ToString" && m.GetParameters().Length == 0);
+            var method = typeof(MethodTestsHelper)
+                .GetPublicInstanceMethod("PublicInstance", 2);
 
-            parameterlessToString.ShouldNotBeNull();
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicInstance");
+            method.GetParameters().Length.ShouldBe(2);
         }
 
-        protected void DoShouldFindANonPublicInstanceMethod()
+        protected void DoShouldFindAnInheritedPublicInstanceMethodByName()
         {
-            var method = typeof(TestHelper)
-                .GetNonPublicInstanceMethods()
-                .First();
+            typeof(MyTestEnum)
+                .GetPublicInstanceMethod("GetHashCode")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("GetHashCode");
+        }
 
-            method.Name.ShouldBe("NonPublicMethod");
+        protected void DoShouldFindAnInheritedPublicInstanceMethodByNameAndParamCount()
+        {
+            var method = typeof(MyTestEnum)
+                .GetPublicInstanceMethod("ToString", 0);
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("ToString");
+            method.GetParameters().ShouldBeEmpty();
         }
 
         protected void DoShouldFindNonPublicStaticMethods()
         {
-            var method = typeof(TestHelper)
+            var methods = typeof(TestHelper)
                 .GetNonPublicStaticMethods()
-                .First();
+                .Select(m => m.Name)
+                .ToList();
 
-            method.Name.ShouldBe("NonPublicStaticMethod");
+            methods.ShouldContain("NonPublicStaticMethod");
+            methods.ShouldNotContain("ReferenceEquals");
         }
 
-        protected void DoShouldFindANonPublicStaticMethod()
+        protected void DoShouldFindANonPublicStaticMethodByName()
         {
-            var method = typeof(TestHelper)
-                .GetNonPublicStaticMethod("NonPublicStaticMethod");
+            typeof(TestHelper)
+                .GetNonPublicStaticMethod("NonPublicStaticMethod")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticMethod");
+        }
+
+        protected void DoShouldFindANonPublicStaticMethodByNameAndParamCount()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetNonPublicStaticMethod("NonPublicStatic", 2);
 
             method.ShouldNotBeNull();
+            method.Name.ShouldBe("NonPublicStatic");
+            method.GetParameters().Length.ShouldBe(2);
+        }
+
+        protected void DoShouldFindNonPublicInstanceMethods()
+        {
+            var methods = typeof(MethodTestsHelper)
+                .GetNonPublicInstanceMethods()
+                .Select(m => m.Name)
+                .ToList();
+
+            methods[0].ShouldBe("NonPublicInstance");
+            methods[1].ShouldBe("NonPublicInstance");
+            methods[2].ShouldBe("NonPublicInstance");
+        }
+
+        protected void DoShouldFindANonPublicInstanceMethodByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceMethod("NonPublicMethod")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicMethod");
+        }
+
+        protected void DoShouldFindANonPublicInstanceMethodByNameAndParamCount()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetNonPublicInstanceMethod("NonPublicInstance", 2);
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("NonPublicInstance");
+            method.GetParameters().Length.ShouldBe(2);
         }
 
         #endregion

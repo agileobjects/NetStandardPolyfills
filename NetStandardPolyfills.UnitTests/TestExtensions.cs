@@ -30,13 +30,15 @@
             }
         }
 
-        public static void ShouldNotBeNull<T>(this T actual)
+        public static T ShouldNotBeNull<T>(this T actual)
             where T : class
         {
             if (actual == null)
             {
                 Asplode("non-null", "null");
             }
+
+            return actual;
         }
 
         public static void ShouldBeNull<T>(this T actual)
@@ -91,6 +93,14 @@
             if (!actual.Contains(expected))
             {
                 Asplode(expected.ToString(), "No match");
+            }
+        }
+
+        public static void ShouldNotContain<T>(this IList<T> actual, T expected)
+        {
+            if (actual.Contains(expected))
+            {
+                Asplode("No match", expected.ToString());
             }
         }
 

@@ -255,7 +255,7 @@
         public static IEnumerable<MethodInfo> GetNonPublicInstanceMethods(this Type type, string name)
         {
 #if NET_STANDARD
-            return GetMethods(type, isPublic: false, isStatic: false);
+            return GetMethods(type, name, isPublic: false, isStatic: false);
 #else
             return type.GetNonPublicInstanceMethods().Named(name);
 #endif
@@ -303,9 +303,6 @@
         #region Helper Methods
 
 #if NET_STANDARD
-        private static IEnumerable<MethodInfo> GetMethods(Type type, bool isPublic, bool isStatic)
-            => GetMethods(type, null, isPublic, isStatic);
-
         private static IEnumerable<MethodInfo> GetMethods(Type type, string name, bool isPublic, bool isStatic)
         {
             while (type != null)
@@ -325,6 +322,11 @@
                     yield return method;
                 }
 
+                if (isStatic)
+                {
+                    break;
+                }
+
                 type = type.GetBaseType();
             }
         }
@@ -332,12 +334,12 @@
 
         private static IEnumerable<MethodInfo> WithoutPropertyGetters(this IEnumerable<MethodInfo> methods)
             => methods.WithoutPropertyGettersAnd(m => true);
-#endif
+
         private static IEnumerable<MethodInfo> Named(this IEnumerable<MethodInfo> methods, string name)
         {
             return methods.Where(m => m.Name == name);
         }
-
+#endif
         private static MethodInfo WithParameterCount(this IEnumerable<MethodInfo> methods, int parameterCount)
         {
             return methods.FirstOrDefault(m => m.GetParameters().Length == parameterCount);

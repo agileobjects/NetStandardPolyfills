@@ -11,22 +11,45 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
         public override void ShouldFindAPublicStaticMethodByName() => DoShouldFindAPublicStaticMethodByName();
 
         [Fact]
+        public override void ShouldFindAPublicStaticMethodByNameAndParamCount() =>
+            DoShouldFindAPublicStaticMethodByNameAndParamCount();
+
+        [Fact]
         public override void ShouldFindPublicInstanceMethods() => DoShouldFindPublicInstanceMethods();
 
         [Fact]
-        public override void ShouldFindAPublicInstanceMethod() => DoShouldFindAPublicInstanceMethod();
+        public override void ShouldFindAPublicInstanceMethodByName() => DoShouldFindAPublicInstanceMethodByName();
 
         [Fact]
-        public override void ShouldFindAnInheritedPublicInstanceMethod() =>
-            DoShouldFindAnInheritedPublicInstanceMethod();
+        public override void ShouldFindAPublicInstanceMethodByNameAndParamCount() =>
+            DoShouldFindAPublicInstanceMethodByNameAndParamCount();
 
         [Fact]
-        public override void ShouldFindANonPublicInstanceMethod() => DoShouldFindANonPublicInstanceMethod();
+        public override void ShouldFindAnInheritedPublicInstanceMethodByName() =>
+            DoShouldFindAnInheritedPublicInstanceMethodByName();
+
+        [Fact]
+        public override void ShouldFindAnInheritedPublicInstanceMethodByNameAndParamCount() =>
+            DoShouldFindAnInheritedPublicInstanceMethodByNameAndParamCount();
 
         [Fact]
         public override void ShouldFindNonPublicStaticMethods() => DoShouldFindNonPublicStaticMethods();
 
         [Fact]
-        public override void ShouldFindANonPublicStaticMethod() => DoShouldFindANonPublicStaticMethod();
+        public override void ShouldFindANonPublicStaticMethodByName() => DoShouldFindANonPublicStaticMethodByName();
+
+        [Fact]
+        public override void ShouldFindANonPublicStaticMethodByNameAndParamCount() =>
+            DoShouldFindANonPublicStaticMethodByNameAndParamCount();
+
+        [Fact]
+        public override void ShouldFindNonPublicInstanceMethods() => DoShouldFindNonPublicInstanceMethods();
+
+        [Fact]
+        public override void ShouldFindANonPublicInstanceMethodByName() => DoShouldFindANonPublicInstanceMethodByName();
+
+        [Fact]
+        public override void ShouldFindANonPublicInstanceMethodByNameAndParamCount() =>
+            DoShouldFindANonPublicInstanceMethodByNameAndParamCount();
     }
 }
