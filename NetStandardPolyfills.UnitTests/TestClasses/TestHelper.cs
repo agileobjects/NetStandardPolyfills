@@ -1,4 +1,4 @@
-namespace AgileObjects.NetStandardPolyfills.UnitTests
+namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
 {
     [My]
     // ReSharper disable UnusedMember.Local

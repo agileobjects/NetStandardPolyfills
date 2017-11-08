@@ -2,36 +2,15 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
 {
     using Xunit;
 
-    public class WhenRetrievingTypeMembers : TypeMemberTestsBase
+    public class WhenRetrievingTypeMembers : MemberTestsBase
     {
         [Fact]
-        public override void ShouldFindAnImplicitPublicInstanceConstructor() => DoShouldFindAnImplicitPublicInstanceConstructor();
+        public override void ShouldRetrievePublicInstanceMembers() => DoShouldRetrievePublicInstanceMembers();
 
         [Fact]
-        public override void ShouldFindAPublicInstanceConstructor() => DoShouldFindAPublicInstanceConstructor();
+        public override void ShouldRetrievePublicInstanceMembersByName() => DoShouldRetrievePublicInstanceMembersByName();
 
         [Fact]
-        public override void ShouldFindANonPublicInstanceConstructor() => DoShouldFindANonPublicInstanceConstructor();
-
-        [Fact]
-        public override void ShouldRetrieveAPublicInstanceField() => DoShouldRetrieveAPublicInstanceField();
-
-        [Fact]
-        public override void ShouldRetrieveAPublicInstanceProperty() => DoShouldRetrieveAPublicInstanceProperty();
-
-        [Fact]
-        public override void ShouldFindAPublicInstanceMethod() => DoShouldFindAPublicInstanceMethod();
-
-        [Fact]
-        public override void ShouldFindAnInheritedPublicInstanceMethod() => DoShouldFindAnInheritedPublicInstanceMethod();
-
-        [Fact]
-        public override void ShouldFindANonPublicInstanceMethod() => DoShouldFindANonPublicInstanceMethod();
-
-        [Fact]
-        public override void ShouldFindAPublicStaticMethod() => DoShouldFindAPublicStaticMethod();
-
-        [Fact]
-        public override void ShouldFindANonPublicStaticMethod() => DoShouldFindANonPublicStaticMethod();
+        public override void ShouldExcludePublicStaticMembersByName() => DoShouldExcludePublicStaticMembersByName();
     }
 }

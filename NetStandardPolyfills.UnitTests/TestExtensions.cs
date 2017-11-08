@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     internal static class TestExtensions
     {
@@ -38,6 +39,15 @@
             }
         }
 
+        public static void ShouldBeNull<T>(this T actual)
+            where T : class
+        {
+            if (actual != null)
+            {
+                Asplode("null", "non-null");
+            }
+        }
+
         public static void ShouldHaveSingleItem<T>(this IEnumerable<T> actualItems)
             where T : class
         {
@@ -52,6 +62,23 @@
                 {
                     Asplode("a single item", "multiple items");
                 }
+            }
+        }
+
+        public static void ShouldBeEmpty<T>(this IEnumerable<T> actual)
+            where T : class
+        {
+            if (actual.Any())
+            {
+                Asplode("an empty collection", "non-empty");
+            }
+        }
+
+        public static void ShouldBeOfType<TExpected>(this object actual)
+        {
+            if (!(actual is TExpected))
+            {
+                Asplode("An object of type " + typeof(TExpected).Name, actual.GetType().Name);
             }
         }
 

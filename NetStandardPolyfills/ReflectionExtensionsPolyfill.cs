@@ -6,7 +6,7 @@
     using System.Reflection;
 
     /// <summary>
-    /// Provides a set of static methods methods for obtaining reflection information in .NET Standard 1.0.
+    /// Provides a set of static methods methods for obtaining reflection information in .NET Standard 1.0 and .NET 4.0.
     /// </summary>
     public static class ReflectionExtensionsPolyfill
     {
@@ -25,47 +25,37 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped constructors for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped members for the given <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">The type for which to retrieve the constructors.</param>
-        /// <returns>The given <paramref name="type"/>'s public, instance-scoped constructors.</returns>
-        public static IEnumerable<ConstructorInfo> GetPublicInstanceConstructors(this Type type)
+        /// <param name="type">The type from which to retrieve the member.</param>
+        /// <returns>
+        /// The public, instance-scoped members for the given <paramref name="type"/>.
+        /// </returns>
+        public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type)
         {
 #if NET_STANDARD
-            return type.GetConstructors();
+            const int PUBLIC_INSTANCE = 20;
+
+            return GetMembers(type, PUBLIC_INSTANCE);
 #else
-            return type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            return type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
 #endif
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped constructors for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped members with the given <paramref name="name"/>
+        /// for the given <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">The type for which to retrieve the constructors.</param>
-        /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped constructors.</returns>
-        public static IEnumerable<ConstructorInfo> GetNonPublicInstanceConstructors(this Type type)
-        {
-#if NET_STANDARD
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsPublic && !c.IsStatic);
-#else
-            return type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
-#endif
-        }
-
-        /// <summary>
-        /// Gets the public, instance-scoped member with the given <paramref name="name"/>
-        /// from the given <paramref name="type"/>, or null if none exists.
-        /// </summary>
-        /// <param name="type">The type for which to retrieve the member.</param>
+        /// <param name="type">The type from which to retrieve the members.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <returns>
-        /// The public, instance-scoped member with the given <paramref name="name"/> from 
-        /// the given <paramref name="type"/>, or null if none exists.
+        /// The public, instance-scoped members with the given <paramref name="name"/> for 
+        /// the given <paramref name="type"/>.
         /// </returns>
-        public static IEnumerable<MemberInfo> GetPublicInstanceMember(this Type type, string name)
+        public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetMembers().Where(m => m.Name == name);
+            return type.GetPublicInstanceMembers().Where(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -184,6 +174,22 @@
         }
 
         /// <summary>
+        /// Gets the non-public, static-scoped methods for the given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type for which to retrieve the methods.</param>
+        /// <returns>The given <paramref name="type"/>'s non-public, static-scoped methods.</returns>
+        public static IEnumerable<MethodInfo> GetNonPublicStaticMethods(this Type type)
+        {
+#if NET_STANDARD
+            const int NON_PUBLIC_STATIC = 40;
+
+            return GetMethods(type, NON_PUBLIC_STATIC);
+#else
+            return type.GetMethods(BindingFlags.NonPublic | BindingFlags.Static).WithoutPropertyGetters();
+#endif
+        }
+
+        /// <summary>
         /// Gets the public, static-scoped method with the given <paramref name="name"/>
         /// from the given <paramref name="type"/>, or null if none exists.
         /// </summary>
@@ -223,7 +229,21 @@
 #endif
         }
 
+        #region Helper Methods
+
 #if NET_STANDARD
+        private static readonly MethodInfo _getMembersMethod = typeof(TypeExtensions)
+            .GetPublicStaticMethods()
+            .First(m => (m.Name == "GetMembers") && (m.GetParameters().Length == 2));
+
+        private static IEnumerable<MemberInfo> GetMembers(Type type, int bindingFlagsConstant)
+        {
+            var members = (IEnumerable<MemberInfo>)_getMembersMethod
+                .Invoke(null, new object[] { type, bindingFlagsConstant });
+
+            return members;
+        }
+
         private static readonly MethodInfo _getMethodsMethod = typeof(TypeExtensions)
             .GetPublicStaticMethods()
             .First(m => (m.Name == "GetMethods") && (m.GetParameters().Length == 2));
@@ -246,5 +266,7 @@
         {
             return methods.Where(m => !m.IsSpecialName && extraFilter.Invoke(m));
         }
+
+        #endregion
     }
 }
