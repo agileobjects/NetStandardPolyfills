@@ -1,5 +1,6 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System;
     using System.Linq;
     using System.Reflection;
     using TestClasses;
@@ -14,6 +15,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldFindAPublicStaticMethodByNameAndParamCount();
 
+        public abstract void ShouldFindAPublicStaticMethodByNameAndParamTypes();
+
         public abstract void ShouldFindPublicInstanceMethods();
 
         public abstract void ShouldFindAPublicInstanceMethodByName();
@@ -21,6 +24,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldFindAPublicInstanceMethodByNameAndParamCount();
 
         public abstract void ShouldExcludeAPublicInstanceMethodByParamCount();
+
+        public abstract void ShouldFindAPublicInstanceMethodByNameAndParamTypes();
 
         public abstract void ShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount();
 
@@ -34,11 +39,17 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldFindANonPublicStaticMethodByNameAndParamCount();
 
+        public abstract void ShouldFindANonPublicStaticMethodByNameAndParamTypes();
+
         public abstract void ShouldFindNonPublicInstanceMethods();
 
         public abstract void ShouldFindANonPublicInstanceMethodByName();
 
         public abstract void ShouldFindANonPublicInstanceMethodByNameAndParamCount();
+
+        public abstract void ShouldFindANonPublicInstanceMethodByNameAndParamTypes();
+
+        public abstract void ShouldExcludeANonPublicInstanceMethodByNameAndParamTypes();
 
         #region Test Implementations
 
@@ -78,6 +89,17 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.GetParameters().ShouldHaveSingleItem();
         }
 
+        protected void DoShouldFindAPublicStaticMethodByNameAndParamTypes()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetPublicStaticMethod("PublicStatic", typeof(int));
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicStatic");
+            method.GetParameters().ShouldHaveSingleItem();
+            method.GetParameters()[0].ParameterType.ShouldBe(typeof(int));
+        }
+
         protected void DoShouldFindPublicInstanceMethods()
         {
             var methods = typeof(TestHelper)
@@ -112,6 +134,16 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             typeof(MethodTestsHelper)
                 .GetPublicInstanceMethod("PublicInstance", 20)
                 .ShouldBeNull();
+        }
+
+        protected void DoShouldFindAPublicInstanceMethodByNameAndParamTypes()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetPublicInstanceMethod("PublicInstanceTypeOverload", typeof(string));
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicInstanceTypeOverload");
+            method.GetParameters().ShouldHaveSingleItem();
         }
 
         protected void DoShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount()
@@ -170,6 +202,18 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.GetParameters().Length.ShouldBe(2);
         }
 
+        protected void DoShouldFindANonPublicStaticMethodByNameAndParamTypes()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetNonPublicStaticMethod("NonPublicStatic", typeof(int), typeof(string));
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("NonPublicStatic");
+            method.GetParameters().Length.ShouldBe(2);
+            method.GetParameters()[0].ParameterType.ShouldBe(typeof(int));
+            method.GetParameters()[1].ParameterType.ShouldBe(typeof(string));
+        }
+
         protected void DoShouldFindNonPublicInstanceMethods()
         {
             var methods = typeof(MethodTestsHelper)
@@ -198,6 +242,24 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.ShouldNotBeNull();
             method.Name.ShouldBe("NonPublicInstance");
             method.GetParameters().Length.ShouldBe(2);
+        }
+
+        protected void DoShouldFindANonPublicInstanceMethodByNameAndParamTypes()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetNonPublicInstanceMethod("NonPublicInstance", typeof(int));
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("NonPublicInstance");
+            method.GetParameters().ShouldHaveSingleItem();
+            method.GetParameters()[0].ParameterType.ShouldBe(typeof(int));
+        }
+
+        protected void DoShouldExcludeANonPublicInstanceMethodByNameAndParamTypes()
+        {
+            typeof(MethodTestsHelper)
+                .GetNonPublicInstanceMethod("NonPublicInstance", typeof(DateTime))
+                .ShouldBeNull();
         }
 
         #endregion

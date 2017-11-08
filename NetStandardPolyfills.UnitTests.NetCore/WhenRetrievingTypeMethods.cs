@@ -18,6 +18,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
             DoShouldFindAPublicStaticMethodByNameAndParamCount();
 
         [Fact]
+        public override void ShouldFindAPublicStaticMethodByNameAndParamTypes() =>
+            DoShouldFindAPublicStaticMethodByNameAndParamTypes();
+
+        [Fact]
         public override void ShouldFindPublicInstanceMethods() => DoShouldFindPublicInstanceMethods();
 
         [Fact]
@@ -28,8 +32,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
             DoShouldFindAPublicInstanceMethodByNameAndParamCount();
 
         [Fact]
-        public override void ShouldExcludeAPublicInstanceMethodByNameAndParamCount() =>
+        public override void ShouldExcludeAPublicInstanceMethodByParamCount() =>
             DoShouldExcludeAPublicInstanceMethodByParamCount();
+
+        [Fact]
+        public override void ShouldFindAPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldFindAPublicInstanceMethodByNameAndParamTypes();
 
         [Fact]
         public override void ShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount() =>
@@ -54,6 +62,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
             DoShouldFindANonPublicStaticMethodByNameAndParamCount();
 
         [Fact]
+        public override void ShouldFindANonPublicStaticMethodByNameAndParamTypes() =>
+            DoShouldFindANonPublicStaticMethodByNameAndParamTypes();
+
+        [Fact]
         public override void ShouldFindNonPublicInstanceMethods() => DoShouldFindNonPublicInstanceMethods();
 
         [Fact]
@@ -62,5 +74,13 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
         [Fact]
         public override void ShouldFindANonPublicInstanceMethodByNameAndParamCount() =>
             DoShouldFindANonPublicInstanceMethodByNameAndParamCount();
+
+        [Fact]
+        public override void ShouldFindANonPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldFindANonPublicInstanceMethodByNameAndParamTypes();
+
+        [Fact]
+        public override void ShouldExcludeANonPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldExcludeANonPublicInstanceMethodByNameAndParamTypes();
     }
 }

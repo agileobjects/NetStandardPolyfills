@@ -19,6 +19,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
             DoShouldFindAPublicStaticMethodByNameAndParamCount();
 
         [Test]
+        public override void ShouldFindAPublicStaticMethodByNameAndParamTypes() =>
+            DoShouldFindAPublicStaticMethodByNameAndParamTypes();
+
+        [Test]
         public override void ShouldFindPublicInstanceMethods() => DoShouldFindPublicInstanceMethods();
 
         [Test]
@@ -31,6 +35,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         [Test]
         public override void ShouldExcludeAPublicInstanceMethodByParamCount() =>
             DoShouldExcludeAPublicInstanceMethodByParamCount();
+
+        [Test]
+        public override void ShouldFindAPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldFindAPublicInstanceMethodByNameAndParamTypes();
 
         [Test]
         public override void ShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount() =>
@@ -55,6 +63,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
             DoShouldFindANonPublicStaticMethodByNameAndParamCount();
 
         [Test]
+        public override void ShouldFindANonPublicStaticMethodByNameAndParamTypes() =>
+            DoShouldFindANonPublicStaticMethodByNameAndParamTypes();
+
+        [Test]
         public override void ShouldFindNonPublicInstanceMethods() => DoShouldFindNonPublicInstanceMethods();
 
         [Test]
@@ -63,5 +75,13 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         [Test]
         public override void ShouldFindANonPublicInstanceMethodByNameAndParamCount() =>
             DoShouldFindANonPublicInstanceMethodByNameAndParamCount();
+
+        [Test]
+        public override void ShouldFindANonPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldFindANonPublicInstanceMethodByNameAndParamTypes();
+
+        [Test]
+        public override void ShouldExcludeANonPublicInstanceMethodByNameAndParamTypes() =>
+            DoShouldExcludeANonPublicInstanceMethodByNameAndParamTypes();
     }
 }

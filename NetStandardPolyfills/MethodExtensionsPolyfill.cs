@@ -74,15 +74,14 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped method with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, static-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterCount"/> for the given <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the methods.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <param name="parameterCount">The number of parameters the method overload should have.</param>
         /// <returns>
-        /// The public, static-scoped method with the given <paramref name="name"/> for the given 
-        /// <paramref name="type"/>, or null if none exists.
+        /// The matching public, static-scoped method for the given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetPublicStaticMethod(this Type type, string name, int parameterCount)
         {
@@ -90,6 +89,25 @@
             return type.GetPublicStaticMethods(name).WithParameterCount(parameterCount);
 #else
             return type.GetPublicStaticMethods(name).WithParameterCount(parameterCount);
+#endif
+        }
+
+        /// <summary>
+        /// Gets the public, static-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterTypes"/> for the given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the methods.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameterTypes">The Types of the parameters the method overload should have.</param>
+        /// <returns>
+        /// The matching public, static-scoped method for the given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MethodInfo GetPublicStaticMethod(this Type type, string name, params Type[] parameterTypes)
+        {
+#if NET_STANDARD
+            return type.GetPublicStaticMethods(name).WithParameterTypes(parameterTypes);
+#else
+            return type.GetPublicStaticMethods(name).WithParameterTypes(parameterTypes);
 #endif
         }
 
@@ -130,8 +148,7 @@
         /// <param name="type">The type from which to retrieve the methods.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <returns>
-        /// The public, instance-scoped method with the given <paramref name="name"/> for the given 
-        /// <paramref name="type"/>, or null if none exists.
+        /// The matching public, instance-scoped method for the given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetPublicInstanceMethod(this Type type, string name)
         {
@@ -143,15 +160,14 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped method with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, instance-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterCount"/> for the given <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the methods.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <param name="parameterCount">The number of parameters the method overload should have.</param>
         /// <returns>
-        /// The public, instance-scoped method with the given <paramref name="name"/> for the given 
-        /// <paramref name="type"/>, or null if none exists.
+        /// The matching public, instance-scoped method for the given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetPublicInstanceMethod(this Type type, string name, int parameterCount)
         {
@@ -159,6 +175,25 @@
             return type.GetPublicInstanceMethods(name).WithParameterCount(parameterCount);
 #else
             return type.GetPublicInstanceMethods(name).WithParameterCount(parameterCount);
+#endif
+        }
+
+        /// <summary>
+        /// Gets the public, instance-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterTypes"/> for the given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the methods.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameterTypes">The Types of the parameters the method overload should have.</param>
+        /// <returns>
+        /// The matching public, instance-scoped method for the given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MethodInfo GetPublicInstanceMethod(this Type type, string name, params Type[] parameterTypes)
+        {
+#if NET_STANDARD
+            return type.GetPublicInstanceMethods(name).WithParameterTypes(parameterTypes);
+#else
+            return type.GetPublicInstanceMethods(name).WithParameterTypes(parameterTypes);
 #endif
         }
 
@@ -212,15 +247,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped method with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, static-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterCount"/> for the given <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the methods.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <param name="parameterCount">The number of parameters the method overload should have.</param>
         /// <returns>
-        /// The non-public, static-scoped method with the given <paramref name="name"/> for the given 
-        /// <paramref name="type"/>, or null if none exists.
+        /// The matching non-public, static-scoped method for the given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetNonPublicStaticMethod(this Type type, string name, int parameterCount)
         {
@@ -228,6 +262,25 @@
             return type.GetNonPublicStaticMethods(name).WithParameterCount(parameterCount);
 #else
             return type.GetNonPublicStaticMethods(name).WithParameterCount(parameterCount);
+#endif
+        }
+
+        /// <summary>
+        /// Gets the non-public, static-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterTypes"/> for the given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the methods.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameterTypes">The Types of the parameters the method overload should have.</param>
+        /// <returns>
+        /// The matching non-public, static-scoped method for the given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MethodInfo GetNonPublicStaticMethod(this Type type, string name, params Type[] parameterTypes)
+        {
+#if NET_STANDARD
+            return type.GetNonPublicStaticMethods(name).WithParameterTypes(parameterTypes);
+#else
+            return type.GetNonPublicStaticMethods(name).WithParameterTypes(parameterTypes);
 #endif
         }
 
@@ -297,6 +350,25 @@
             return type.GetNonPublicInstanceMethods(name).WithParameterCount(parameterCount);
 #else
             return type.GetNonPublicInstanceMethods(name).WithParameterCount(parameterCount);
+#endif
+        }
+
+        /// <summary>
+        /// Gets the non-public, instance-scoped method with the given <paramref name="name"/> and 
+        /// <paramref name="parameterTypes"/> for the given <paramref name="type"/>, or null if none exists.
+        /// </summary>
+        /// <param name="type">The type from which to retrieve the methods.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameterTypes">The Types of the parameters the method overload should have.</param>
+        /// <returns>
+        /// The matching non-public, instance-scoped method for the given <paramref name="type"/>, or null if none exists.
+        /// </returns>
+        public static MethodInfo GetNonPublicInstanceMethod(this Type type, string name, params Type[] parameterTypes)
+        {
+#if NET_STANDARD
+            return type.GetNonPublicInstanceMethods(name).WithParameterTypes(parameterTypes);
+#else
+            return type.GetNonPublicInstanceMethods(name).WithParameterTypes(parameterTypes);
 #endif
         }
 
@@ -381,6 +453,12 @@
             }
 
             return matchingMethods[0];
+        }
+
+        private static MethodInfo WithParameterTypes(this IEnumerable<MethodInfo> methods, Type[] parameterTypes)
+        {
+            return methods
+                .FirstOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
         private static IEnumerable<MethodInfo> WithoutPropertyGettersAnd(
