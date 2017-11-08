@@ -3,36 +3,56 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
     using NUnit.Framework;
 
     [TestFixture]
-    public class WhenRetrievingTypeMembers : TypeMemberTestsBase
+    public class WhenRetrievingTypeMembers : MemberTestsBase
     {
         [Test]
-        public override void ShouldFindAnImplicitPublicInstanceConstructor() => DoShouldFindAnImplicitPublicInstanceConstructor();
+        public override void ShouldRetrievePublicStaticMembers() => DoShouldRetrievePublicStaticMembers();
 
         [Test]
-        public override void ShouldFindAPublicInstanceConstructor() => DoShouldFindAPublicInstanceConstructor();
+        public override void ShouldRetrievePublicStaticMembersByName() => DoShouldRetrievePublicStaticMembersByName();
 
         [Test]
-        public override void ShouldFindANonPublicInstanceConstructor() => DoShouldFindANonPublicInstanceConstructor();
+        public override void ShouldExcludePublicStaticMembersByName() => DoShouldExcludePublicStaticMembersByName();
 
         [Test]
-        public override void ShouldRetrieveAPublicInstanceField() => DoShouldRetrieveAPublicInstanceField();
+        public override void ShouldRetrievePublicStaticMemberByName() => DoShouldRetrievePublicStaticMemberByName();
 
         [Test]
-        public override void ShouldRetrieveAPublicInstanceProperty() => DoShouldRetrieveAPublicInstanceProperty();
+        public override void ShouldRetrievePublicInstanceMembers() => DoShouldRetrievePublicInstanceMembers();
 
         [Test]
-        public override void ShouldFindAPublicInstanceMethod() => DoShouldFindAPublicInstanceMethod();
+        public override void ShouldRetrievePublicInstanceMembersByName() => DoShouldRetrievePublicInstanceMembersByName();
 
         [Test]
-        public override void ShouldFindAnInheritedPublicInstanceMethod() => DoShouldFindAnInheritedPublicInstanceMethod();
+        public override void ShouldExcludePublicInstanceMembersByName() => DoShouldExcludePublicInstanceMembersByName();
 
         [Test]
-        public override void ShouldFindANonPublicInstanceMethod() => DoShouldFindANonPublicInstanceMethod();
+        public override void ShouldRetrievePublicInstanceMemberByName() => DoShouldRetrievePublicInstanceMemberByName();
 
         [Test]
-        public override void ShouldFindAPublicStaticMethod() => DoShouldFindAPublicStaticMethod();
+        public override void ShouldRetrieveNonPublicStaticMembers() => DoShouldRetrieveNonPublicStaticMembers();
 
         [Test]
-        public override void ShouldFindANonPublicStaticMethod() => DoShouldFindANonPublicStaticMethod();
+        public override void ShouldRetrieveNonPublicStaticMembersByName() => DoShouldRetrieveNonPublicStaticMembersByName();
+
+        [Test]
+        public override void ShouldExcludeNonPublicStaticMembersByName() => DoShouldExcludeNonPublicStaticMembersByName();
+
+        [Test]
+        public override void ShouldRetrieveNonPublicStaticMemberByName() =>
+            DoShouldRetrieveNonPublicStaticMemberByName();
+
+        [Test]
+        public override void ShouldRetrieveNonPublicInstanceMembers() => DoShouldRetrieveNonPublicInstanceMembers();
+
+        [Test]
+        public override void ShouldRetrieveNonPublicInstanceMembersByName() => DoShouldRetrieveNonPublicInstanceMembersByName();
+
+        [Test]
+        public override void ShouldExcludeNonPublicInstanceMembersByName() => DoShouldExcludeNonPublicInstanceMembersByName();
+
+        [Test]
+        public override void ShouldRetrieveNonPublicInstanceMemberByName() =>
+            DoShouldRetrieveNonPublicInstanceMemberByName();
     }
 }

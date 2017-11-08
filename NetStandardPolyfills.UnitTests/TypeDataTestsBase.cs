@@ -1,6 +1,7 @@
 ﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
     using System.Linq;
+    using TestClasses;
 
     public abstract class TypeDataTestsBase
     {
