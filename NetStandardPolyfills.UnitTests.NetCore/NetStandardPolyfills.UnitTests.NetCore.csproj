@@ -19,7 +19,6 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
     <PackageReference Include="System.Data.Common" Version="4.1.0" />
-    <PackageReference Include="Shouldly" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup>
