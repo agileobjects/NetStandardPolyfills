@@ -6,19 +6,23 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
     public class WhenRetrievingTypeMethods : MethodTestsBase
     {
         [Test]
-        public override void ShouldFindAPublicInstanceMethod() => DoShouldFindAPublicInstanceMethod();
-
-        [Test]
-        public override void ShouldFindAnInheritedPublicInstanceMethod() => DoShouldFindAnInheritedPublicInstanceMethod();
-
-        [Test]
-        public override void ShouldFindANonPublicInstanceMethod() => DoShouldFindANonPublicInstanceMethod();
-
-        [Test]
         public override void ShouldFindPublicStaticMethods() => DoShouldFindPublicStaticMethods();
 
         [Test]
-        public override void ShouldFindAPublicStaticMethod() => DoShouldFindAPublicStaticMethod();
+        public override void ShouldFindAPublicStaticMethodByName() => DoShouldFindAPublicStaticMethodByName();
+
+        [Test]
+        public override void ShouldFindPublicInstanceMethods() => DoShouldFindPublicInstanceMethods();
+
+        [Test]
+        public override void ShouldFindAPublicInstanceMethod() => DoShouldFindAPublicInstanceMethod();
+
+        [Test]
+        public override void ShouldFindAnInheritedPublicInstanceMethod() =>
+            DoShouldFindAnInheritedPublicInstanceMethod();
+
+        [Test]
+        public override void ShouldFindANonPublicInstanceMethod() => DoShouldFindANonPublicInstanceMethod();
 
         [Test]
         public override void ShouldFindNonPublicStaticMethods() => DoShouldFindNonPublicStaticMethods();

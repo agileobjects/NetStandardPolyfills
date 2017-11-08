@@ -86,6 +86,14 @@
             }
         }
 
+        public static void ShouldContain<T>(this IList<T> actual, T expected)
+        {
+            if (!actual.Contains(expected))
+            {
+                Asplode(expected.ToString(), "No match");
+            }
+        }
+
         private static void Asplode(string expected, string actual)
         {
             throw new Exception($"Expected {expected}, but was {actual}");

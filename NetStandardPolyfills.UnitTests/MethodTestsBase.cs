@@ -5,18 +5,58 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
     public abstract class MethodTestsBase
     {
+        public abstract void ShouldFindPublicStaticMethods();
+
+        public abstract void ShouldFindAPublicStaticMethodByName();
+
+        public abstract void ShouldFindPublicInstanceMethods();
+
         public abstract void ShouldFindAPublicInstanceMethod();
+
+        public abstract void ShouldFindAnInheritedPublicInstanceMethod();
+
+        public abstract void ShouldFindANonPublicInstanceMethod();
+
+        public abstract void ShouldFindNonPublicStaticMethods();
+
+        public abstract void ShouldFindANonPublicStaticMethod();
+
+        #region Test Implementations
+
+        protected void DoShouldFindPublicStaticMethods()
+        {
+            var methods = typeof(TestHelper)
+                .GetPublicStaticMethods()
+                .Select(m => m.Name)
+                .ToList();
+
+            methods.ShouldContain("PublicStaticMethod");
+        }
+
+        protected void DoShouldFindAPublicStaticMethodByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMethod("PublicStaticMethod")
+                .ShouldNotBeNull();
+        }
+
+        protected void DoShouldFindPublicInstanceMethods()
+        {
+            var methods = typeof(TestHelper)
+                .GetPublicInstanceMethods()
+                .Select(m => m.Name)
+                .ToList();
+
+            methods.ShouldContain("DoParamsStuff");
+            methods.ShouldContain("DoNonParamsStuff");
+        }
 
         protected void DoShouldFindAPublicInstanceMethod()
         {
-            var paramsStuff = typeof(TestHelper)
-                .GetPublicInstanceMethods()
-                .First(m => m.Name == "DoParamsStuff");
-
-            paramsStuff.ShouldNotBeNull();
+            typeof(TestHelper)
+                .GetPublicInstanceMethod("DoParamsStuff")
+                .ShouldNotBeNull();
         }
-
-        public abstract void ShouldFindAnInheritedPublicInstanceMethod();
 
         protected void DoShouldFindAnInheritedPublicInstanceMethod()
         {
@@ -27,8 +67,6 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             parameterlessToString.ShouldNotBeNull();
         }
 
-        public abstract void ShouldFindANonPublicInstanceMethod();
-
         protected void DoShouldFindANonPublicInstanceMethod()
         {
             var method = typeof(TestHelper)
@@ -37,29 +75,6 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
             method.Name.ShouldBe("NonPublicMethod");
         }
-
-        public abstract void ShouldFindPublicStaticMethods();
-
-        protected void DoShouldFindPublicStaticMethods()
-        {
-            var method = typeof(TestHelper)
-                .GetPublicStaticMethods()
-                .First();
-
-            method.Name.ShouldBe("PublicStaticMethod");
-        }
-
-        public abstract void ShouldFindAPublicStaticMethod();
-
-        protected void DoShouldFindAPublicStaticMethod()
-        {
-            var method = typeof(TestHelper)
-                .GetPublicStaticMethod("PublicStaticMethod");
-
-            method.ShouldNotBeNull();
-        }
-
-        public abstract void ShouldFindNonPublicStaticMethods();
 
         protected void DoShouldFindNonPublicStaticMethods()
         {
@@ -70,8 +85,6 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.Name.ShouldBe("NonPublicStaticMethod");
         }
 
-        public abstract void ShouldFindANonPublicStaticMethod();
-
         protected void DoShouldFindANonPublicStaticMethod()
         {
             var method = typeof(TestHelper)
@@ -79,5 +92,7 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
             method.ShouldNotBeNull();
         }
+
+        #endregion
     }
 }
