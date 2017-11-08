@@ -1,6 +1,5 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using System.Linq;
     using TestClasses;
 
     public abstract class FieldTestsBase
@@ -33,10 +32,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrievePublicStaticFields()
         {
-            var fields = typeof(TestHelper).GetPublicStaticFields().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("PublicStaticField");
+            typeof(TestHelper)
+                .GetPublicStaticFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicStaticField");
         }
 
         protected void DoShouldRetrieveAPublicStaticFieldByName()
@@ -55,10 +54,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrieveNonPublicStaticFields()
         {
-            var fields = typeof(TestHelper).GetNonPublicStaticFields().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("NonPublicStaticField");
+            typeof(TestHelper)
+                .GetNonPublicStaticFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicStaticField");
         }
 
         protected void DoShouldRetrieveANonPublicStaticFieldByName()
@@ -77,10 +76,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrievePublicInstanceFields()
         {
-            var fields = typeof(TestHelper).GetPublicInstanceFields().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("PublicInstanceField");
+            typeof(TestHelper)
+                .GetPublicInstanceFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicInstanceField");
         }
 
         protected void DoShouldRetrieveAPublicInstanceFieldByName()
@@ -99,10 +98,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrieveNonPublicInstanceFields()
         {
-            var fields = typeof(TestHelper).GetNonPublicInstanceFields().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("NonPublicInstanceField");
+            typeof(TestHelper)
+                .GetNonPublicInstanceFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicInstanceField");
         }
 
         protected void DoShouldRetrieveANonPublicInstanceFieldByName()

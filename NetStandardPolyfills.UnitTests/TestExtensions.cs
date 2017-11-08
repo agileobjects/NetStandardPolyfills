@@ -48,7 +48,7 @@
             }
         }
 
-        public static void ShouldHaveSingleItem<T>(this IEnumerable<T> actualItems)
+        public static T ShouldHaveSingleItem<T>(this IEnumerable<T> actualItems)
             where T : class
         {
             using (var enumerator = actualItems.GetEnumerator())
@@ -58,10 +58,14 @@
                     Asplode("a single item", "no items");
                 }
 
+                var singleItem = enumerator.Current;
+
                 if (enumerator.MoveNext())
                 {
                     Asplode("a single item", "multiple items");
                 }
+
+                return singleItem;
             }
         }
 

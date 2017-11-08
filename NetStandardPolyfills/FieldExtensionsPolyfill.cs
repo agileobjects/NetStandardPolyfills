@@ -6,7 +6,7 @@
     using System.Reflection;
 
     /// <summary>
-    /// Provides a set of static methods methods for obtaining field information in .NET Standard 1.0 and .NET 4.0.
+    /// Provides a set of static methods for obtaining field information in .NET Standard 1.0 and .NET 4.0.
     /// </summary>
     public static class FieldExtensionsPolyfill
     {

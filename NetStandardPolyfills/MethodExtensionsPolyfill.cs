@@ -6,9 +6,9 @@
     using System.Reflection;
 
     /// <summary>
-    /// Provides a set of static methods methods for obtaining reflection information in .NET Standard 1.0 and .NET 4.0.
+    /// Provides a set of static methods for obtaining method and parameter information in .NET Standard 1.0 and .NET 4.0.
     /// </summary>
-    public static class ReflectionExtensionsPolyfill
+    public static class MethodExtensionsPolyfill
     {
         /// <summary>
         /// Returns a value indicating if the given <paramref name="parameter"/> is a params array.
@@ -21,43 +21,6 @@
             return parameter.GetCustomAttribute<ParamArrayAttribute>(inherit: false) != null;
 #else
             return Attribute.IsDefined(parameter, typeof(ParamArrayAttribute));
-#endif
-        }
-
-        /// <summary>
-        /// Gets the public, instance-scoped members for the given <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">The type from which to retrieve the member.</param>
-        /// <returns>
-        /// The public, instance-scoped members for the given <paramref name="type"/>.
-        /// </returns>
-        public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type)
-        {
-#if NET_STANDARD
-            const int PUBLIC_INSTANCE = 20;
-
-            return GetMembers(type, PUBLIC_INSTANCE);
-#else
-            return type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
-#endif
-        }
-
-        /// <summary>
-        /// Gets the public, instance-scoped members with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">The type from which to retrieve the members.</param>
-        /// <param name="name">The name of the method to find.</param>
-        /// <returns>
-        /// The public, instance-scoped members with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>.
-        /// </returns>
-        public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type, string name)
-        {
-#if NET_STANDARD
-            return type.GetPublicInstanceMembers().Where(m => m.Name == name);
-#else
-            return type.GetMember(name, BindingFlags.Public | BindingFlags.Instance);
 #endif
         }
 
@@ -183,18 +146,6 @@
         #region Helper Methods
 
 #if NET_STANDARD
-        private static readonly MethodInfo _getMembersMethod = typeof(TypeExtensions)
-            .GetPublicStaticMethods()
-            .First(m => (m.Name == "GetMembers") && (m.GetParameters().Length == 2));
-
-        private static IEnumerable<MemberInfo> GetMembers(Type type, int bindingFlagsConstant)
-        {
-            var members = (IEnumerable<MemberInfo>)_getMembersMethod
-                .Invoke(null, new object[] { type, bindingFlagsConstant });
-
-            return members;
-        }
-
         private static readonly MethodInfo _getMethodsMethod = typeof(TypeExtensions)
             .GetPublicStaticMethods()
             .First(m => (m.Name == "GetMethods") && (m.GetParameters().Length == 2));

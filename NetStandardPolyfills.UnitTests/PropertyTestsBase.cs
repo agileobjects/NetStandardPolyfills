@@ -1,6 +1,5 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using System.Linq;
     using TestClasses;
 
     public abstract class PropertyTestsBase
@@ -33,10 +32,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrievePublicStaticProperties()
         {
-            var fields = typeof(TestHelper).GetPublicStaticProperties().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("PublicStaticProperty");
+            typeof(TestHelper)
+                .GetPublicStaticProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicStaticProperty");
         }
 
         protected void DoShouldRetrieveAPublicStaticPropertyByName()
@@ -55,10 +54,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrieveNonPublicStaticProperties()
         {
-            var fields = typeof(TestHelper).GetNonPublicStaticProperties().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("NonPublicStaticProperty");
+            typeof(TestHelper)
+                .GetNonPublicStaticProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicStaticProperty");
         }
 
         protected void DoShouldRetrieveANonPublicStaticPropertyByName()
@@ -77,10 +76,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrievePublicInstanceProperties()
         {
-            var fields = typeof(TestHelper).GetPublicInstanceProperties().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("PublicInstanceProperty");
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicInstanceProperty");
         }
 
         protected void DoShouldRetrieveAPublicInstancePropertyByName()
@@ -99,10 +98,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         protected void DoShouldRetrieveNonPublicInstanceProperties()
         {
-            var fields = typeof(TestHelper).GetNonPublicInstanceProperties().ToArray();
-
-            fields.ShouldHaveSingleItem();
-            fields.First().Name.ShouldBe("NonPublicInstanceProperty");
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicInstanceProperty");
         }
 
         protected void DoShouldRetrieveANonPublicInstancePropertyByName()
