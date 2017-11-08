@@ -1,6 +1,7 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
     using System.Linq;
+    using System.Reflection;
     using TestClasses;
 
     public abstract class MethodTestsBase
@@ -9,6 +10,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldFindAPublicStaticMethodByName();
 
+        public abstract void ShouldExcludeAPublicStaticMethodByName();
+
         public abstract void ShouldFindAPublicStaticMethodByNameAndParamCount();
 
         public abstract void ShouldFindPublicInstanceMethods();
@@ -16,6 +19,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldFindAPublicInstanceMethodByName();
 
         public abstract void ShouldFindAPublicInstanceMethodByNameAndParamCount();
+
+        public abstract void ShouldExcludeAPublicInstanceMethodByParamCount();
+
+        public abstract void ShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount();
 
         public abstract void ShouldFindAnInheritedPublicInstanceMethodByName();
 
@@ -52,6 +59,13 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .GetPublicStaticMethod("PublicStaticMethod")
                 .ShouldNotBeNull()
                 .Name.ShouldBe("PublicStaticMethod");
+        }
+
+        protected void DoShouldExcludeAPublicStaticMethodByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMethod("PublicInstanceMethod")
+                .ShouldBeNull();
         }
 
         protected void DoShouldFindAPublicStaticMethodByNameAndParamCount()
@@ -91,6 +105,22 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             method.ShouldNotBeNull();
             method.Name.ShouldBe("PublicInstance");
             method.GetParameters().Length.ShouldBe(2);
+        }
+
+        protected void DoShouldExcludeAPublicInstanceMethodByParamCount()
+        {
+            typeof(MethodTestsHelper)
+                .GetPublicInstanceMethod("PublicInstance", 20)
+                .ShouldBeNull();
+        }
+
+        protected void DoShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount()
+        {
+            Should.Throw<AmbiguousMatchException>(() =>
+            {
+                typeof(MethodTestsHelper)
+                    .GetPublicInstanceMethod("PublicInstanceTypeOverload", 1);
+            });
         }
 
         protected void DoShouldFindAnInheritedPublicInstanceMethodByName()

@@ -305,11 +305,14 @@
 #if NET_STANDARD
         private static IEnumerable<MethodInfo> GetMethods(Type type, string name, bool isPublic, bool isStatic)
         {
+            var methodsSoFar = new List<MethodInfo>();
+
             while (type != null)
             {
                 var methods = type
                     .GetTypeInfo()
                     .DeclaredMethods
+                    .Where(m => !MethodHasBeenOverridden(m, methodsSoFar))
                     .WithoutPropertyGettersAnd(m => m.IsPublic == isPublic && m.IsStatic == isStatic);
 
                 if (name != null)
@@ -317,7 +320,11 @@
                     methods = methods.Where(m => m.Name == name);
                 }
 
-                foreach (var method in methods)
+                var matchingMethods = methods.ToArray();
+
+                methodsSoFar.AddRange(matchingMethods);
+
+                foreach (var method in matchingMethods)
                 {
                     yield return method;
                 }
@@ -329,6 +336,22 @@
 
                 type = type.GetBaseType();
             }
+        }
+        private static bool MethodHasBeenOverridden(MethodBase method, IReadOnlyCollection<MethodInfo> methodsSoFar)
+        {
+            if (methodsSoFar.Count == 0)
+            {
+                return false;
+            }
+
+            var methodParameterTypes = method
+                .GetParameters()
+                .Select(p => p.ParameterType)
+                .ToArray();
+
+            return methodsSoFar.Any(m =>
+                (method.Name == m.Name) &&
+                 methodParameterTypes.SequenceEqual(m.GetParameters().Select(p => p.ParameterType)));
         }
 #else
 
@@ -342,7 +365,22 @@
 #endif
         private static MethodInfo WithParameterCount(this IEnumerable<MethodInfo> methods, int parameterCount)
         {
-            return methods.FirstOrDefault(m => m.GetParameters().Length == parameterCount);
+            var matchingMethods = methods
+                .Where(m => m.GetParameters().Length == parameterCount)
+                .ToArray();
+
+            if (matchingMethods.Length == 0)
+            {
+                return null;
+            }
+
+            if (matchingMethods.Length > 1)
+            {
+                throw new AmbiguousMatchException(
+                    "Multiple methods found with " + parameterCount + " parameter(s)");
+            }
+
+            return matchingMethods[0];
         }
 
         private static IEnumerable<MethodInfo> WithoutPropertyGettersAnd(

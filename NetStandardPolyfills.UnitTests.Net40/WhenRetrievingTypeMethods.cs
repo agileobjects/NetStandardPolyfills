@@ -12,6 +12,9 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         public override void ShouldFindAPublicStaticMethodByName() => DoShouldFindAPublicStaticMethodByName();
 
         [Test]
+        public override void ShouldExcludeAPublicStaticMethodByName() => DoShouldExcludeAPublicStaticMethodByName();
+
+        [Test]
         public override void ShouldFindAPublicStaticMethodByNameAndParamCount() =>
             DoShouldFindAPublicStaticMethodByNameAndParamCount();
 
@@ -24,6 +27,14 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         [Test]
         public override void ShouldFindAPublicInstanceMethodByNameAndParamCount() =>
             DoShouldFindAPublicInstanceMethodByNameAndParamCount();
+
+        [Test]
+        public override void ShouldExcludeAPublicInstanceMethodByParamCount() =>
+            DoShouldExcludeAPublicInstanceMethodByParamCount();
+
+        [Test]
+        public override void ShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount() =>
+            DoShouldErrorIfPublicInstanceMethodsHaveSameNameAndParamCount();
 
         [Test]
         public override void ShouldFindAnInheritedPublicInstanceMethodByName() =>

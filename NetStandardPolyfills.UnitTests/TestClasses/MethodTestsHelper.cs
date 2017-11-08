@@ -14,6 +14,14 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         {
         }
 
+        public void PublicInstanceTypeOverload(int intValue)
+        {
+        }
+
+        public void PublicInstanceTypeOverload(string stringValue)
+        {
+        }
+
         public static void PublicStatic()
         {
         }
