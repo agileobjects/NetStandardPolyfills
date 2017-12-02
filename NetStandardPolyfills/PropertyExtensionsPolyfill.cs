@@ -193,12 +193,12 @@
 #if NET_STANDARD
             var accessors = new List<MethodInfo>(2);
 
-            if (property.GetMethod != null && (nonPublic || property.GetMethod.IsPublic))
+            if ((property.GetMethod != null) && (nonPublic || property.GetMethod.IsPublic))
             {
                 accessors.Add(property.GetMethod);
             }
 
-            if (property.SetMethod != null && (nonPublic || property.SetMethod.IsPublic))
+            if ((property.SetMethod != null) && (nonPublic || property.SetMethod.IsPublic))
             {
                 accessors.Add(property.SetMethod);
             }
@@ -222,7 +222,7 @@
         /// <paramref name="nonPublic"/> is true. Returns null if <paramref name="nonPublic"/> is false and 
         /// the get accessor is non-public, or if <paramref name="nonPublic"/> is true but no get accessors exist.
         /// </returns>
-        public static MethodInfo GetGetMethod(this PropertyInfo property, bool nonPublic = false)
+        public static MethodInfo GetGetter(this PropertyInfo property, bool nonPublic = false)
         {
 #if NET_STANDARD
             if (property.GetMethod != null && (nonPublic || property.GetMethod.IsPublic))
@@ -249,7 +249,7 @@
         /// <paramref name="nonPublic"/> is true. Returns null if <paramref name="nonPublic"/> is false and 
         /// the set accessor is non-public, or if <paramref name="nonPublic"/> is true but no set accessors exist.
         /// </returns>
-        public static MethodInfo GetSetMethod(this PropertyInfo property, bool nonPublic = false)
+        public static MethodInfo GetSetter(this PropertyInfo property, bool nonPublic = false)
         {
 #if NET_STANDARD
             if (property.SetMethod != null && (nonPublic || property.SetMethod.IsPublic))

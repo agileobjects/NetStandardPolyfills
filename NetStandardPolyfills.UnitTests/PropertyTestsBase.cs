@@ -203,7 +203,7 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .GetPublicInstanceProperties()
                 .FirstOrDefault(p => p.IsIndexer())
                 .ShouldNotBeNull()
-                .GetGetMethod()
+                .GetGetter()
                 .ShouldNotBeNull()
                 .Name.ShouldBe("get_Item");
         }
@@ -214,7 +214,7 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .GetPublicInstanceProperties()
                 .FirstOrDefault(p => p.IsIndexer())
                 .ShouldNotBeNull()
-                .GetSetMethod(nonPublic: true)
+                .GetSetter(nonPublic: true)
                 .ShouldNotBeNull()
                 .Name.ShouldBe("set_Item");
         }

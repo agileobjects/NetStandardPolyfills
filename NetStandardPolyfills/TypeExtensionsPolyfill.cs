@@ -196,7 +196,7 @@
         /// An array of Types representing all the interfaces implemented or inherited by the current 
         /// <paramref name="type"/>, or an empty array if no interfaces are implemented or inherited.
         /// </returns>
-        public static Type[] GetInterfaces(this Type type)
+        public static Type[] GetAllInterfaces(this Type type)
         {
 #if NET_STANDARD
             var allInterfaces = new List<Type>();

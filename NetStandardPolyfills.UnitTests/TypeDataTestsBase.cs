@@ -126,7 +126,7 @@
 
         protected void DoShouldRetrieveAllInterfaces()
         {
-            var interfaces = typeof(Dictionary<string, string>).GetInterfaces();
+            var interfaces = typeof(Dictionary<string, string>).GetAllInterfaces();
 
             (interfaces.Length > 0).ShouldBeTrue();
             interfaces.ShouldContain(typeof(IEnumerable));
