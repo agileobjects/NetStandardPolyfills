@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WhenCheckingAssemblyData.cs" />
     <Compile Include="WhenCheckingTypeData.cs" />
     <Compile Include="WhenRetrievingTypeCodes.cs" />
     <Compile Include="WhenRetrievingTypeConstructors.cs" />
