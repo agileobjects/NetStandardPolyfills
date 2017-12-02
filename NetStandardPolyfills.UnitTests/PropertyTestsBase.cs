@@ -39,6 +39,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldRetrieveNonPublicIndexAccessors();
 
+        public abstract void ShouldRetrieveAGetAccessor();
+
+        public abstract void ShouldRetrieveANonPublicSetAccessor();
+
         #region Test Implementations
 
         protected void DoShouldRetrievePublicStaticProperties()
@@ -191,6 +195,28 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             accessors[0].Name.ShouldBe("get_Item");
             accessors[1].IsSpecialName.ShouldBeTrue();
             accessors[1].Name.ShouldBe("set_Item");
+        }
+
+        protected void DoShouldRetrieveAGetAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetGetMethod()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("get_Item");
+        }
+
+        protected void DoShouldRetrieveANonPublicSetAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetSetMethod(nonPublic: true)
+                .ShouldNotBeNull()
+                .Name.ShouldBe("set_Item");
         }
 
         #endregion

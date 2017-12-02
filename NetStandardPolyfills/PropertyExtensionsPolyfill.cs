@@ -152,8 +152,7 @@
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
         /// <returns>True if the given <paramref name="property"/> has a public getter or setter, otherwise falsek.</returns>
-        public static bool IsPublic(this PropertyInfo property)
-            => property.GetAccessors(nonPublic: false).Length != 0;
+        public static bool IsPublic(this PropertyInfo property) => property.GetAccessors().Length != 0;
 
         /// <summary>
         /// Determines whether the given <paramref name="property"/> is static.
@@ -207,6 +206,60 @@
             return accessors.ToArray();
 #else
             return property.GetAccessors(nonPublic);
+#endif
+        }
+
+        /// <summary>
+        /// Returns the public or non-public get accessor for this <paramref name="property"/>.
+        /// </summary>
+        /// <param name="property">The property for which to retrieve the accessor.</param>
+        /// <param name="nonPublic">
+        /// Whether a non-public get accessor should be returned: true if a non-public accessor should be 
+        /// returned, otherwise false.
+        /// </param>
+        /// <returns>
+        /// A MethodInfo representing the get accessor for this <paramref name="property"/>, if 
+        /// <paramref name="nonPublic"/> is true. Returns null if <paramref name="nonPublic"/> is false and 
+        /// the get accessor is non-public, or if <paramref name="nonPublic"/> is true but no get accessors exist.
+        /// </returns>
+        public static MethodInfo GetGetMethod(this PropertyInfo property, bool nonPublic = false)
+        {
+#if NET_STANDARD
+            if (property.GetMethod != null && (nonPublic || property.GetMethod.IsPublic))
+            {
+                return property.GetMethod;
+            }
+
+            return null;
+#else
+            return property.GetGetMethod(nonPublic);
+#endif
+        }
+
+        /// <summary>
+        /// Returns the public or non-public set accessor for this <paramref name="property"/>.
+        /// </summary>
+        /// <param name="property">The property for which to retrieve the accessor.</param>
+        /// <param name="nonPublic">
+        /// Whether a non-public set accessor should be returned: true if a non-public accessor should be 
+        /// returned, otherwise false.
+        /// </param>
+        /// <returns>
+        /// A MethodInfo representing the set accessor for this <paramref name="property"/>, if 
+        /// <paramref name="nonPublic"/> is true. Returns null if <paramref name="nonPublic"/> is false and 
+        /// the set accessor is non-public, or if <paramref name="nonPublic"/> is true but no set accessors exist.
+        /// </returns>
+        public static MethodInfo GetSetMethod(this PropertyInfo property, bool nonPublic = false)
+        {
+#if NET_STANDARD
+            if (property.SetMethod != null && (nonPublic || property.SetMethod.IsPublic))
+            {
+                return property.SetMethod;
+            }
+
+            return null;
+#else
+            return property.GetSetMethod(nonPublic);
 #endif
         }
     }

@@ -58,5 +58,11 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
 
         [Fact]
         public override void ShouldRetrieveNonPublicIndexAccessors() => DoShouldRetrieveNonPublicIndexAccessors();
+
+        [Fact]
+        public override void ShouldRetrieveAGetAccessor() => DoShouldRetrieveAGetAccessor();
+
+        [Fact]
+        public override void ShouldRetrieveANonPublicSetAccessor() => DoShouldRetrieveANonPublicSetAccessor();
     }
 }

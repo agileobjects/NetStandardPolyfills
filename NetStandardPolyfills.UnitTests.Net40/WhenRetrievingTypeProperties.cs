@@ -59,5 +59,11 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
 
         [Test]
         public override void ShouldRetrieveNonPublicIndexAccessors() => DoShouldRetrieveNonPublicIndexAccessors();
+
+        [Test]
+        public override void ShouldRetrieveAGetAccessor() => DoShouldRetrieveAGetAccessor();
+
+        [Test]
+        public override void ShouldRetrieveANonPublicSetAccessor() => DoShouldRetrieveANonPublicSetAccessor();
     }
 }
