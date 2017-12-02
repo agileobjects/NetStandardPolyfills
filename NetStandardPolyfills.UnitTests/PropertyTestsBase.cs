@@ -1,5 +1,6 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System.Linq;
     using TestClasses;
 
     public abstract class PropertyTestsBase
@@ -33,6 +34,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldExcludeNonPublicPropertyAccessorsByDefault();
 
         public abstract void ShouldIncludeNonPublicPropertyAccessors();
+
+        public abstract void ShouldRetrieveIndexAccessors();
+
+        public abstract void ShouldRetrieveNonPublicIndexAccessors();
 
         #region Test Implementations
 
@@ -84,8 +89,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         {
             typeof(TestHelper)
                 .GetPublicInstanceProperties()
-                .ShouldHaveSingleItem()
-                .Name.ShouldBe("PublicInstanceProperty");
+                .FirstOrDefault(p => p.Name == "PublicInstanceProperty")
+                .ShouldNotBeNull();
         }
 
         protected void DoShouldRetrieveAPublicInstancePropertyByName()
@@ -160,6 +165,32 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             accessors[0].Name.ShouldBe("get_NonPublicInstanceProperty");
             accessors[1].IsSpecialName.ShouldBeTrue();
             accessors[1].Name.ShouldBe("set_NonPublicInstanceProperty");
+        }
+
+        protected void DoShouldRetrieveIndexAccessors()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetAccessors()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("get_Item");
+        }
+
+        protected void DoShouldRetrieveNonPublicIndexAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetAccessors(nonPublic: true);
+
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_Item");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_Item");
         }
 
         #endregion

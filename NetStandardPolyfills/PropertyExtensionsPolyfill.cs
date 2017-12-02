@@ -164,6 +164,16 @@
             => property.GetAccessors(nonPublic: true).Any(m => m.IsStatic);
 
         /// <summary>
+        /// Determines whether the given <paramref name="property"/> is an indexer.
+        /// </summary>
+        /// <param name="property">The property for which to make the determination.</param>
+        /// <returns>True if the given <paramref name="property"/> is an indexer, otherwise false.</returns>
+        public static bool IsIndexer(this PropertyInfo property)
+        {
+            return property.GetIndexParameters().Length != 0;
+        }
+
+        /// <summary>
         /// Returns an array whose elements reflect the public and, if specified, non-public get, set, and 
         /// other accessors of the property reflected by the current instance.
         /// </summary>

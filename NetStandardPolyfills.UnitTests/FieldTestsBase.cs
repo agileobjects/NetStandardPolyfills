@@ -1,5 +1,6 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System.Linq;
     using TestClasses;
 
     public abstract class FieldTestsBase
@@ -100,8 +101,8 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         {
             typeof(TestHelper)
                 .GetNonPublicInstanceFields()
-                .ShouldHaveSingleItem()
-                .Name.ShouldBe("NonPublicInstanceField");
+                .FirstOrDefault(f => f.Name == "NonPublicInstanceField")
+                .ShouldNotBeNull();
         }
 
         protected void DoShouldRetrieveANonPublicInstanceFieldByName()

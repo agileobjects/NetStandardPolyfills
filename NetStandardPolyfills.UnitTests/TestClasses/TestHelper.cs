@@ -1,5 +1,7 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
 {
+    using System.Collections.Generic;
+
     [My]
     // ReSharper disable UnusedMember.Local
     // ReSharper disable UnusedParameter.Local
@@ -10,9 +12,11 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         public static int PublicStaticField;
         internal int NonPublicInstanceField = 0;
         internal static int NonPublicStaticField = 0;
+        private readonly Dictionary<string, string> _dictionary;
 
         public TestHelper()
         {
+            _dictionary = new Dictionary<string, string>();
         }
 
         protected TestHelper(string something)
@@ -26,6 +30,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         internal int NonPublicInstanceProperty { get; set; }
 
         internal static int NonPublicStaticProperty { get; set; }
+
+        public string this[string key]
+        {
+            get => _dictionary[key];
+            private set => _dictionary[key] = value;
+        }
 
         public void DoParamsStuff(params int[] ints)
         {
