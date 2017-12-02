@@ -1,5 +1,6 @@
 ﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using TestClasses;
@@ -33,6 +34,8 @@
         public abstract void ShouldDetermineThatATypeIsAssignable();
 
         public abstract void ShouldDetermineThatATypeIsNotAssignable();
+
+        public abstract void ShouldRetrieveAllInterfaces();
 
         #region Test implementations
 
@@ -119,6 +122,16 @@
         protected void DoShouldDetermineThatATypeIsNotAssignable()
         {
             typeof(string).IsAssignableFrom(typeof(TestHelper)).ShouldBeFalse();
+        }
+
+        protected void DoShouldRetrieveAllInterfaces()
+        {
+            var interfaces = typeof(Dictionary<string, string>).GetInterfaces();
+
+            (interfaces.Length > 0).ShouldBeTrue();
+            interfaces.ShouldContain(typeof(IEnumerable));
+            interfaces.ShouldContain(typeof(IDictionary<string, string>));
+            interfaces.ShouldContain(typeof(ICollection<KeyValuePair<string, string>>));
         }
 
         #endregion

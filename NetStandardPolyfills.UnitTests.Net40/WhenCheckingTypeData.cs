@@ -46,5 +46,8 @@
 
         [Test]
         public override void ShouldDetermineThatATypeIsNotAssignable() => DoShouldDetermineThatATypeIsNotAssignable();
+
+        [Test]
+        public override void ShouldRetrieveAllInterfaces() => DoShouldRetrieveAllInterfaces();
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AgileObjects.NetStandardPolyfills
 {
     using System;
+    using System.Linq;
 #if NET_STANDARD
     using System.Collections.Generic;
 #endif
@@ -184,6 +185,32 @@
             return type.GetTypeInfo().BaseType;
 #else
             return type.BaseType;
+#endif
+        }
+
+        /// <summary>
+        /// Gets all the interfaces implemented or inherited by the current <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The Type for which to retrieve the implemented interfaces.</param>
+        /// <returns>
+        /// An array of Types representing all the interfaces implemented or inherited by the current 
+        /// <paramref name="type"/>, or an empty array if no interfaces are implemented or inherited.
+        /// </returns>
+        public static Type[] GetInterfaces(this Type type)
+        {
+#if NET_STANDARD
+            var allInterfaces = new List<Type>();
+
+            while (type != null)
+            {
+                allInterfaces.AddRange(type.GetTypeInfo().ImplementedInterfaces);
+
+                type = type.GetBaseType();
+            }
+
+            return allInterfaces.Distinct().ToArray();
+#else
+            return type.GetInterfaces();
 #endif
         }
 
