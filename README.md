@@ -10,7 +10,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.IsAbstract()
 * Type.IsAnonymous()
 * Type.IsClass()
-* Type.IsAssignableFrom(Type assignableType)
+* Type.IsAssignableTo(Type type)
 * Type.IsDerivedFrom(Type parentType)
 * Type.IsEnum()
 * Type.IsInterface()
@@ -22,6 +22,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.GetAssembly()
 * Type.GetBaseType()
 * Type.GetInterfaces()
+* Type.GetGenericTypeArguments()
 * Type.GetTypeCode()
 * Type.HasAttribute&lt;TAttribute&gt;()
 
@@ -93,7 +94,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 
 ### Assembly Info:
 
-* Assembly.GetTypes()
+* Assembly.GetAllTypes()
 
 ### Misc
 
