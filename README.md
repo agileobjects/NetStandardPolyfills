@@ -10,6 +10,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.IsAbstract()
 * Type.IsAnonymous()
 * Type.IsClass()
+* Type.IsAssignableFrom(Type assignableType)
 * Type.IsDerivedFrom(Type parentType)
 * Type.IsEnum()
 * Type.IsInterface()
@@ -20,6 +21,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.GetAttributes()
 * Type.GetAssembly()
 * Type.GetBaseType()
+* Type.GetInterfaces()
 * Type.GetTypeCode()
 * Type.HasAttribute&lt;TAttribute&gt;()
 
@@ -54,7 +56,10 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 
 ### Method Retrieval:
 
-* Type.GetPublicStaticMethods()
+* Type.GetPublicMethods()
+* Type.GetPublicMethod(string name)
+* Type.GetPublicMethod(string name, int parameterCount)
+* Type.GetPublicMethod(string name, params Type[] parameterTypes)* Type.GetPublicStaticMethods()
 * Type.GetPublicStaticMethod(string name)
 * Type.GetPublicStaticMethod(string name, int parameterCount)
 * Type.GetPublicStaticMethod(string name, params Type[] parameterTypes)
@@ -86,11 +91,19 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.GetNonPublicInstanceMembers(string name)
 * Type.GetNonPublicInstanceMember(string name)
 
+### Assembly Info:
+
+* Assembly.GetTypes()
+
 ### Misc
 
 * ParameterInfo.IsParamsArray()
 * PropertyInfo.IsPublic()
 * PropertyInfo.IsStatic()
+* PropertyInfo.IsIndexer()
+* PropertyInfo.GetAccessors(bool nonPublic)
+* PropertyInfo.GetGetMethod(bool nonPublic)
+* PropertyInfo.GetSetMethod(bool nonPublic)
 
 ### Download
 
