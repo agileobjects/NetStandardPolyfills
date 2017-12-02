@@ -8,6 +8,34 @@
     {
         public abstract void ShouldFlagAParamsArray();
 
+        public abstract void ShouldFlagANonParamsArray();
+
+        public abstract void ShouldFindATypeAttribute();
+
+        public abstract void ShouldNotFindATypeAttribute();
+
+        public abstract void ShouldFlagAnAnonymousType();
+
+        public abstract void ShouldFlagANonAnonymousType();
+
+        public abstract void ShouldFlagAPrimitiveType();
+
+        public abstract void ShouldFlagANonPrimitiveType();
+
+        public abstract void ShouldGetGenericArguments();
+
+        public abstract void ShouldGetEmptyGenericArguments();
+
+        public abstract void ShouldDetermineThatATypeIsDerived();
+
+        public abstract void ShouldDetermineThatATypeIsNotDerived();
+
+        public abstract void ShouldDetermineThatATypeIsAssignable();
+
+        public abstract void ShouldDetermineThatATypeIsNotAssignable();
+
+        #region Test implementations
+
         protected void DoShouldFlagAParamsArray()
         {
             var paramsParameter = typeof(TestHelper)
@@ -17,8 +45,6 @@
 
             paramsParameter.IsParamsArray().ShouldBeTrue();
         }
-
-        public abstract void ShouldFlagANonParamsArray();
 
         protected void DoShouldFlagANonParamsArray()
         {
@@ -30,21 +56,15 @@
             paramsParameter.IsParamsArray().ShouldBeFalse();
         }
 
-        public abstract void ShouldFindATypeAttribute();
-
         protected void DoShouldFindATypeAttribute()
         {
             typeof(TestHelper).HasAttribute<MyAttribute>().ShouldBeTrue();
         }
 
-        public abstract void ShouldNotFindATypeAttribute();
-
         protected void DoShouldNotFindATypeAttribute()
         {
             typeof(TypeDataTestsBase).HasAttribute<MyAttribute>().ShouldBeFalse();
         }
-
-        public abstract void ShouldFlagAnAnonymousType();
 
         protected void DoShouldFlagAnAnonymousType()
         {
@@ -53,28 +73,20 @@
             anon.GetType().IsAnonymous().ShouldBeTrue();
         }
 
-        public abstract void ShouldFlagANonAnonymousType();
-
         protected void DoShouldFlagANonAnonymousType()
         {
             typeof(IOrderedEnumerable<int>).IsAnonymous().ShouldBeFalse();
         }
-
-        public abstract void ShouldFlagAPrimitiveType();
 
         protected void DoShouldFlagAPrimitiveType()
         {
             typeof(int).IsPrimitive().ShouldBeTrue();
         }
 
-        public abstract void ShouldFlagANonPrimitiveType();
-
         protected void DoShouldFlagANonPrimitiveType()
         {
             typeof(object).IsPrimitive().ShouldBeFalse();
         }
-
-        public abstract void ShouldGetGenericArguments();
 
         protected void DoShouldGetGenericArguments()
         {
@@ -84,11 +96,31 @@
                 .ShouldBeTrue();
         }
 
-        public abstract void ShouldGetEmptyGenericArguments();
-
         protected void DoShouldGetEmptyGenericArguments()
         {
             typeof(string).GetGenericArguments().ShouldBeEmpty();
         }
+
+        protected void DoShouldDetermineThatATypeIsDerived()
+        {
+            typeof(TestHelper).IsDerivedFrom(typeof(object)).ShouldBeTrue();
+        }
+
+        protected void DoShouldDetermineThatATypeIsNotDerived()
+        {
+            typeof(TestHelper).IsDerivedFrom(typeof(string)).ShouldBeFalse();
+        }
+
+        protected void DoShouldDetermineThatATypeIsAssignable()
+        {
+            typeof(object).IsAssignableFrom(typeof(TestHelper)).ShouldBeTrue();
+        }
+
+        protected void DoShouldDetermineThatATypeIsNotAssignable()
+        {
+            typeof(string).IsAssignableFrom(typeof(TestHelper)).ShouldBeFalse();
+        }
+
+        #endregion
     }
 }

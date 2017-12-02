@@ -207,6 +207,29 @@
         }
 
         /// <summary>
+        /// Determines whether an instance of the current <paramref name="type"/> can be assigned from an 
+        /// instance of the given <paramref name="assignableType"/>.
+        /// </summary>
+        /// <param name="type">The Type the assignability of which should be determined.</param>
+        /// <param name="assignableType">The Type to compare with the current type.</param>
+        /// <returns>
+        /// True if the <paramref name="assignableType"/> and the current <paramref name="type"/> represent 
+        /// the same type, or if the current <paramref name="type"/> is in the inheritance hierarchy of the
+        /// <paramref name="assignableType"/>, or if the current <paramref name="type"/> is an interface that 
+        /// the <paramref name="assignableType"/> implements, or if the <paramref name="assignableType"/> is 
+        /// a generic type parameter and the current <paramref name="type"/> represents one of its constraints. 
+        /// False if none of these conditions are true, or if the <paramref name="assignableType"/> is null.
+        /// </returns>
+        public static bool IsAssignableFrom(this Type type, Type assignableType)
+        {
+#if NET_STANDARD
+            return type.GetTypeInfo().IsAssignableFrom(assignableType?.GetTypeInfo());
+#else
+            return type.IsAssignableFrom(assignableType);
+#endif
+        }
+
+        /// <summary>
         /// Returns a value indicating if the given <paramref name="type"/> has the Attribute
         /// given in the <typeparamref name="TAttribute"/> type argument.
         /// </summary>

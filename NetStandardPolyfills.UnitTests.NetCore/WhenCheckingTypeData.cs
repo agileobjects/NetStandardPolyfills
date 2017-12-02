@@ -33,5 +33,17 @@
 
         [Fact]
         public override void ShouldGetEmptyGenericArguments() => DoShouldGetEmptyGenericArguments();
+
+        [Fact]
+        public override void ShouldDetermineThatATypeIsDerived() => DoShouldDetermineThatATypeIsDerived();
+
+        [Fact]
+        public override void ShouldDetermineThatATypeIsNotDerived() => DoShouldDetermineThatATypeIsNotDerived();
+
+        [Fact]
+        public override void ShouldDetermineThatATypeIsAssignable() => DoShouldDetermineThatATypeIsAssignable();
+
+        [Fact]
+        public override void ShouldDetermineThatATypeIsNotAssignable() => DoShouldDetermineThatATypeIsNotAssignable();
     }
 }
