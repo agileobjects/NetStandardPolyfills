@@ -94,14 +94,14 @@
         protected void DoShouldGetGenericArguments()
         {
             typeof(Dictionary<string, int>)
-                .GetGenericArguments()
+                .GetGenericTypeArguments()
                 .SequenceEqual(new[] { typeof(string), typeof(int) })
                 .ShouldBeTrue();
         }
 
         protected void DoShouldGetEmptyGenericArguments()
         {
-            typeof(string).GetGenericArguments().ShouldBeEmpty();
+            typeof(string).GetGenericTypeArguments().ShouldBeEmpty();
         }
 
         protected void DoShouldDetermineThatATypeIsDerived()
@@ -116,12 +116,12 @@
 
         protected void DoShouldDetermineThatATypeIsAssignable()
         {
-            typeof(object).IsAssignableFrom(typeof(TestHelper)).ShouldBeTrue();
+            typeof(TestHelper).IsAssignableTo(typeof(object)).ShouldBeTrue();
         }
 
         protected void DoShouldDetermineThatATypeIsNotAssignable()
         {
-            typeof(string).IsAssignableFrom(typeof(TestHelper)).ShouldBeFalse();
+            typeof(TestHelper).IsAssignableTo(typeof(string)).ShouldBeFalse();
         }
 
         protected void DoShouldRetrieveAllInterfaces()

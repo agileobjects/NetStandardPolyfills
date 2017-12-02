@@ -151,7 +151,7 @@
         /// An array of Types that represent the type arguments of a generic type, or an empty array 
         /// if the current type is not a generic type.
         /// </returns>
-        public static Type[] GetGenericArguments(this Type type)
+        public static Type[] GetGenericTypeArguments(this Type type)
         {
 #if NET_STANDARD
             return type.GetTypeInfo().GenericTypeArguments;
@@ -234,25 +234,25 @@
         }
 
         /// <summary>
-        /// Determines whether an instance of the current <paramref name="type"/> can be assigned from an 
-        /// instance of the given <paramref name="assignableType"/>.
+        /// Determines whether an instance of the current <paramref name="assignableType"/> can be assigned 
+        /// to an instance of the given <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">The Type the assignability of which should be determined.</param>
-        /// <param name="assignableType">The Type to compare with the current type.</param>
+        /// <param name="assignableType">The Type the assignability of which should be determined.</param>
+        /// <param name="type">The Type to compare with the current type.</param>
         /// <returns>
-        /// True if the <paramref name="assignableType"/> and the current <paramref name="type"/> represent 
-        /// the same type, or if the current <paramref name="type"/> is in the inheritance hierarchy of the
-        /// <paramref name="assignableType"/>, or if the current <paramref name="type"/> is an interface that 
-        /// the <paramref name="assignableType"/> implements, or if the <paramref name="assignableType"/> is 
-        /// a generic type parameter and the current <paramref name="type"/> represents one of its constraints. 
-        /// False if none of these conditions are true, or if the <paramref name="assignableType"/> is null.
+        /// True if the <paramref name="type"/> and the current <paramref name="assignableType"/> represent 
+        /// the same type, or if the current <paramref name="assignableType"/> is in the inheritance hierarchy 
+        /// of the <paramref name="type"/>, or if the current <paramref name="assignableType"/> is an interface 
+        /// that the <paramref name="type"/> implements, or if the <paramref name="type"/> is a generic type 
+        /// parameter and the current <paramref name="assignableType"/> represents one of its constraints. 
+        /// False if none of these conditions are true, or if the <paramref name="type"/> is null.
         /// </returns>
-        public static bool IsAssignableFrom(this Type type, Type assignableType)
+        public static bool IsAssignableTo(this Type assignableType, Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().IsAssignableFrom(assignableType?.GetTypeInfo());
+            return type?.GetTypeInfo().IsAssignableFrom(assignableType.GetTypeInfo()) == true;
 #else
-            return type.IsAssignableFrom(assignableType);
+            return type?.IsAssignableFrom(assignableType) == true;
 #endif
         }
 

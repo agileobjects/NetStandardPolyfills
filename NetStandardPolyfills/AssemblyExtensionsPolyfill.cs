@@ -17,7 +17,7 @@
         /// <returns>
         /// An array that contains all the types that are defined in this <paramref name="assembly"/>.
         /// </returns>
-        public static Type[] GetTypes(this Assembly assembly)
+        public static Type[] GetAllTypes(this Assembly assembly)
         {
 #if NET_STANDARD
             return assembly.DefinedTypes.Select(ti => ti.AsType()).ToArray();

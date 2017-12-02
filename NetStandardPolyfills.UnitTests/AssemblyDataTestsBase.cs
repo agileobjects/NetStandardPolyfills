@@ -8,7 +8,7 @@
 
         protected void DoShouldFindTypes()
         {
-            var types = typeof(AssemblyDataTestsBase).GetAssembly().GetTypes();
+            var types = typeof(AssemblyDataTestsBase).GetAssembly().GetAllTypes();
 
             types.ShouldContain(typeof(AssemblyDataTestsBase));
             types.ShouldContain(typeof(ConstructorTestsHelper));
