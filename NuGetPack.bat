@@ -1,2 +1,2 @@
 @echo off
-dotnet pack --output NuGet --configuration Release NetStandardPolyfills
+dotnet pack --output ..\NuGet --configuration Release NetStandardPolyfills
