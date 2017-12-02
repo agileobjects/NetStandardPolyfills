@@ -7,6 +7,16 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
     public abstract class MethodTestsBase
     {
+        public abstract void ShouldFindPublicMethods();
+
+        public abstract void ShouldFindAPublicMethodByName();
+
+        public abstract void ShouldExcludeAPublicMethodByName();
+
+        public abstract void ShouldFindAPublicMethodByNameAndParamCount();
+
+        public abstract void ShouldFindAPublicMethodByNameAndParamTypes();
+
         public abstract void ShouldFindPublicStaticMethods();
 
         public abstract void ShouldFindAPublicStaticMethodByName();
@@ -53,6 +63,54 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         #region Test Implementations
 
+        protected void DoShouldFindPublicMethods()
+        {
+            var methods = typeof(TestHelper)
+                .GetPublicMethods()
+                .Select(m => m.Name)
+                .ToList();
+
+            methods.ShouldContain("GetHashCode");
+            methods.ShouldContain("PublicStaticMethod");
+            methods.ShouldContain("ReferenceEquals");
+        }
+
+        protected void DoShouldFindAPublicMethodByName()
+        {
+            typeof(TestHelper)
+                .GetPublicMethod("PublicStaticMethod")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicStaticMethod");
+        }
+
+        protected void DoShouldExcludeAPublicMethodByName()
+        {
+            typeof(TestHelper)
+                .GetPublicMethod("NonPublicMethod")
+                .ShouldBeNull();
+        }
+
+        protected void DoShouldFindAPublicMethodByNameAndParamCount()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetPublicMethod("PublicStatic", 1);
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicStatic");
+            method.GetParameters().ShouldHaveSingleItem();
+        }
+
+        protected void DoShouldFindAPublicMethodByNameAndParamTypes()
+        {
+            var method = typeof(MethodTestsHelper)
+                .GetPublicMethod("PublicStatic", typeof(int));
+
+            method.ShouldNotBeNull();
+            method.Name.ShouldBe("PublicStatic");
+            method.GetParameters().ShouldHaveSingleItem();
+            method.GetParameters()[0].ParameterType.ShouldBe(typeof(int));
+        }
+
         protected void DoShouldFindPublicStaticMethods()
         {
             var methods = typeof(TestHelper)
@@ -61,7 +119,7 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .ToList();
 
             methods.ShouldContain("PublicStaticMethod");
-            methods.ShouldNotContain("ReferenceEquals");
+            methods.ShouldContain("ReferenceEquals");
         }
 
         protected void DoShouldFindAPublicStaticMethodByName()

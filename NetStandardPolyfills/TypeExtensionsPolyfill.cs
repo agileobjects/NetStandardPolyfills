@@ -142,6 +142,24 @@
         }
 
         /// <summary>
+        /// Returns an array of Types that represent the type arguments of a generic type or the 
+        /// type parameters of a generic type definition.
+        /// </summary>
+        /// <param name="type">The type for which to retrieve the generic arguments.</param>
+        /// <returns>
+        /// An array of Types that represent the type arguments of a generic type, or an empty array 
+        /// if the current type is not a generic type.
+        /// </returns>
+        public static Type[] GetGenericArguments(this Type type)
+        {
+#if NET_STANDARD
+            return type.GetTypeInfo().GenericTypeArguments;
+#else
+            return type.GetGenericArguments();
+#endif
+        }
+
+        /// <summary>
         /// Gets the Assembly to which the given <paramref name="type"/> belongs.
         /// </summary>
         /// <param name="type">The type for which to retrieve the Assembly.</param>

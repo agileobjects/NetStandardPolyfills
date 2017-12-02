@@ -1,5 +1,6 @@
 ﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System.Collections.Generic;
     using System.Linq;
     using TestClasses;
 
@@ -71,6 +72,23 @@
         protected void DoShouldFlagANonPrimitiveType()
         {
             typeof(object).IsPrimitive().ShouldBeFalse();
+        }
+
+        public abstract void ShouldGetGenericArguments();
+
+        protected void DoShouldGetGenericArguments()
+        {
+            typeof(Dictionary<string, int>)
+                .GetGenericArguments()
+                .SequenceEqual(new[] { typeof(string), typeof(int) })
+                .ShouldBeTrue();
+        }
+
+        public abstract void ShouldGetEmptyGenericArguments();
+
+        protected void DoShouldGetEmptyGenericArguments()
+        {
+            typeof(string).GetGenericArguments().ShouldBeEmpty();
         }
     }
 }

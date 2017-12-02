@@ -28,5 +28,11 @@
 
         [Test]
         public override void ShouldFlagANonPrimitiveType() => DoShouldFlagANonPrimitiveType();
+
+        [Test]
+        public override void ShouldGetGenericArguments() => DoShouldGetGenericArguments();
+
+        [Test]
+        public override void ShouldGetEmptyGenericArguments() => DoShouldGetEmptyGenericArguments();
     }
 }

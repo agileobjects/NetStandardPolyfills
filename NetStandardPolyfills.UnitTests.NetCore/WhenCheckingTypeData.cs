@@ -27,5 +27,11 @@
 
         [Fact]
         public override void ShouldFlagANonPrimitiveType() => DoShouldFlagANonPrimitiveType();
+
+        [Fact]
+        public override void ShouldGetGenericArguments() => DoShouldGetGenericArguments();
+
+        [Fact]
+        public override void ShouldGetEmptyGenericArguments() => DoShouldGetEmptyGenericArguments();
     }
 }

@@ -43,5 +43,15 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         [Test]
         public override void ShouldExcludeANonPublicInstancePropertyByName() =>
             DoShouldExcludeANonPublicInstancePropertyByName();
+
+        [Test]
+        public override void ShouldRetrievePublicPropertyAccessors() => DoShouldRetrievePublicPropertyAccessors();
+
+        [Test]
+        public override void ShouldExcludeNonPublicPropertyAccessorsByDefault() =>
+            DoShouldExcludeNonPublicPropertyAccessorsByDefault();
+
+        [Test]
+        public override void ShouldIncludeNonPublicPropertyAccessors() => DoShouldIncludeNonPublicPropertyAccessors();
     }
 }

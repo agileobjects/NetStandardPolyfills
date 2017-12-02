@@ -5,6 +5,23 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
     public class WhenRetrievingTypeMethods : MethodTestsBase
     {
         [Fact]
+        public override void ShouldFindPublicMethods() => DoShouldFindPublicMethods();
+
+        [Fact]
+        public override void ShouldFindAPublicMethodByName() => DoShouldFindAPublicMethodByName();
+
+        [Fact]
+        public override void ShouldExcludeAPublicMethodByName() => DoShouldExcludeAPublicMethodByName();
+
+        [Fact]
+        public override void ShouldFindAPublicMethodByNameAndParamCount() =>
+            DoShouldFindAPublicMethodByNameAndParamCount();
+
+        [Fact]
+        public override void ShouldFindAPublicMethodByNameAndParamTypes() =>
+            DoShouldFindAPublicMethodByNameAndParamTypes();
+
+        [Fact]
         public override void ShouldFindPublicStaticMethods() => DoShouldFindPublicStaticMethods();
 
         [Fact]

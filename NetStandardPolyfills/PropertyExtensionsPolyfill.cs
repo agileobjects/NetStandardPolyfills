@@ -153,26 +153,50 @@
         /// <param name="property">The property for which to make the determination.</param>
         /// <returns>True if the given <paramref name="property"/> has a public getter or setter, otherwise falsek.</returns>
         public static bool IsPublic(this PropertyInfo property)
-        {
-#if NET_STANDARD
-            return ((property.GetMethod != null && property.GetMethod.IsPublic) ||
-                    (property.SetMethod != null && property.SetMethod.IsPublic));
-#else
-            return property.GetAccessors(nonPublic: false).Length != 0;
-#endif
-        }
+            => property.GetAccessors(nonPublic: false).Length != 0;
 
         /// <summary>
         /// Determines whether the given <paramref name="property"/> is static.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="property"/> is static, otherwise falsek.</returns>
+        /// <returns>True if the given <paramref name="property"/> is static, otherwise false.</returns>
         public static bool IsStatic(this PropertyInfo property)
+            => property.GetAccessors(nonPublic: true).Any(m => m.IsStatic);
+
+        /// <summary>
+        /// Returns an array whose elements reflect the public and, if specified, non-public get, set, and 
+        /// other accessors of the property reflected by the current instance.
+        /// </summary>
+        /// <param name="property">The property for which to make the determination.</param>
+        /// <param name="nonPublic">
+        /// Whether non-public methods should be returned in the MethodInfo array: true if non-public methods 
+        /// should be included; otherwise false. Defaults to false if not supplied.
+        /// </param>
+        /// <returns>
+        /// An array of System.Reflection.MethodInfo objects whose elements reflect the get, set, and other 
+        /// accessors of the property reflected by the current instance. If <paramref name="nonPublic"/> is 
+        /// true, this array contains public and non-public get, set, and other accessors. If 
+        /// <paramref name="nonPublic"/> is false, this array contains only public get, set, and other 
+        /// accessors. If no accessors with the specified visibility are found, this method returns an empty array.
+        /// </returns>
+        public static MethodInfo[] GetAccessors(this PropertyInfo property, bool nonPublic = false)
         {
 #if NET_STANDARD
-            return (property.GetMethod ?? property.SetMethod).IsStatic;
+            var accessors = new List<MethodInfo>(2);
+
+            if (property.GetMethod != null && (nonPublic || property.GetMethod.IsPublic))
+            {
+                accessors.Add(property.GetMethod);
+            }
+
+            if (property.SetMethod != null && (nonPublic || property.SetMethod.IsPublic))
+            {
+                accessors.Add(property.SetMethod);
+            }
+
+            return accessors.ToArray();
 #else
-            return property.GetAccessors(nonPublic: true).Any(m => m.IsStatic);
+            return property.GetAccessors(nonPublic);
 #endif
         }
     }

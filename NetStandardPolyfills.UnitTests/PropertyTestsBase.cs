@@ -28,6 +28,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldExcludeANonPublicInstancePropertyByName();
 
+        public abstract void ShouldRetrievePublicPropertyAccessors();
+
+        public abstract void ShouldExcludeNonPublicPropertyAccessorsByDefault();
+
+        public abstract void ShouldIncludeNonPublicPropertyAccessors();
+
         #region Test Implementations
 
         protected void DoShouldRetrievePublicStaticProperties()
@@ -116,6 +122,44 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
             typeof(TestHelper)
                 .GetNonPublicInstanceProperty("yyy")
                 .ShouldBeNull();
+        }
+
+        protected void DoShouldRetrievePublicPropertyAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors();
+
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_PublicInstanceProperty");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_PublicInstanceProperty");
+        }
+
+        protected void DoShouldExcludeNonPublicPropertyAccessorsByDefault()
+        {
+            var accessors = typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors();
+
+            accessors.ShouldBeEmpty();
+        }
+
+        protected void DoShouldIncludeNonPublicPropertyAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors(nonPublic: true);
+
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_NonPublicInstanceProperty");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_NonPublicInstanceProperty");
         }
 
         #endregion
