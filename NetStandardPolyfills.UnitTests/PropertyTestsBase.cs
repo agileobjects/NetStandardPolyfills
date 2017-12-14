@@ -19,6 +19,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
         public abstract void ShouldRetrievePublicInstanceProperties();
 
+        public abstract void ShouldRetrieveInheritedPublicInstanceProperties();
+
+        public abstract void ShouldRetrieveOverriddenPublicInstanceProperties();
+
         public abstract void ShouldRetrieveAPublicInstancePropertyByName();
 
         public abstract void ShouldExcludeAPublicInstancePropertyByName();
@@ -95,6 +99,22 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .GetPublicInstanceProperties()
                 .FirstOrDefault(p => p.Name == "PublicInstanceProperty")
                 .ShouldNotBeNull();
+        }
+
+        protected void DoShouldRetrieveInheritedPublicInstanceProperties()
+        {
+            typeof(Derived)
+                .GetPublicInstanceProperties()
+                .Where(p => p.Name == "Id")
+                .ShouldHaveSingleItem();
+        }
+
+        protected void DoShouldRetrieveOverriddenPublicInstanceProperties()
+        {
+            typeof(DerivedOverridden)
+                .GetPublicInstanceProperties()
+                .Where(p => p.Name == "Id")
+                .ShouldHaveSingleItem();
         }
 
         protected void DoShouldRetrieveAPublicInstancePropertyByName()
@@ -218,6 +238,30 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .ShouldNotBeNull()
                 .Name.ShouldBe("set_Item");
         }
+
+        #endregion
+
+        #region Helper Classes
+
+        // ReSharper disable UnusedMember.Local
+        private abstract class EntityBase
+        {
+            public virtual int Id { get; set; }
+        }
+
+        private class Derived : EntityBase
+        {
+            public string Name { get; set; }
+        }
+
+        private class DerivedOverridden : EntityBase
+        {
+            public override int Id { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        // ReSharper restore UnusedMember.Local
 
         #endregion
     }

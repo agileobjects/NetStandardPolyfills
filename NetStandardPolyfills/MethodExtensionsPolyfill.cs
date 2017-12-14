@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+#if !NET_STANDARD
+    using static System.Reflection.BindingFlags;
+#endif
 
     /// <summary>
     /// Provides a set of static methods for obtaining method and parameter information in .NET Standard 1.0 and .NET 4.0.
@@ -43,7 +46,7 @@
 #if NET_STANDARD
             return GetMethods(type, name, isPublic: true);
 #else
-            return GetMethods(type, name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            return GetMethods(type, name, Public | Instance | Static);
 #endif
         }
 
@@ -106,7 +109,7 @@
 #if NET_STANDARD
             return GetMethods(type, name, isPublic: true, isStatic: true);
 #else
-            return GetMethods(type, name, BindingFlags.Public | BindingFlags.Static);
+            return GetMethods(type, name, Public | Static);
 #endif
         }
 
@@ -169,7 +172,7 @@
 #if NET_STANDARD
             return GetMethods(type, name, isPublic: true, isStatic: false);
 #else
-            return GetMethods(type, name, BindingFlags.Public | BindingFlags.Instance);
+            return GetMethods(type, name, Public | Instance);
 #endif
         }
 
@@ -231,7 +234,7 @@
 #if NET_STANDARD
             return GetMethods(type, name, isPublic: false, isStatic: true);
 #else
-            return GetMethods(type, name, BindingFlags.NonPublic | BindingFlags.Static);
+            return GetMethods(type, name, NonPublic | Static);
 #endif
         }
 
@@ -294,7 +297,7 @@
 #if NET_STANDARD
             return GetMethods(type, name, isPublic: false, isStatic: false);
 #else
-            return GetMethods(type, name, BindingFlags.NonPublic | BindingFlags.Instance);
+            return GetMethods(type, name, NonPublic | Instance);
 #endif
         }
 
@@ -341,6 +344,9 @@
         #region Helper Methods
 
 #if NET_STANDARD
+        internal static IEnumerable<MethodInfo> GetMethods(this Type type, bool isPublic, bool? isStatic = null)
+            => GetMethods(type, name: null, isPublic: isPublic, isStatic: isStatic);
+
         private static IEnumerable<MethodInfo> GetMethods(Type type, string name, bool isPublic, bool? isStatic = null)
         {
             return GetMethods(
@@ -364,37 +370,19 @@
                 methodFilter = m => true;
             }
 
-            var methodsSoFar = new List<MethodInfo>();
-
-            while (type != null)
-            {
-                var methods = methodsFactory.Invoke(type)
-                    .Where(m => !MethodHasBeenOverridden(m, methodsSoFar))
-                    .Where(m => !m.IsSpecialName && methodFilter.Invoke(m));
-
-                if (name != null)
-                {
-                    methods = methods.Where(m => m.Name == name);
-                }
-
-                var matchingMethods = methods.ToArray();
-
-                methodsSoFar.AddRange(matchingMethods);
-
-                foreach (var method in matchingMethods)
-                {
-                    yield return method;
-                }
-
-                type = type.GetBaseType();
-            }
+            return MemberFinder<MethodInfo>.EnumerateMembers(
+                type,
+                methodsFactory,
+                name,
+                method => !method.IsSpecialName && methodFilter.Invoke(method),
+                MethodHasNotBeenOverridden);
         }
 
-        private static bool MethodHasBeenOverridden(MethodBase method, ICollection<MethodInfo> methodsSoFar)
+        private static bool MethodHasNotBeenOverridden(MethodBase method, ICollection<MethodInfo> methodsSoFar)
         {
             if (methodsSoFar.Count == 0)
             {
-                return false;
+                return true;
             }
 
             var methodParameterTypes = method
@@ -402,9 +390,9 @@
                 .Select(p => p.ParameterType)
                 .ToArray();
 
-            return methodsSoFar.Any(m =>
-                (method.Name == m.Name) &&
-                 methodParameterTypes.SequenceEqual(m.GetParameters().Select(p => p.ParameterType)));
+            return methodsSoFar.All(m =>
+                (method.Name != m.Name) ||
+                !methodParameterTypes.SequenceEqual(m.GetParameters().Select(p => p.ParameterType)));
         }
 
         private static MethodInfo WithParameterCount(this IEnumerable<MethodInfo> methods, int parameterCount)

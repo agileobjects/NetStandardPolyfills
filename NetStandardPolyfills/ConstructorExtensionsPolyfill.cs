@@ -20,7 +20,7 @@
         public static IEnumerable<ConstructorInfo> GetPublicInstanceConstructors(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.IsPublic && !c.IsStatic);
+            return GetConstructors(type, isPublic: true, isStatic: false);
 #else
             return type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -57,7 +57,7 @@
         public static IEnumerable<ConstructorInfo> GetNonPublicInstanceConstructors(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsPublic && !c.IsStatic);
+            return GetConstructors(type, isPublic: false, isStatic: false);
 #else
             return type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
 #endif
@@ -91,6 +91,9 @@
         }
 
 #if NET_STANDARD
+        internal static IEnumerable<ConstructorInfo> GetConstructors(this Type type, bool isPublic, bool isStatic)
+            => type.GetTypeInfo().DeclaredConstructors.Where(c => (c.IsPublic == isPublic) && (c.IsStatic == isStatic));
+
         private static ConstructorInfo GetConstructorWithTypes(this IEnumerable<ConstructorInfo> constructors, Type[] parameterTypes)
         {
             return constructors

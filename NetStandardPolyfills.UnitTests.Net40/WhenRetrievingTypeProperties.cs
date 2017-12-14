@@ -28,6 +28,14 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
         public override void ShouldRetrievePublicInstanceProperties() => DoShouldRetrievePublicInstanceProperties();
 
         [Test]
+        public override void ShouldRetrieveInheritedPublicInstanceProperties() =>
+            DoShouldRetrieveInheritedPublicInstanceProperties();
+
+        [Test]
+        public override void ShouldRetrieveOverriddenPublicInstanceProperties() =>
+            DoShouldRetrieveOverriddenPublicInstanceProperties();
+
+        [Test]
         public override void ShouldRetrieveAPublicInstancePropertyByName() => DoShouldRetrieveAPublicInstancePropertyByName();
 
         [Test]

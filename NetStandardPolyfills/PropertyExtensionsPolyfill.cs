@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+#if !NET_STANDARD
+    using static System.Reflection.BindingFlags;
+#endif
 
     /// <summary>
     /// Provides a set of static methods for obtaining property information in .NET Standard 1.0 and .NET 4.0.
@@ -18,9 +21,9 @@
         public static IEnumerable<PropertyInfo> GetPublicStaticProperties(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().DeclaredProperties.Where(p => p.IsPublic() && p.IsStatic());
+            return GetProperties(type, isPublic: true, isStatic: true);
 #else
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            return GetProperties(type, Public | Static);
 #endif
         }
 
@@ -36,9 +39,9 @@
         public static PropertyInfo GetPublicStaticProperty(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetPublicStaticProperties().FirstOrDefault(p => p.Name == name);
+            return GetProperties(type, name, isPublic: true, isStatic: true).FirstOrDefault();
 #else
-            return type.GetProperty(name, BindingFlags.Public | BindingFlags.Static);
+            return GetProperties(type, name, Public | Static).FirstOrDefault();
 #endif
         }
 
@@ -50,12 +53,9 @@
         public static IEnumerable<PropertyInfo> GetPublicInstanceProperties(this Type type)
         {
 #if NET_STANDARD
-            return type
-                .GetTypeInfo()
-                .DeclaredProperties
-                .Where(p => p.IsPublic() && !p.IsStatic());
+            return GetProperties(type, isPublic: true, isStatic: false);
 #else
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            return GetProperties(type, Public | Instance);
 #endif
         }
 
@@ -71,9 +71,9 @@
         public static PropertyInfo GetPublicInstanceProperty(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetPublicInstanceProperties().FirstOrDefault(p => p.Name == name);
+            return GetProperties(type, name, isPublic: true, isStatic: false).FirstOrDefault();
 #else
-            return type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            return GetProperties(type, name, Public | Instance).FirstOrDefault();
 #endif
         }
 
@@ -85,12 +85,9 @@
         public static IEnumerable<PropertyInfo> GetNonPublicStaticProperties(this Type type)
         {
 #if NET_STANDARD
-            return type
-                .GetTypeInfo()
-                .DeclaredProperties
-                .Where(p => !p.IsPublic() && p.IsStatic());
+            return GetProperties(type, isPublic: false, isStatic: true);
 #else
-            return type.GetProperties(BindingFlags.NonPublic | BindingFlags.Static);
+            return GetProperties(type, NonPublic | Static);
 #endif
         }
 
@@ -106,9 +103,9 @@
         public static PropertyInfo GetNonPublicStaticProperty(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetNonPublicStaticProperties().FirstOrDefault(p => p.Name == name);
+            return GetProperties(type, name, isPublic: false, isStatic: true).FirstOrDefault();
 #else
-            return type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Static);
+            return GetProperties(type, name, NonPublic | Static).FirstOrDefault();
 #endif
         }
 
@@ -120,12 +117,9 @@
         public static IEnumerable<PropertyInfo> GetNonPublicInstanceProperties(this Type type)
         {
 #if NET_STANDARD
-            return type
-                .GetTypeInfo()
-                .DeclaredProperties
-                .Where(p => !p.IsPublic() && !p.IsStatic());
+            return GetProperties(type, isPublic: false, isStatic: false);
 #else
-            return type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+            return GetProperties(type, NonPublic | Instance);
 #endif
         }
 
@@ -141,9 +135,9 @@
         public static PropertyInfo GetNonPublicInstanceProperty(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetNonPublicInstanceProperties().FirstOrDefault(p => p.Name == name);
+            return GetProperties(type, name, isPublic: false, isStatic: false).FirstOrDefault();
 #else
-            return type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            return GetProperties(type, name, NonPublic | Instance).FirstOrDefault();
 #endif
         }
 
@@ -262,5 +256,45 @@
             return property.GetSetMethod(nonPublic);
 #endif
         }
+
+        #region Helper Methods
+
+#if NET_STANDARD
+        internal static IEnumerable<PropertyInfo> GetProperties(this Type type, bool isPublic, bool isStatic)
+            => GetProperties(type, name: null, isPublic: isPublic, isStatic: isStatic);
+
+        private static IEnumerable<PropertyInfo> GetProperties(Type type, string name, bool isPublic, bool isStatic)
+        {
+            return GetProperties(
+                type,
+                t => t.GetTypeInfo().DeclaredProperties,
+                name,
+                p => p.IsPublic() == isPublic && (p.IsStatic() == isStatic));
+        }
+#else
+        private static IEnumerable<PropertyInfo> GetProperties(Type type, BindingFlags bindingFlags)
+            => GetProperties(type, name: null, bindingFlags: bindingFlags);
+
+        private static IEnumerable<PropertyInfo> GetProperties(Type type, string name, BindingFlags bindingFlags)
+            => GetProperties(type, t => t.GetProperties(bindingFlags), name);
+#endif
+        private static IEnumerable<PropertyInfo> GetProperties(
+            Type type,
+            Func<Type, IEnumerable<PropertyInfo>> propertiesFactory,
+            string name,
+            Func<PropertyInfo, bool> propertyFilter = null)
+        {
+            return MemberFinder<PropertyInfo>.EnumerateMembers(
+                type,
+                propertiesFactory,
+                name,
+                propertyFilter,
+                PropertyNotAlreadyIncluded);
+        }
+
+        private static bool PropertyNotAlreadyIncluded(PropertyInfo property, ICollection<PropertyInfo> propertiesSoFar)
+            => (propertiesSoFar.Count == 0) || propertiesSoFar.All(p => p.Name != property.Name);
+
+        #endregion
     }
 }

@@ -214,44 +214,15 @@
 #if NET_STANDARD
         private static IEnumerable<MemberInfo> GetMembers(this Type type, bool isPublic, bool isStatic)
         {
-            return type
-                .GetTypeInfo()
-                .DeclaredMembers
-                .Select(m => new
-                {
-                    Member = m,
-                    AccessibilityAndScope = GetAccessibilityAndScopeTuple(m)
-                })
-                .Where(d => (d.AccessibilityAndScope.IsPublic() == isPublic) &&
-                            (d.AccessibilityAndScope.IsStatic() == isStatic))
-                .Select(d => d.Member);
+            var members = new List<MemberInfo>();
+
+            members.AddRange(type.GetConstructors(isPublic, isStatic));
+            members.AddRange(type.GetFields(isPublic, isStatic));
+            members.AddRange(type.GetProperties(isPublic, isStatic));
+            members.AddRange(type.GetMethods(isPublic, isStatic));
+
+            return members;
         }
-
-        private static Tuple<bool, bool> GetAccessibilityAndScopeTuple(MemberInfo member)
-        {
-            switch (member)
-            {
-                case PropertyInfo property:
-                    return Tuple.Create(property.IsPublic(), property.IsStatic());
-
-                case FieldInfo field:
-                    return Tuple.Create(field.IsPublic, field.IsStatic);
-
-                case MethodInfo method:
-                    return Tuple.Create(method.IsPublic, method.IsStatic);
-
-                case ConstructorInfo constructor:
-                    return Tuple.Create(constructor.IsPublic, constructor.IsStatic);
-            }
-
-            return Tuple.Create(false, false);
-        }
-
-        private static bool IsPublic(this Tuple<bool, bool> accessibilityAndScopeTuple) =>
-            accessibilityAndScopeTuple.Item1;
-
-        private static bool IsStatic(this Tuple<bool, bool> accessibilityAndScopeTuple) =>
-            accessibilityAndScopeTuple.Item2;
 #endif
         private static MemberInfo GetSingleMember(this IEnumerable<MemberInfo> members, string name)
         {
