@@ -103,8 +103,8 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * PropertyInfo.IsStatic()
 * PropertyInfo.IsIndexer()
 * PropertyInfo.GetAccessors(bool nonPublic)
-* PropertyInfo.GetGetMethod(bool nonPublic)
-* PropertyInfo.GetSetMethod(bool nonPublic)
+* PropertyInfo.GetGetter(bool nonPublic)
+* PropertyInfo.GetSetter(bool nonPublic)
 
 ### Download
 
