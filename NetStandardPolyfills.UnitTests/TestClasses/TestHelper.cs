@@ -1,5 +1,6 @@
 namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
 {
+    using System;
     using System.Collections.Generic;
 
     [My]
@@ -22,6 +23,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         protected TestHelper(string something)
         {
         }
+
+        public static implicit operator string(TestHelper testHelper) => testHelper.ToString();
+        public static implicit operator DateTime(TestHelper testHelper) => DateTime.Now;
+
+        public static explicit operator int(TestHelper testHelper) => testHelper.GetHashCode();
+        public static explicit operator int[] (TestHelper testHelper) => new[] { 1, 2, 3 };
 
         public int PublicInstanceProperty { get; set; }
 

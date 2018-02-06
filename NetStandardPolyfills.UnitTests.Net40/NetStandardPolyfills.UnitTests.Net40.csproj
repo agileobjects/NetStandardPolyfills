@@ -53,6 +53,7 @@
     <Compile Include="WhenRetrievingTypeFields.cs" />
     <Compile Include="WhenRetrievingTypeMembers.cs" />
     <Compile Include="WhenRetrievingTypeMethods.cs" />
+    <Compile Include="WhenRetrievingTypeOperators.cs" />
     <Compile Include="WhenRetrievingTypeProperties.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -211,17 +211,39 @@
         }
 
         #region Helper Members
+
 #if NET_STANDARD
         private static IEnumerable<MemberInfo> GetMembers(this Type type, bool isPublic, bool isStatic)
         {
-            var members = new List<MemberInfo>();
+            //var members = new List<MemberInfo>();
 
-            members.AddRange(type.GetConstructors(isPublic, isStatic));
-            members.AddRange(type.GetFields(isPublic, isStatic));
-            members.AddRange(type.GetProperties(isPublic, isStatic));
-            members.AddRange(type.GetMethods(isPublic, isStatic));
+            //members.AddRange(type.GetConstructors(isPublic, isStatic));
+            //members.AddRange(type.GetFields(isPublic, isStatic));
+            //members.AddRange(type.GetProperties(isPublic, isStatic));
+            //members.AddRange(type.GetMethods(isPublic, isStatic));
+            //members.AddRange(type.GetMembers(isPublic, isStatic).Except(members));
 
-            return members;
+            return type.GetTypeInfo().DeclaredMembers.Where(m => IsMatch(m, isPublic, isStatic));
+        }
+
+        private static bool IsMatch(MemberInfo memberInfo, bool isPublic, bool isStatic)
+        {
+            switch (memberInfo)
+            {
+                case PropertyInfo property:
+                    return property.IsPublic() == isPublic && property.IsStatic() == isStatic;
+
+                case MethodInfo method:
+                    return method.IsPublic == isPublic && method.IsStatic == isStatic;
+
+                case ConstructorInfo ctor:
+                    return ctor.IsPublic == isPublic && ctor.IsStatic == isStatic;
+
+                case FieldInfo field:
+                    return field.IsPublic == isPublic && field.IsStatic == isStatic;
+            }
+
+            return false;
         }
 #endif
         private static MemberInfo GetSingleMember(this IEnumerable<MemberInfo> members, string name)
@@ -235,6 +257,7 @@
 
             return membersArray.FirstOrDefault();
         }
+
         #endregion
     }
 }

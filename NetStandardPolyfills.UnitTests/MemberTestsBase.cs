@@ -44,10 +44,13 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         {
             var members = typeof(TestHelper)
                 .GetPublicStaticMembers()
-                .ToDictionary(m => m.Name);
+                .ToDictionary(m => m is MethodInfo method && m.Name.StartsWith("op_")
+                    ? m.Name + ": " + method.ReturnType.Name
+                    : m.Name);
 
             members["PublicStaticField"].ShouldBeOfType<FieldInfo>();
             members["PublicStaticProperty"].ShouldBeOfType<PropertyInfo>();
+            members["op_Implicit: String"].ShouldBeOfType<MethodInfo>();
             members.ContainsKey("DoParamsStuff").ShouldBeFalse();
             members.ContainsKey("PublicInstanceProperty").ShouldBeFalse();
             members.ContainsKey("NonPublicStaticMethod").ShouldBeFalse();
