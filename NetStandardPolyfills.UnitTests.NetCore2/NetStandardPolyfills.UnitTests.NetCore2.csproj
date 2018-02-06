@@ -2,26 +2,22 @@
   <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AssemblyName>AgileObjects.NetStandardPolyfills.UnitTests.NetCore</AssemblyName>
-    <PackageId>AgileObjects.NetStandardPolyfills.UnitTests.NetCore</PackageId>
+    <AssemblyName>AgileObjects.NetStandardPolyfills.UnitTests.NetCore2</AssemblyName>
+    <PackageId>AgileObjects.NetStandardPolyfills.UnitTests.NetCore2</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests.NetCore</RootNamespace>
+    <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests.NetCore2</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +29,16 @@
   <ItemGroup>
     <ProjectReference Include="..\NetStandardPolyfills.UnitTests\NetStandardPolyfills.UnitTests.csproj" />
     <ProjectReference Include="..\NetStandardPolyfills\NetStandardPolyfills.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NetStandardPolyfills.UnitTests.NetCore\**\*.cs" Exclude="..\NetStandardPolyfills.UnitTests.NetCore\obj\**\*.cs;">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

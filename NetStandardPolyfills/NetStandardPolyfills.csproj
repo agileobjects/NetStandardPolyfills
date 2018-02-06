@@ -1,24 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <Description>Polyfill methods for .NET Standard 1.0.</Description>
-    <Copyright>2016 Steve Wilkes</Copyright>
     <AssemblyTitle>NetStandardPolyfills</AssemblyTitle>
-    <VersionPrefix>0.2.0</VersionPrefix>
-    <Authors>Steve Wilkes</Authors>
     <TargetFrameworks>netstandard1.0;net40</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
-    <AssemblyOriginatorKeyFile>..\NetStandardPolyfills.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>AgileObjects.NetStandardPolyfills</PackageId>
+    <Title>NetStandardPolyfills</Title>
     <PackageTags>.NETStandard;Polyfill;ExtensionMethods;Reflection</PackageTags>
     <PackageProjectUrl>https://github.com/AgileObjects/NetStandardPolyfills</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/AgileObjects/NetStandardPolyfills/blob/master/LICENCE.md</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/AgileObjects/NetStandardPolyfills</RepositoryUrl>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.0' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -28,9 +21,6 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
-    <Version>1.2.1</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -41,6 +31,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
 </Project>

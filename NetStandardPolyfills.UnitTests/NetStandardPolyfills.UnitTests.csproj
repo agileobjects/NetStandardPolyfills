@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\common.props" />
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;net40</TargetFrameworks>
     <AssemblyName>AgileObjects.NetStandardPolyfills.UnitTests</AssemblyName>
     <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests</RootNamespace>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\NetStandardPolyfills.snk</AssemblyOriginatorKeyFile>
-    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

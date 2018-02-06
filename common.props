@@ -1,0 +1,20 @@
+<Project>
+
+  <PropertyGroup>
+    <Company>AgileObjects Ltd</Company>
+    <Copyright>Copyright © AgileObjects Ltd 2018</Copyright>
+    <Authors>Steve Wilkes</Authors>
+    <AssemblyOriginatorKeyFile>..\NetStandardPolyfills.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/AgileObjects/NetStandardPolyfills</RepositoryUrl>
+    <Summary>Type and Reflection polyfill extension methods for .NET Standard 1.0 and .NET 4.0</Summary>
+    <Description>Type and Reflection polyfill extension methods for .NET Standard 1.0 and .NET 4.0</Description>
+    <Version>1.2.1</Version>
+    <VersionPrefix>1.2.1</VersionPrefix>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <FileVersion>1.2.1.0</FileVersion>
+  </PropertyGroup>
+
+</Project>
