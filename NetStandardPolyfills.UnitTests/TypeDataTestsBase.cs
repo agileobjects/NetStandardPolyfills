@@ -7,6 +7,10 @@
 
     public abstract class TypeDataTestsBase
     {
+        public abstract void ShouldDetermineThatATypeIsPublic();
+
+        public abstract void ShouldDetermineThatATypeIsNonPublic();
+
         public abstract void ShouldFlagAParamsArray();
 
         public abstract void ShouldFlagANonParamsArray();
@@ -37,7 +41,21 @@
 
         public abstract void ShouldRetrieveAllInterfaces();
 
+        public abstract void ShouldDetermineThatATypeIsAClosedType();
+
+        public abstract void ShouldDetermineThatATypeIsNotAClosedType();
+
         #region Test implementations
+
+        protected void DoShouldDetermineThatATypeIsPublic()
+        {
+            typeof(TestHelper).IsPublic().ShouldBeTrue();
+        }
+
+        protected void DoShouldDetermineThatATypeIsNonPublic()
+        {
+            typeof(Should).IsPublic().ShouldBeFalse();
+        }
 
         protected void DoShouldFlagAParamsArray()
         {
@@ -132,6 +150,16 @@
             interfaces.ShouldContain(typeof(IEnumerable));
             interfaces.ShouldContain(typeof(IDictionary<string, string>));
             interfaces.ShouldContain(typeof(ICollection<KeyValuePair<string, string>>));
+        }
+
+        protected void DoShouldDetermineThatATypeIsAClosedType()
+        {
+            typeof(List<string>).IsClosedTypeOf(typeof(List<>)).ShouldBeTrue();
+        }
+
+        protected void DoShouldDetermineThatATypeIsNotAClosedType()
+        {
+            typeof(List<string>).IsClosedTypeOf(typeof(IEnumerable<>)).ShouldBeFalse();
         }
 
         #endregion

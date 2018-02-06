@@ -14,6 +14,20 @@
     public static class TypeExtensionsPolyfill
     {
         /// <summary>
+        /// Returns a value indicating if the given <paramref name="type"/> is public.
+        /// </summary>
+        /// <param name="type">The type for which to make the determination.</param>
+        /// <returns>True if the given <paramref name="type"/> is public, otherwise false.</returns>
+        public static bool IsPublic(this Type type)
+        {
+#if NET_STANDARD
+            return type.GetTypeInfo().IsPublic;
+#else
+            return type.IsPublic;
+#endif
+        }
+
+        /// <summary>
         /// Returns a value indicating if the given <paramref name="type"/> is a class.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
@@ -141,6 +155,21 @@
             return type.IsGenericType;
 #endif
         }
+
+        /// <summary>
+        /// Returns a value indicating if the given <paramref name="type"/> is a closed version of the
+        /// given <paramref name="genericTypeDefinition"/>.
+        /// </summary>
+        /// <param name="type">The type for which to make the determination, e.g. List{string}.</param>
+        /// <param name="genericTypeDefinition">
+        /// The open generic type for which to make the determination, , e.g. List{}.
+        /// </param>
+        /// <returns>
+        /// True if the given <paramref name="type"/> is a closed version of the given 
+        /// <paramref name="genericTypeDefinition"/>, otherwise false.
+        /// </returns>
+        public static bool IsClosedTypeOf(this Type type, Type genericTypeDefinition)
+            => type.IsGenericType() && (type.GetGenericTypeDefinition() == genericTypeDefinition);
 
         /// <summary>
         /// Returns an array of Types that represent the type arguments of a generic type or the 

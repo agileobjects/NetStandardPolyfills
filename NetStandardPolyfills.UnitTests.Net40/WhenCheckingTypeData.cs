@@ -6,6 +6,12 @@
     public class WhenCheckingTypeData : TypeDataTestsBase
     {
         [Test]
+        public override void ShouldDetermineThatATypeIsPublic() => DoShouldDetermineThatATypeIsPublic();
+
+        [Test]
+        public override void ShouldDetermineThatATypeIsNonPublic() => DoShouldDetermineThatATypeIsNonPublic();
+
+        [Test]
         public override void ShouldFlagAParamsArray() => DoShouldFlagAParamsArray();
 
         [Test]
@@ -49,5 +55,11 @@
 
         [Test]
         public override void ShouldRetrieveAllInterfaces() => DoShouldRetrieveAllInterfaces();
+
+        [Test]
+        public override void ShouldDetermineThatATypeIsAClosedType() => DoShouldDetermineThatATypeIsAClosedType();
+
+        [Test]
+        public override void ShouldDetermineThatATypeIsNotAClosedType() => DoShouldDetermineThatATypeIsNotAClosedType();
     }
 }
