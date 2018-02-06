@@ -10,12 +10,14 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.IsAbstract()
 * Type.IsAnonymous()
 * Type.IsClass()
+* Type.IsClosedTypeOf(Type genericTypeDefinition)
 * Type.IsAssignableTo(Type type)
 * Type.IsDerivedFrom(Type parentType)
 * Type.IsEnum()
 * Type.IsInterface()
 * Type.IsGenericType()
 * Type.IsPrimitive()
+* Type.IsPublic()
 * Type.IsSealed()
 * Type.IsValueType()
 * Type.GetAttributes()
@@ -92,6 +94,14 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * Type.GetNonPublicInstanceMembers(string name)
 * Type.GetNonPublicInstanceMember(string name)
 
+### Operator Retrieval:
+
+* Type.GetOperators(Action<OperatorSelector> matcher = null)
+* Type.GetImplicitOperators()
+* Type.GetImplicitOperator(Action<OperatorSelector> matcher = null)
+* Type.GetExplicitOperators()
+* Type.GetExplicitOperator(Action<OperatorSelector> matcher = null)
+
 ### Assembly Info:
 
 * Assembly.GetAllTypes()
@@ -108,4 +118,4 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 
 ### Download
 
-You can download and install using [the NuGet package](https://www.nuget.org/packages/AgileObjects.NetStandardPolyfills/), or clone the repository [on GitHub](https://github.com/agileobjects/NetStandardPolyfills).
+You can download and install using [the NuGet package](https://www.nuget.org/packages/AgileObjects.NetStandardPolyfills), or clone the repository [on GitHub](https://github.com/agileobjects/NetStandardPolyfills).
