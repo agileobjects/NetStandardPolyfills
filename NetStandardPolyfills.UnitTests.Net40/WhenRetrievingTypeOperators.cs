@@ -9,6 +9,9 @@
         public override void ShouldRetrieveOperators() => DoShouldRetrieveOperators();
 
         [Test]
+        public override void ShouldRetrieveFilteredOperators() => DoShouldRetrieveFilteredOperators();
+
+        [Test]
         public override void ShouldRetrieveImplicitOperators() => DoShouldRetrieveImplicitOperators();
 
         [Test]

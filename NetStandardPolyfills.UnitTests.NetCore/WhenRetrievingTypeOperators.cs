@@ -8,6 +8,9 @@
         public override void ShouldRetrieveOperators() => DoShouldRetrieveOperators();
 
         [Fact]
+        public override void ShouldRetrieveFilteredOperators() => DoShouldRetrieveFilteredOperators();
+
+        [Fact]
         public override void ShouldRetrieveImplicitOperators() => DoShouldRetrieveImplicitOperators();
 
         [Fact]

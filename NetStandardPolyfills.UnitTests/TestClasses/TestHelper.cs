@@ -26,9 +26,11 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
 
         public static implicit operator string(TestHelper testHelper) => testHelper.ToString();
         public static implicit operator DateTime(TestHelper testHelper) => DateTime.Now;
+        public static implicit operator TestHelper(string value) => new TestHelper();
 
         public static explicit operator int(TestHelper testHelper) => testHelper.GetHashCode();
         public static explicit operator int[] (TestHelper testHelper) => new[] { 1, 2, 3 };
+        public static explicit operator TestHelper(long value) => new TestHelper();
 
         public int PublicInstanceProperty { get; set; }
 

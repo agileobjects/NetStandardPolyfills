@@ -14,16 +14,29 @@
         private const string ExplicitOperatorName = "op_Explicit";
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s implicit and explicit operators.
+        /// Gets the <paramref name="type" />'s implicit and explicit operators, optionally of the type 
+        /// specified by the given <paramref name="matcher"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operators.</param>
+        /// <param name="matcher">An action specifying the type of implicit operator to retrieve.</param>
         /// <returns>The <paramref name="type" />'s implicit and explicit operators.</returns>
-        public static IEnumerable<MethodInfo> GetOperators(this Type type)
+        public static IEnumerable<MethodInfo> GetOperators(this Type type, Action<OperatorSelector> matcher = null)
         {
-            return type
+            var operators = type
                 .GetPublicStaticMembers()
                 .Where(m => (m.Name == ImplicitOperatorName) || (m.Name == ExplicitOperatorName))
                 .OfType<MethodInfo>();
+
+            if (matcher == null)
+            {
+                return operators;
+            }
+
+            var selector = new OperatorSelector();
+
+            matcher.Invoke(selector);
+
+            return operators.Where(selector.Matches);
         }
 
         /// <summary>
@@ -39,19 +52,22 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s implicit operator with the given 
-        /// <typeparamref name="TReturn">return type</typeparamref>.
+        /// Gets the <paramref name="type" />'s implicit operator of the type specified by the given 
+        /// <paramref name="matcher"/>.
         /// </summary>
-        /// <typeparam name="TReturn">The return type of the implicit operator to retrieve.</typeparam>
         /// <param name="type">The type from which to retrieve the operator.</param>
+        /// <param name="matcher">An action specifying the type of implicit operator to retrieve.</param>
         /// <returns>
-        /// The <paramref name="type" />'s implicit operator with the given 
-        /// <typeparamref name="TReturn">return type</typeparamref>, or null if none exists.
+        /// The <paramref name="type" />'s implicit operator of the type specified by the given 
+        /// <paramref name="matcher"/>, or null if none exists.
         /// </returns>
-        public static MethodInfo GetImplicitOperator<TReturn>(this Type type)
+        public static MethodInfo GetImplicitOperator(this Type type, Action<OperatorSelector> matcher)
         {
-            return type.GetImplicitOperators()
-                .FirstOrDefault(o => o.ReturnType == typeof(TReturn));
+            var selector = new OperatorSelector();
+
+            matcher?.Invoke(selector);
+
+            return type.GetImplicitOperators().FirstOrDefault(selector.Matches);
         }
 
         /// <summary>
@@ -67,19 +83,68 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s explicit operator with the given 
-        /// <typeparamref name="TReturn">return type</typeparamref>.
+        /// Gets the <paramref name="type" />'s explicit operator of the type specified by the given 
+        /// <paramref name="matcher"/>.
         /// </summary>
-        /// <typeparam name="TReturn">The return type of the explicit operator to retrieve.</typeparam>
         /// <param name="type">The type from which to retrieve the operator.</param>
+        /// <param name="matcher">An action specifying the type of explicit operator to retrieve.</param>
         /// <returns>
-        /// The <paramref name="type" />'s explicit operator with the given 
-        /// <typeparamref name="TReturn">return type</typeparamref>, or null if none exists.
+        /// The <paramref name="type" />'s explicit operator of the type specified by the given 
+        /// <paramref name="matcher"/>, or null if none exists.
         /// </returns>
-        public static MethodInfo GetExplicitOperator<TReturn>(this Type type)
+        public static MethodInfo GetExplicitOperator(this Type type, Action<OperatorSelector> matcher)
         {
-            return type.GetExplicitOperators()
-                .FirstOrDefault(o => o.ReturnType == typeof(TReturn));
+            var selector = new OperatorSelector();
+
+            matcher?.Invoke(selector);
+
+            return type.GetExplicitOperators().FirstOrDefault(selector.Matches);
         }
+
+        #region Helper Class
+
+        /// <summary>
+        /// Provides options for selecting a particular operator.
+        /// </summary>
+        public class OperatorSelector
+        {
+            private Type _fromType;
+            private Type _toType;
+
+            internal OperatorSelector()
+            {
+            }
+
+            /// <summary>
+            /// Select the operator which converts the given <typeparamref name="TInput">type</typeparamref>
+            /// to the type in question.
+            /// </summary>
+            /// <typeparam name="TInput">The input type of the operator to select.</typeparam>
+            public void From<TInput>() => _fromType = typeof(TInput);
+
+            /// <summary>
+            /// Select the operator which converts the type in question to the given 
+            /// <typeparamref name="TReturn">return type</typeparamref>.
+            /// </summary>
+            /// <typeparam name="TReturn">The output type of the operator to select.</typeparam>
+            public void To<TReturn>() => _toType = typeof(TReturn);
+
+            internal bool Matches(MethodInfo @operator)
+            {
+                if (_toType != null)
+                {
+                    return @operator.ReturnType == _toType;
+                }
+
+                if (_fromType != null)
+                {
+                    return @operator.GetParameters()[0].ParameterType == _fromType;
+                }
+
+                throw new InvalidOperationException("No operator From or To type specified.");
+            }
+        }
+
+        #endregion
     }
 }
