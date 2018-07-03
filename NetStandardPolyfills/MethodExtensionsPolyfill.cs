@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
 #if !NET_STANDARD
     using static System.Reflection.BindingFlags;
 #endif
+    using Extensions;
 
     /// <summary>
     /// Provides a set of static methods for obtaining method and parameter information in .NET Standard 1.0 and .NET 4.0.
@@ -26,6 +28,14 @@
             return Attribute.IsDefined(parameter, typeof(ParamArrayAttribute));
 #endif
         }
+
+        /// <summary>
+        /// Returns a value indicating if the <paramref name="method"/> is an extension method.
+        /// </summary>
+        /// <param name="method">The method for which to make the determination.</param>
+        /// <returns>True if the <paramref name="method"/> is an extension method, otherwise false.</returns>
+        public static bool IsExtensionMethod(this MethodInfo method)
+            => method.IsStatic && method.IsDefined(typeof(ExtensionAttribute), false);
 
         /// <summary>
         /// Gets the public methods for the given <paramref name="type"/>.
@@ -387,18 +397,18 @@
 
             var methodParameterTypes = method
                 .GetParameters()
-                .Select(p => p.ParameterType)
+                .Project(p => p.ParameterType)
                 .ToArray();
 
             return methodsSoFar.All(m =>
                 (method.Name != m.Name) ||
-                !methodParameterTypes.SequenceEqual(m.GetParameters().Select(p => p.ParameterType)));
+                !methodParameterTypes.SequenceEqual(m.GetParameters().Project(p => p.ParameterType)));
         }
 
         private static MethodInfo WithParameterCount(this IEnumerable<MethodInfo> methods, int parameterCount)
         {
             var matchingMethods = methods
-                .Where(m => m.GetParameters().Length == parameterCount)
+                .Filter(m => m.GetParameters().Length == parameterCount)
                 .ToArray();
 
             if (matchingMethods.Length == 0)
@@ -418,7 +428,7 @@
         private static MethodInfo WithParameterTypes(this IEnumerable<MethodInfo> methods, Type[] parameterTypes)
         {
             return methods
-                .FirstOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+                .FirstOrDefault(m => m.GetParameters().Project(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
         #endregion

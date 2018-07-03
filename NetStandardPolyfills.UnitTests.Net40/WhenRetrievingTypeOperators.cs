@@ -6,6 +6,18 @@
     public class WhenRetrievingTypeOperators : OperatorTestsBase
     {
         [Test]
+        public override void ShouldFlagAnImplicitOperator() => DoShouldFlagAnImplicitOperator();
+
+        [Test]
+        public override void ShouldFlagANonImplicitOperator() => DoShouldFlagANonImplicitOperator();
+
+        [Test]
+        public override void ShouldFlagAnExplicitOperator() => DoShouldFlagAnExplicitOperator();
+
+        [Test]
+        public override void ShouldFlagANonExplicitOperator() => DoShouldFlagANonExplicitOperator();
+
+        [Test]
         public override void ShouldRetrieveOperators() => DoShouldRetrieveOperators();
 
         [Test]

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Extensions;
 
     /// <summary>
     /// Provides a set of static methods for obtaining member information in .NET Standard 1.0 and .NET 4.0.
@@ -39,7 +40,7 @@
         public static IEnumerable<MemberInfo> GetPublicStaticMembers(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetPublicStaticMembers().Where(m => m.Name == name);
+            return type.GetPublicStaticMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Static);
 #endif
@@ -89,7 +90,7 @@
         public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetPublicInstanceMembers().Where(m => m.Name == name);
+            return type.GetPublicInstanceMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Instance);
 #endif
@@ -139,7 +140,7 @@
         public static IEnumerable<MemberInfo> GetNonPublicStaticMembers(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetNonPublicStaticMembers().Where(m => m.Name == name);
+            return type.GetNonPublicStaticMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.NonPublic | BindingFlags.Static);
 #endif
@@ -189,7 +190,7 @@
         public static IEnumerable<MemberInfo> GetNonPublicInstanceMembers(this Type type, string name)
         {
 #if NET_STANDARD
-            return type.GetNonPublicInstanceMembers().Where(m => m.Name == name);
+            return type.GetNonPublicInstanceMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.NonPublic | BindingFlags.Instance);
 #endif
@@ -214,17 +215,7 @@
 
 #if NET_STANDARD
         private static IEnumerable<MemberInfo> GetMembers(this Type type, bool isPublic, bool isStatic)
-        {
-            //var members = new List<MemberInfo>();
-
-            //members.AddRange(type.GetConstructors(isPublic, isStatic));
-            //members.AddRange(type.GetFields(isPublic, isStatic));
-            //members.AddRange(type.GetProperties(isPublic, isStatic));
-            //members.AddRange(type.GetMethods(isPublic, isStatic));
-            //members.AddRange(type.GetMembers(isPublic, isStatic).Except(members));
-
-            return type.GetTypeInfo().DeclaredMembers.Where(m => IsMatch(m, isPublic, isStatic));
-        }
+            => type.GetTypeInfo().DeclaredMembers.Filter(m => IsMatch(m, isPublic, isStatic));
 
         private static bool IsMatch(MemberInfo memberInfo, bool isPublic, bool isStatic)
         {
