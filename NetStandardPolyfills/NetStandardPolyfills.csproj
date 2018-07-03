@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>NetStandardPolyfills</AssemblyTitle>
-    <TargetFrameworks>net20;net35;net40;netstandard1.0</TargetFrameworks>
+    <TargetFrameworks>net35;net40;netstandard1.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>

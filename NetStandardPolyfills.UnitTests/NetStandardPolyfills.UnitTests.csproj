@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;net35;net40</TargetFrameworks>
     <AssemblyName>AgileObjects.NetStandardPolyfills.UnitTests</AssemblyName>
     <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests</RootNamespace>
   </PropertyGroup>
