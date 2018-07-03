@@ -7,6 +7,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
     public abstract class MethodTestsBase
     {
+        public abstract void ShouldFlagAnExtensionMethod();
+        
+        public abstract void ShouldFlagANonExtensionMethod();
+
         public abstract void ShouldFindPublicMethods();
 
         public abstract void ShouldFindAPublicMethodByName();
@@ -62,6 +66,24 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldExcludeANonPublicInstanceMethodByNameAndParamTypes();
 
         #region Test Implementations
+
+        protected void DoShouldFlagAnExtensionMethod()
+        {
+            typeof(Enumerable)
+                .GetPublicStaticMethod(nameof(Enumerable.Cast))
+                .ShouldNotBeNull()
+                .IsExtensionMethod()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagANonExtensionMethod()
+        {
+            typeof(object)
+                .GetPublicStaticMethod(nameof(ReferenceEquals))
+                .ShouldNotBeNull()
+                .IsExtensionMethod()
+                .ShouldBeFalse();
+        }
 
         protected void DoShouldFindPublicMethods()
         {

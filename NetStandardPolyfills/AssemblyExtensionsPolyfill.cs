@@ -1,9 +1,12 @@
-﻿namespace AgileObjects.NetStandardPolyfills
+﻿
+namespace AgileObjects.NetStandardPolyfills
 {
     using System;
-    using System.Collections.Generic;
+#if NET_STANDARD
     using System.Linq;
+#endif
     using System.Reflection;
+    using Extensions;
 
     /// <summary>
     /// Provides a set of static methods for obtaining Assembly information in .NET Standard 1.0.
@@ -20,7 +23,7 @@
         public static Type[] GetAllTypes(this Assembly assembly)
         {
 #if NET_STANDARD
-            return assembly.DefinedTypes.Select(ti => ti.AsType()).ToArray();
+            return assembly.DefinedTypes.Project(ti => ti.AsType()).ToArray();
 #else
             return assembly.GetTypes();
 #endif

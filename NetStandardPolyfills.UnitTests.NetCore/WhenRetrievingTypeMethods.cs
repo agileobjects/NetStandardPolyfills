@@ -5,6 +5,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
     public class WhenRetrievingTypeMethods : MethodTestsBase
     {
         [Fact]
+        public override void ShouldFlagAnExtensionMethod() => DoShouldFlagAnExtensionMethod();
+        
+        [Fact]
+        public override void ShouldFlagANonExtensionMethod() => DoShouldFlagANonExtensionMethod();
+
+        [Fact]
         public override void ShouldFindPublicMethods() => DoShouldFindPublicMethods();
 
         [Fact]

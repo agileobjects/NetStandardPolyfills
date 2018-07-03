@@ -6,6 +6,7 @@
     using System.Linq;
 #endif
     using System.Reflection;
+    using Extensions;
 
     /// <summary>
     /// Provides a set of static methods methods for obtaining constructor information in .NET Standard 1.0 and .NET 4.0.
@@ -92,18 +93,18 @@
 
 #if NET_STANDARD
         internal static IEnumerable<ConstructorInfo> GetConstructors(this Type type, bool isPublic, bool isStatic)
-            => type.GetTypeInfo().DeclaredConstructors.Where(c => (c.IsPublic == isPublic) && (c.IsStatic == isStatic));
+            => type.GetTypeInfo().DeclaredConstructors.Filter(c => (c.IsPublic == isPublic) && (c.IsStatic == isStatic));
 
         private static ConstructorInfo GetConstructorWithTypes(this IEnumerable<ConstructorInfo> constructors, Type[] parameterTypes)
         {
             return constructors
-                .Select(c => new
+                .Project(c => new
                 {
                     Constructor = c,
-                    ParameterTypes = c.GetParameters().Select(p => p.ParameterType)
+                    ParameterTypes = c.GetParameters().Project(p => p.ParameterType)
                 })
-                .Where(d => d.ParameterTypes.SequenceEqual(parameterTypes))
-                .Select(d => d.Constructor)
+                .Filter(d => d.ParameterTypes.SequenceEqual(parameterTypes))
+                .Project(d => d.Constructor)
                 .FirstOrDefault();
         }
 #endif

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Extensions;
 
     internal static class MemberFinder<TMember>
         where TMember : MemberInfo
@@ -26,12 +27,12 @@
             {
                 var members = membersFactory
                     .Invoke(type)
-                    .Where(memberFilter.Invoke)
-                    .Where(m => uniqueMemberFilter.Invoke(m, membersSoFar));
+                    .Filter(memberFilter.Invoke)
+                    .Filter(m => uniqueMemberFilter.Invoke(m, membersSoFar));
 
                 if (name != null)
                 {
-                    members = members.Where(m => m.Name == name);
+                    members = members.Filter(m => m.Name == name);
                 }
 
                 var matchingMembers = members.ToArray();
