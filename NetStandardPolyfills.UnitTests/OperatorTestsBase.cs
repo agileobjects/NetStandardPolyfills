@@ -6,6 +6,14 @@
 
     public abstract class OperatorTestsBase
     {
+        public abstract void ShouldFlagAnImplicitOperator();
+
+        public abstract void ShouldFlagANonImplicitOperator();
+
+        public abstract void ShouldFlagAnExplicitOperator();
+
+        public abstract void ShouldFlagANonExplicitOperator();
+
         public abstract void ShouldRetrieveOperators();
 
         public abstract void ShouldRetrieveFilteredOperators();
@@ -21,6 +29,46 @@
         public abstract void ShouldHandleMissingOperator();
 
         #region Test Implementations
+
+        protected void DoShouldFlagAnImplicitOperator()
+        {
+            typeof(TestHelper)
+                .GetOperators(m => m.To<string>())
+                .FirstOrDefault()
+                .ShouldNotBeNull()
+                .IsImplicitOperator()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagANonImplicitOperator()
+        {
+            typeof(TestHelper)
+                .GetOperators(m => m.To<int>())
+                .FirstOrDefault()
+                .ShouldNotBeNull()
+                .IsImplicitOperator()
+                .ShouldBeFalse();
+        }
+
+        protected void DoShouldFlagAnExplicitOperator()
+        {
+            typeof(TestHelper)
+                .GetOperators(m => m.To<int>())
+                .FirstOrDefault()
+                .ShouldNotBeNull()
+                .IsExplicitOperator()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagANonExplicitOperator()
+        {
+            typeof(TestHelper)
+                .GetOperators(m => m.To<string>())
+                .FirstOrDefault()
+                .ShouldNotBeNull()
+                .IsExplicitOperator()
+                .ShouldBeFalse();
+        }
 
         protected void DoShouldRetrieveOperators()
         {
