@@ -3,7 +3,7 @@
 [![NuGet](http://img.shields.io/nuget/v/AgileObjects.NetStandardPolyfills.svg)](https://www.nuget.org/packages/AgileObjects.NetStandardPolyfills)
 [![Build status](https://ci.appveyor.com/api/projects/status/pjjjlotswo3330g7/branch/master?svg=true)](https://ci.appveyor.com/project/SteveWilkes/netstandardpolyfills/branch/master)
 
-A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 and .NET v4.0.
+A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ and .NET v3.5+.
 
 ### Type Info:
 
@@ -111,10 +111,15 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0 a
 * ParameterInfo.IsParamsArray()
 * PropertyInfo.IsPublic()
 * PropertyInfo.IsStatic()
+* PropertyInfo.IsReadable()
+* PropertyInfo.IsWritable()
 * PropertyInfo.IsIndexer()
 * PropertyInfo.GetAccessors(bool nonPublic)
 * PropertyInfo.GetGetter(bool nonPublic)
 * PropertyInfo.GetSetter(bool nonPublic)
+* MethodInfo.IsImplicitOperator()
+* MethodInfo.IsExplicitOperator()
+* MemberInfo.HasAttribute&lt;TAttribute&gt;()
 
 ### Download
 
