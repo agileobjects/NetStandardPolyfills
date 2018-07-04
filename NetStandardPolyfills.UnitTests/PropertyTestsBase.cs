@@ -5,6 +5,14 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
     public abstract class PropertyTestsBase
     {
+        public abstract void ShouldFlagAReadableProperty();
+
+        public abstract void ShouldFlagANonReadableProperty();
+
+        public abstract void ShouldFlagAWritableProperty();
+
+        public abstract void ShouldFlagANonWritableProperty();
+
         public abstract void ShouldRetrievePublicStaticProperties();
 
         public abstract void ShouldRetrieveAPublicStaticPropertyByName();
@@ -48,6 +56,38 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldRetrieveANonPublicSetAccessor();
 
         #region Test Implementations
+
+        protected void DoShouldFlagAReadableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicInstanceProperty))
+                .IsReadable()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagANonReadableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicWriteOnlyProperty))
+                .IsReadable()
+                .ShouldBeFalse();
+        }
+
+        protected void DoShouldFlagAWritableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicInstanceProperty))
+                .IsWritable()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagANonWritableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicReadOnlyProperty))
+                .IsWritable()
+                .ShouldBeFalse();
+        }
 
         protected void DoShouldRetrievePublicStaticProperties()
         {

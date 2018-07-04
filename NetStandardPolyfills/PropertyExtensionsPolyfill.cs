@@ -14,6 +14,20 @@
     public static class PropertyExtensionsPolyfill
     {
         /// <summary>
+        /// Returns a value indicating whether the <paramref name="property"/> is readable.
+        /// </summary>
+        /// <param name="property">The property for which to make the determination.</param>
+        /// <returns>True if the <paramref name="property"/> is readable, otherwise false.</returns>
+        public static bool IsReadable(this PropertyInfo property) => property.GetGetter() != null;
+
+        /// <summary>
+        /// Returns a value indicating whether the <paramref name="property"/> is writable.
+        /// </summary>
+        /// <param name="property">The property for which to make the determination.</param>
+        /// <returns>True if the <paramref name="property"/> is writable, otherwise false.</returns>
+        public static bool IsWritable(this PropertyInfo property) => property.GetSetter() != null;
+
+        /// <summary>
         /// Gets the public, static-scoped properties for the given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>

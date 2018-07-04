@@ -12,6 +12,29 @@
     public static class MemberExtensionsPolyfill
     {
         /// <summary>
+        /// Returns a value indicating if the <paramref name="memberInfo"/> has the Attribute given
+        /// in the <typeparamref name="TAttribute"/> type argument.
+        /// </summary>
+        /// <typeparam name="TAttribute">The Attribute type for which to make the determination.</typeparam>
+        /// <param name="memberInfo">The MemberInfo for which to make the determination.</param>
+        /// <returns>
+        /// True if the <paramref name="memberInfo"/> has the given <typeparamref name="TAttribute"/>,
+        /// otherwise false.
+        /// </returns>
+        public static bool HasAttribute<TAttribute>(this MemberInfo memberInfo)
+        {
+#if NET_STANDARD
+            return memberInfo
+                .CustomAttributes
+                .Any(a => a.AttributeType == typeof(TAttribute));
+#else
+            return memberInfo
+                .GetCustomAttributes(typeof(TAttribute), inherit: false)
+                .Any();
+#endif
+        }
+
+        /// <summary>
         /// Gets the public, static-scoped members for the given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>

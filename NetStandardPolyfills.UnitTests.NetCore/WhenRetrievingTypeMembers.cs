@@ -5,6 +5,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
     public class WhenRetrievingTypeMembers : MemberTestsBase
     {
         [Fact]
+        public override void ShouldFlagAMemberWithAnAttribute() => DoShouldFlagAMemberWithAnAttribute();
+
+        [Fact]
+        public override void ShouldFlagAMemberWithoutAnAttribute() => DoShouldFlagAMemberWithoutAnAttribute();
+
+        [Fact]
         public override void ShouldRetrievePublicStaticMembers() => DoShouldRetrievePublicStaticMembers();
 
         [Fact]

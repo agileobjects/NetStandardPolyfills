@@ -5,6 +5,18 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.NetCore
     public class WhenRetrievingTypeProperties : PropertyTestsBase
     {
         [Fact]
+        public override void ShouldFlagAReadableProperty() => DoShouldFlagAReadableProperty();
+
+        [Fact]
+        public override void ShouldFlagANonReadableProperty() => DoShouldFlagANonReadableProperty();
+
+        [Fact]
+        public override void ShouldFlagAWritableProperty() => DoShouldFlagAWritableProperty();
+
+        [Fact]
+        public override void ShouldFlagANonWritableProperty() => DoShouldFlagANonWritableProperty();
+
+        [Fact]
         public override void ShouldRetrievePublicStaticProperties() => DoShouldRetrievePublicStaticProperties();
 
         [Fact]

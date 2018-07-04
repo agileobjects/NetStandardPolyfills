@@ -14,6 +14,7 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         internal int NonPublicInstanceField = 0;
         internal static int NonPublicStaticField = 0;
         private readonly Dictionary<string, string> _dictionary;
+        private int _value;
 
         public TestHelper()
         {
@@ -32,7 +33,15 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         public static explicit operator int[] (TestHelper testHelper) => new[] { 1, 2, 3 };
         public static explicit operator TestHelper(long value) => new TestHelper();
 
+        [My]
         public int PublicInstanceProperty { get; set; }
+
+        public int PublicReadOnlyProperty => _value;
+
+        public int PublicWriteOnlyProperty
+        {
+            set => _value = value;
+        }
 
         public static int PublicStaticProperty { get; set; }
 

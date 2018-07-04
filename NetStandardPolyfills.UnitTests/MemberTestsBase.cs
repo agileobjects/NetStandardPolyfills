@@ -6,6 +6,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
     public abstract class MemberTestsBase
     {
+        public abstract void ShouldFlagAMemberWithAnAttribute();
+
+        public abstract void ShouldFlagAMemberWithoutAnAttribute();
+
         public abstract void ShouldRetrievePublicStaticMembers();
 
         public abstract void ShouldRetrievePublicStaticMembersByName();
@@ -39,6 +43,22 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         public abstract void ShouldRetrieveNonPublicInstanceMemberByName();
 
         #region Test Implementations
+
+        protected void DoShouldFlagAMemberWithAnAttribute()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMember(nameof(TestHelper.PublicInstanceProperty))
+                .HasAttribute<MyAttribute>()
+                .ShouldBeTrue();
+        }
+
+        protected void DoShouldFlagAMemberWithoutAnAttribute()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMember(nameof(TestHelper.PublicStaticProperty))
+                .HasAttribute<MyAttribute>()
+                .ShouldBeFalse();
+        }
 
         protected void DoShouldRetrievePublicStaticMembers()
         {

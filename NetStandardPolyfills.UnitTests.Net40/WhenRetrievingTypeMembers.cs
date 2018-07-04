@@ -6,6 +6,12 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
     public class WhenRetrievingTypeMembers : MemberTestsBase
     {
         [Test]
+        public override void ShouldFlagAMemberWithAnAttribute() => DoShouldFlagAMemberWithAnAttribute();
+
+        [Test]
+        public override void ShouldFlagAMemberWithoutAnAttribute() => DoShouldFlagAMemberWithoutAnAttribute();
+
+        [Test]
         public override void ShouldRetrievePublicStaticMembers() => DoShouldRetrievePublicStaticMembers();
 
         [Test]
