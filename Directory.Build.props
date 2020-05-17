@@ -1,20 +1,20 @@
-<Project>
+﻿<Project>
 
   <PropertyGroup>
     <Company>AgileObjects Ltd</Company>
-    <Copyright>Copyright © AgileObjects Ltd 2018</Copyright>
+    <Product>AgileObjects.NetStandardPolyfills</Product>
     <Authors>Steve Wilkes</Authors>
+    <Copyright>Copyright © AgileObjects Ltd 2020</Copyright>
+    <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
     <AssemblyOriginatorKeyFile>..\NetStandardPolyfills.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/AgileObjects/NetStandardPolyfills</RepositoryUrl>
-    <Summary>Type and Reflection polyfill extension methods for .NET Standard 1.0+ and .NET 3.5+</Summary>
-    <Description>Type and Reflection polyfill extension methods for .NET Standard 1.0+ and .NET 3.5+</Description>
-    <Version>1.4.0</Version>
-    <VersionPrefix>1.4.0</VersionPrefix>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
+    <Version>1.4.1</Version>
+    <VersionPrefix>1.4.1</VersionPrefix>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
   </PropertyGroup>
 
 </Project>

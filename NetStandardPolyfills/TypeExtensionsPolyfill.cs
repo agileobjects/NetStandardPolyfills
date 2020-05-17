@@ -183,7 +183,9 @@
         public static Type[] GetGenericTypeArguments(this Type type)
         {
 #if NET_STANDARD
-            return type.GetTypeInfo().GenericTypeArguments;
+            return type.IsConstructedGenericType
+                ? type.GetTypeInfo().GenericTypeArguments
+                : type.GetTypeInfo().GenericTypeParameters;
 #else
             return type.GetGenericArguments();
 #endif

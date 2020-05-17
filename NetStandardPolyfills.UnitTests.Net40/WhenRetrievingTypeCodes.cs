@@ -1,27 +1,62 @@
-﻿namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
     using System;
-    using NUnit.Framework;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenRetrievingTypeCodes : TypeCodeTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenRetrievingTypeCodes
     {
-        [Test]
-        public override void ShouldReturnEmpty() => DoShouldReturnEmpty();
+        [Fact]
+        public void ShouldReturnEmpty()
+        {
+            var typeCode = default(Type).GetTypeCode();
 
-        [Test]
-        public override void ShouldReturnDbNull() => DoShouldReturnDbNull(typeof(DBNull));
+            typeCode.ShouldBe(NetStandardTypeCode.Empty);
+        }
 
-        [Test]
-        public override void ShouldReturnBoolean() => DoShouldReturnBoolean();
+#if FEATURE_DBNULL
+        [Fact]
+        public void ShouldReturnDbNull()
+        {
+            var typeCode = typeof(DBNull).GetTypeCode();
 
-        [Test]
-        public override void ShouldReturnString() => DoShouldReturnString();
+            typeCode.ShouldBe(NetStandardTypeCode.DBNull);
+        }
+#endif
+        [Fact]
+        public void ShouldReturnBoolean()
+        {
+            var typeCode = typeof(bool).GetTypeCode();
 
-        [Test]
-        public override void ShouldReturnUnderlyingTypeForAnEnum() => DoShouldReturnUnderlyingTypeForAnEnum();
+            typeCode.ShouldBe(NetStandardTypeCode.Boolean);
+        }
 
-        [Test]
-        public override void ShouldFallbackToObject() => DoShouldFallbackToObject();
+        [Fact]
+        public void ShouldReturnString()
+        {
+            var typeCode = typeof(string).GetTypeCode();
+
+            typeCode.ShouldBe(NetStandardTypeCode.String);
+        }
+
+        [Fact]
+        public void ShouldReturnUnderlyingTypeForAnEnum()
+        {
+            var typeCode = typeof(MyTestEnum).GetTypeCode();
+
+            typeCode.ShouldBe(NetStandardTypeCode.Int32);
+        }
+        
+        [Fact]
+        public void ShouldFallbackToObject()
+        {
+            var typeCode = typeof(IComparable).GetTypeCode();
+
+            typeCode.ShouldBe(NetStandardTypeCode.Object);
+        }
     }
 }

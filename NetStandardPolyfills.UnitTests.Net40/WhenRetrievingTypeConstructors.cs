@@ -1,44 +1,103 @@
-namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using NUnit.Framework;
+    using System;
+    using System.Linq;
+    using TestClasses;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenRetrievingTypeConstructors : ConstructorTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenRetrievingTypeConstructors
     {
-        [Test]
-        public override void ShouldFindPublicInstanceConstructors() => DoShouldFindPublicInstanceConstructors();
+        [Fact]
+        public void ShouldFindPublicInstanceConstructors()
+        {
+            var constructors = typeof(ConstructorTestsHelper)
+                .GetPublicInstanceConstructors()
+                .ToArray();
 
-        [Test]
-        public override void ShouldFindAnImplicitPublicInstanceConstructor() => DoShouldFindAnImplicitPublicInstanceConstructor();
+            constructors.Length.ShouldBe(2);
+        }
 
-        [Test]
-        public override void ShouldFindAnExplicitPublicInstanceConstructor() =>
-            DoShouldFindAnExplicitPublicInstanceConstructor();
+        [Fact]
+        public void ShouldFindAnImplicitPublicInstanceConstructor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceConstructors()
+                .ShouldHaveSingleItem();
+        }
 
-        [Test]
-        public override void ShouldFindAPublicInstanceConstructorByParameterTypes() =>
-            DoShouldFindAPublicInstanceConstructorByParameterTypes();
+        [Fact]
+        public void ShouldFindAnExplicitPublicInstanceConstructor()
+        {
+            typeof(ConstructorTestsHelper)
+                .GetPublicInstanceConstructor()
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeAPublicInstanceConstructorByParameterTypes() =>
-            DoShouldExcludeAPublicInstanceConstructorByParameterTypes();
+        [Fact]
+        public void ShouldFindAPublicInstanceConstructorByParameterTypes()
+        {
+            var constructor = typeof(ConstructorTestsHelper)
+                .GetPublicInstanceConstructor(typeof(int), typeof(string));
 
-        [Test]
-        public override void ShouldFindNonPublicInstanceConstructors() => DoShouldFindNonPublicInstanceConstructors();
+            constructor.ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldFindANonPublicInstanceConstructor() => DoShouldFindANonPublicInstanceConstructor();
+        [Fact]
+        public void ShouldExcludeAPublicInstanceConstructorByParameterTypes()
+        {
+            var constructor = typeof(ConstructorTestsHelper)
+                .GetPublicInstanceConstructor(typeof(int));
 
-        [Test]
-        public override void ShouldExcludeANonPublicInstanceConstructor() =>
-            DoShouldExcludeANonPublicInstanceConstructor();
+            constructor.ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldFindANonPublicInstanceConstructorByParameterTypes() =>
-            DoShouldFindANonPublicInstanceConstructorByParameterTypes();
+        [Fact]
+        public void ShouldFindNonPublicInstanceConstructors()
+        {
+            var constructors = typeof(ConstructorTestsHelper)
+                .GetNonPublicInstanceConstructors()
+                .ToArray();
 
-        [Test]
-        public override void ShouldExcludeANonPublicInstanceConstructorByParameterTypes() =>
-            DoShouldExcludeANonPublicInstanceConstructorByParameterTypes();
+            constructors.Length.ShouldBe(2);
+        }
+
+        [Fact]
+        public void ShouldFindANonPublicInstanceConstructor()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceConstructors()
+                .ShouldHaveSingleItem();
+        }
+
+        [Fact]
+        public void ShouldExcludeANonPublicInstanceConstructor()
+        {
+            typeof(ConstructorTestsHelper)
+                .GetNonPublicInstanceConstructor()
+                .ShouldBeNull();
+        }
+
+        [Fact]
+        public void ShouldFindANonPublicInstanceConstructorByParameterTypes()
+        {
+            var constructor = typeof(ConstructorTestsHelper)
+                .GetNonPublicInstanceConstructor(typeof(int), typeof(string), typeof(DateTime));
+
+            constructor.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void ShouldExcludeANonPublicInstanceConstructorByParameterTypes()
+        {
+            var constructor = typeof(ConstructorTestsHelper)
+                .GetNonPublicInstanceConstructor(typeof(TimeSpan));
+
+            constructor.ShouldBeNull();
+        }
     }
 }

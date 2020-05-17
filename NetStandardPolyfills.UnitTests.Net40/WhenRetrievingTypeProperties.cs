@@ -1,89 +1,285 @@
-namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using NUnit.Framework;
+    using System.Linq;
+    using TestClasses;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenRetrievingTypeProperties : PropertyTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenRetrievingTypeProperties
     {
-        [Test]
-        public override void ShouldFlagAReadableProperty() => DoShouldFlagAReadableProperty();
+        [Fact]
+        public void ShouldFlagAReadableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicInstanceProperty))
+                .IsReadable()
+                .ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldFlagANonReadableProperty() => DoShouldFlagANonReadableProperty();
+        [Fact]
+        public void ShouldFlagANonReadableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicWriteOnlyProperty))
+                .IsReadable()
+                .ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldFlagAWritableProperty() => DoShouldFlagAWritableProperty();
+        [Fact]
+        public void ShouldFlagAWritableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicInstanceProperty))
+                .IsWritable()
+                .ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldFlagANonWritableProperty() => DoShouldFlagANonWritableProperty();
+        [Fact]
+        public void ShouldFlagANonWritableProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty(nameof(TestHelper.PublicReadOnlyProperty))
+                .IsWritable()
+                .ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicStaticProperties() => DoShouldRetrievePublicStaticProperties();
+        [Fact]
+        public void ShouldRetrievePublicStaticProperties()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicStaticProperty");
+        }
 
-        [Test]
-        public override void ShouldRetrieveAPublicStaticPropertyByName() => DoShouldRetrieveAPublicStaticPropertyByName();
+        [Fact]
+        public void ShouldRetrieveAPublicStaticPropertyByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticProperty("PublicStaticProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeAPublicStaticPropertyByName() => DoShouldExcludeAPublicStaticPropertyByName();
+        [Fact]
+        public void ShouldExcludeAPublicStaticPropertyByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticProperty("PublicInstanceProperty")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicStaticProperties() => DoShouldRetrieveNonPublicStaticProperties();
+        [Fact]
+        public void ShouldRetrieveNonPublicStaticProperties()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicStaticProperty");
+        }
 
-        [Test]
-        public override void ShouldRetrieveANonPublicStaticPropertyByName() =>
-            DoShouldRetrieveANonPublicStaticPropertyByName();
+        [Fact]
+        public void ShouldRetrieveANonPublicStaticPropertyByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticProperty("NonPublicStaticProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeANonPublicStaticPropertyByName() => DoShouldExcludeANonPublicStaticPropertyByName();
+        [Fact]
+        public void ShouldExcludeANonPublicStaticPropertyByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticProperty("NonPublicInstanceProperty")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicInstanceProperties() => DoShouldRetrievePublicInstanceProperties();
+        [Fact]
+        public void ShouldRetrievePublicInstanceProperties()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.Name == "PublicInstanceProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveInheritedPublicInstanceProperties() =>
-            DoShouldRetrieveInheritedPublicInstanceProperties();
+        [Fact]
+        public void ShouldRetrieveInheritedPublicInstanceProperties()
+        {
+            typeof(Derived)
+                .GetPublicInstanceProperties()
+                .Where(p => p.Name == "Id")
+                .ShouldHaveSingleItem();
+        }
 
-        [Test]
-        public override void ShouldRetrieveOverriddenPublicInstanceProperties() =>
-            DoShouldRetrieveOverriddenPublicInstanceProperties();
+        [Fact]
+        public void ShouldRetrieveOverriddenPublicInstanceProperties()
+        {
+            typeof(DerivedOverridden)
+                .GetPublicInstanceProperties()
+                .Where(p => p.Name == "Id")
+                .ShouldHaveSingleItem();
+        }
 
-        [Test]
-        public override void ShouldRetrieveAPublicInstancePropertyByName() => DoShouldRetrieveAPublicInstancePropertyByName();
+        [Fact]
+        public void ShouldRetrieveAPublicInstancePropertyByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicInstanceProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeAPublicInstancePropertyByName() => DoShouldExcludeAPublicInstancePropertyByName();
+        [Fact]
+        public void ShouldExcludeAPublicInstancePropertyByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("xxx")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicInstanceProperties() => DoShouldRetrieveNonPublicInstanceProperties();
+        [Fact]
+        public void ShouldRetrieveNonPublicInstanceProperties()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperties()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicInstanceProperty");
+        }
 
-        [Test]
-        public override void ShouldRetrieveANonPublicInstancePropertyByName() =>
-            DoShouldRetrieveANonPublicInstancePropertyByName();
+        [Fact]
+        public void ShouldRetrieveANonPublicInstancePropertyByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeANonPublicInstancePropertyByName() =>
-            DoShouldExcludeANonPublicInstancePropertyByName();
+        [Fact]
+        public void ShouldExcludeANonPublicInstancePropertyByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperty("yyy")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicPropertyAccessors() => DoShouldRetrievePublicPropertyAccessors();
+        [Fact]
+        public void ShouldRetrievePublicPropertyAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors();
 
-        [Test]
-        public override void ShouldExcludeNonPublicPropertyAccessorsByDefault() =>
-            DoShouldExcludeNonPublicPropertyAccessorsByDefault();
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_PublicInstanceProperty");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_PublicInstanceProperty");
+        }
 
-        [Test]
-        public override void ShouldIncludeNonPublicPropertyAccessors() => DoShouldIncludeNonPublicPropertyAccessors();
+        [Fact]
+        public void ShouldExcludeNonPublicPropertyAccessorsByDefault()
+        {
+            var accessors = typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors();
 
-        [Test]
-        public override void ShouldRetrieveIndexAccessors() => DoShouldRetrieveIndexAccessors();
+            accessors.ShouldBeEmpty();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicIndexAccessors() => DoShouldRetrieveNonPublicIndexAccessors();
+        [Fact]
+        public void ShouldIncludeNonPublicPropertyAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .ShouldNotBeNull()
+                .GetAccessors(nonPublic: true);
 
-        [Test]
-        public override void ShouldRetrieveAGetAccessor() => DoShouldRetrieveAGetAccessor();
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_NonPublicInstanceProperty");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_NonPublicInstanceProperty");
+        }
 
-        [Test]
-        public override void ShouldRetrieveANonPublicSetAccessor() => DoShouldRetrieveANonPublicSetAccessor();
+        [Fact]
+        public void ShouldRetrieveIndexAccessors()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetAccessors()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("get_Item");
+        }
+
+        [Fact]
+        public void ShouldRetrieveNonPublicIndexAccessors()
+        {
+            var accessors = typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetAccessors(nonPublic: true);
+
+            accessors.Length.ShouldBe(2);
+            accessors[0].IsSpecialName.ShouldBeTrue();
+            accessors[0].Name.ShouldBe("get_Item");
+            accessors[1].IsSpecialName.ShouldBeTrue();
+            accessors[1].Name.ShouldBe("set_Item");
+        }
+
+        [Fact]
+        public void ShouldRetrieveAGetAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetGetter()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("get_Item");
+        }
+
+        [Fact]
+        public void ShouldRetrieveANonPublicSetAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetSetter(nonPublic: true)
+                .ShouldNotBeNull()
+                .Name.ShouldBe("set_Item");
+        }
+
+        #region Helper Classes
+
+        // ReSharper disable UnusedMember.Local
+        private abstract class EntityBase
+        {
+            public virtual int Id { get; set; }
+        }
+
+        private class Derived : EntityBase
+        {
+            public string Name { get; set; }
+        }
+
+        private class DerivedOverridden : EntityBase
+        {
+            public override int Id { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        // ReSharper restore UnusedMember.Local
+
+        #endregion
     }
 }

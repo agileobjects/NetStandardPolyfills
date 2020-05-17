@@ -1,64 +1,191 @@
-namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using NUnit.Framework;
+    using System.Linq;
+    using System.Reflection;
+    using TestClasses;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenRetrievingTypeMembers : MemberTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenRetrievingTypeMembers
     {
-        [Test]
-        public override void ShouldFlagAMemberWithAnAttribute() => DoShouldFlagAMemberWithAnAttribute();
+        [Fact]
+        public void ShouldFlagAMemberWithAnAttribute()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMember(nameof(TestHelper.PublicInstanceProperty))
+                .HasAttribute<MyAttribute>()
+                .ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldFlagAMemberWithoutAnAttribute() => DoShouldFlagAMemberWithoutAnAttribute();
+        [Fact]
+        public void ShouldFlagAMemberWithoutAnAttribute()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMember(nameof(TestHelper.PublicStaticProperty))
+                .HasAttribute<MyAttribute>()
+                .ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicStaticMembers() => DoShouldRetrievePublicStaticMembers();
+        [Fact]
+        public void ShouldRetrievePublicStaticMembers()
+        {
+            var members = typeof(TestHelper)
+                .GetPublicStaticMembers()
+                .ToDictionary(m => m is MethodInfo method && m.Name.StartsWith("op_")
+                    ? m.Name + ": " + method.ReturnType.Name
+                    : m.Name);
 
-        [Test]
-        public override void ShouldRetrievePublicStaticMembersByName() => DoShouldRetrievePublicStaticMembersByName();
+            members["PublicStaticField"].ShouldBeOfType<FieldInfo>();
+            members["PublicStaticProperty"].ShouldBeOfType<PropertyInfo>();
+            members["op_Implicit: String"].ShouldBeOfType<MethodInfo>();
+            members.ContainsKey("DoParamsStuff").ShouldBeFalse();
+            members.ContainsKey("PublicInstanceProperty").ShouldBeFalse();
+            members.ContainsKey("NonPublicStaticMethod").ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldExcludePublicStaticMembersByName() => DoShouldExcludePublicStaticMembersByName();
+        [Fact]
+        public void ShouldRetrievePublicStaticMembersByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMembers("PublicStaticProperty")
+                .ShouldHaveSingleItem();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicStaticMemberByName() => DoShouldRetrievePublicStaticMemberByName();
+        [Fact]
+        public void ShouldExcludePublicStaticMembersByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMembers("PublicInstanceField")
+                .ShouldBeEmpty();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicInstanceMembers() => DoShouldRetrievePublicInstanceMembers();
+        [Fact]
+        public void ShouldRetrievePublicStaticMemberByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticMember("PublicStaticProperty")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicInstanceMembersByName() => DoShouldRetrievePublicInstanceMembersByName();
+        [Fact]
+        public void ShouldRetrievePublicInstanceMembers()
+        {
+            var members = typeof(TestHelper)
+                .GetPublicInstanceMembers()
+                .ToDictionary(m => m.Name);
 
-        [Test]
-        public override void ShouldExcludePublicInstanceMembersByName() => DoShouldExcludePublicInstanceMembersByName();
+            members["PublicInstanceField"].ShouldBeOfType<FieldInfo>();
+            members["PublicInstanceProperty"].ShouldBeOfType<PropertyInfo>();
+            members["DoParamsStuff"].ShouldBeOfType<MethodInfo>();
+            members.ContainsKey("PublicStaticProperty").ShouldBeFalse();
+            members.ContainsKey("NonPublicStaticMethod").ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicInstanceMemberByName() => DoShouldRetrievePublicInstanceMemberByName();
+        [Fact]
+        public void ShouldRetrievePublicInstanceMembersByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMembers("PublicInstanceField")
+                .ShouldHaveSingleItem()
+                .ShouldBeOfType<FieldInfo>();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicStaticMembers() => DoShouldRetrieveNonPublicStaticMembers();
+        [Fact]
+        public void ShouldExcludePublicInstanceMembersByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMembers("PublicStaticProperty")
+                .ShouldBeEmpty();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicStaticMembersByName() => DoShouldRetrieveNonPublicStaticMembersByName();
+        [Fact]
+        public void ShouldRetrievePublicInstanceMemberByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMember(".ctor")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeNonPublicStaticMembersByName() => DoShouldExcludeNonPublicStaticMembersByName();
+        [Fact]
+        public void ShouldRetrieveNonPublicStaticMembers()
+        {
+            var members = typeof(TestHelper)
+                .GetNonPublicStaticMembers()
+                .ToDictionary(m => m.Name);
 
-        [Test]
-        public override void ShouldRetrieveNonPublicStaticMemberByName() =>
-            DoShouldRetrieveNonPublicStaticMemberByName();
+            members["NonPublicStaticField"].ShouldBeOfType<FieldInfo>();
+            members["NonPublicStaticProperty"].ShouldBeOfType<PropertyInfo>();
+            members["NonPublicStaticMethod"].ShouldBeOfType<MethodInfo>();
+            members.ContainsKey("DoParamsStuff").ShouldBeFalse();
+            members.ContainsKey("PublicInstanceProperty").ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicInstanceMembers() => DoShouldRetrieveNonPublicInstanceMembers();
+        [Fact]
+        public void ShouldRetrieveNonPublicStaticMembersByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticMembers("NonPublicStaticField")
+                .ShouldHaveSingleItem();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicInstanceMembersByName() => DoShouldRetrieveNonPublicInstanceMembersByName();
+        [Fact]
+        public void ShouldExcludeNonPublicStaticMembersByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticMembers("NonPublicInstanceField")
+                .ShouldBeEmpty();
+        }
 
-        [Test]
-        public override void ShouldExcludeNonPublicInstanceMembersByName() => DoShouldExcludeNonPublicInstanceMembersByName();
+        [Fact]
+        public void ShouldRetrieveNonPublicStaticMemberByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticMember("NonPublicStaticField")
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticField");
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicInstanceMemberByName() =>
-            DoShouldRetrieveNonPublicInstanceMemberByName();
+        [Fact]
+        public void ShouldRetrieveNonPublicInstanceMembers()
+        {
+            var members = typeof(TestHelper)
+                .GetNonPublicInstanceMembers()
+                .ToDictionary(m => m.Name);
+
+            members[".ctor"].ShouldBeOfType<ConstructorInfo>();
+            members["NonPublicInstanceField"].ShouldBeOfType<FieldInfo>();
+            members["NonPublicInstanceProperty"].ShouldBeOfType<PropertyInfo>();
+            members.ContainsKey("DoParamsStuff").ShouldBeFalse();
+            members.ContainsKey("PublicStaticProperty").ShouldBeFalse();
+            members.ContainsKey("NonPublicStaticMethod").ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldRetrieveNonPublicInstanceMembersByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceMembers(".ctor")
+                .ShouldHaveSingleItem();
+        }
+
+        [Fact]
+        public void ShouldExcludeNonPublicInstanceMembersByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceMembers("NonPublicStaticProperty")
+                .ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void ShouldRetrieveNonPublicInstanceMemberByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceMember("NonPublicInstanceField")
+                .ShouldNotBeNull();
+        }
     }
 }

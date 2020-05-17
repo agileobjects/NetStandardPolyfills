@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2B5957F8-E7DD-4B2B-9AE4-E7628FF69676}"
 	ProjectSection(SolutionItems) = preProject
-		common.props = common.props
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+		Directory.Build.props = Directory.Build.props
 		LICENCE.md = LICENCE.md
 		NuGetPack.bat = NuGetPack.bat
 		README.md = README.md
@@ -16,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills", "Net
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills.UnitTests.NetCore", "NetStandardPolyfills.UnitTests.NetCore\NetStandardPolyfills.UnitTests.NetCore.csproj", "{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetStandardPolyfills.UnitTests.Net40", "NetStandardPolyfills.UnitTests.Net40\NetStandardPolyfills.UnitTests.Net40.csproj", "{5BD3F71B-B71F-4152-A97B-ECBBC209A7F5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills.UnitTests", "NetStandardPolyfills.UnitTests\NetStandardPolyfills.UnitTests.csproj", "{E55FC755-FA63-46E8-8C0B-573E312ECDFF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills.UnitTests.NetCore2", "NetStandardPolyfills.UnitTests.NetCore2\NetStandardPolyfills.UnitTests.NetCore2.csproj", "{C6870A19-A0E3-40C3-904B-D871CC71CD21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetStandardPolyfills.UnitTests.Net35", "NetStandardPolyfills.UnitTests.Net35\NetStandardPolyfills.UnitTests.Net35.csproj", "{C586AC0C-1BEC-419E-A12A-1FF04761A267}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetStandardPolyfills.UnitTests.Net35", "NetStandardPolyfills.UnitTests.Net35\NetStandardPolyfills.UnitTests.Net35.csproj", "{378EE300-C36E-4C4C-8D15-04041CD07451}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills.UnitTests.Net40", "NetStandardPolyfills.UnitTests.Net40\NetStandardPolyfills.UnitTests.Net40.csproj", "{72B288A2-46C5-47F4-9AF4-6BB63FA90374}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardPolyfills.UnitTests.NetCore3", "NetStandardPolyfills.UnitTests.NetCore3\NetStandardPolyfills.UnitTests.NetCore3.csproj", "{362B2A1B-429F-40B6-B97D-08B05558EE49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,22 +37,22 @@ Global
 		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59F266BB-9EFB-430A-9FFE-4C5F88D330F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BD3F71B-B71F-4152-A97B-ECBBC209A7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BD3F71B-B71F-4152-A97B-ECBBC209A7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BD3F71B-B71F-4152-A97B-ECBBC209A7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BD3F71B-B71F-4152-A97B-ECBBC209A7F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E55FC755-FA63-46E8-8C0B-573E312ECDFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E55FC755-FA63-46E8-8C0B-573E312ECDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E55FC755-FA63-46E8-8C0B-573E312ECDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E55FC755-FA63-46E8-8C0B-573E312ECDFF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6870A19-A0E3-40C3-904B-D871CC71CD21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6870A19-A0E3-40C3-904B-D871CC71CD21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6870A19-A0E3-40C3-904B-D871CC71CD21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6870A19-A0E3-40C3-904B-D871CC71CD21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C586AC0C-1BEC-419E-A12A-1FF04761A267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C586AC0C-1BEC-419E-A12A-1FF04761A267}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C586AC0C-1BEC-419E-A12A-1FF04761A267}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C586AC0C-1BEC-419E-A12A-1FF04761A267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378EE300-C36E-4C4C-8D15-04041CD07451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378EE300-C36E-4C4C-8D15-04041CD07451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378EE300-C36E-4C4C-8D15-04041CD07451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378EE300-C36E-4C4C-8D15-04041CD07451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B288A2-46C5-47F4-9AF4-6BB63FA90374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B288A2-46C5-47F4-9AF4-6BB63FA90374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B288A2-46C5-47F4-9AF4-6BB63FA90374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B288A2-46C5-47F4-9AF4-6BB63FA90374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362B2A1B-429F-40B6-B97D-08B05558EE49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362B2A1B-429F-40B6-B97D-08B05558EE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362B2A1B-429F-40B6-B97D-08B05558EE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362B2A1B-429F-40B6-B97D-08B05558EE49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

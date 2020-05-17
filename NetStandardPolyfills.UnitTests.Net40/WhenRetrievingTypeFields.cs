@@ -1,47 +1,114 @@
-namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using NUnit.Framework;
+    using System.Linq;
+    using TestClasses;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenRetrievingTypeFields : FieldTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenRetrievingTypeFields
     {
-        [Test]
-        public override void ShouldRetrievePublicStaticFields() => DoShouldRetrievePublicStaticFields();
+        [Fact]
+        public void ShouldRetrievePublicStaticFields()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicStaticField");
+        }
 
-        [Test]
-        public override void ShouldRetrieveAPublicStaticFieldByName() => DoShouldRetrieveAPublicStaticFieldByName();
+        [Fact]
+        public void ShouldRetrieveAPublicStaticFieldByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticField("PublicStaticField")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeAPublicStaticFieldByName() => DoShouldExcludeAPublicStaticFieldByName();
+        [Fact]
+        public void ShouldExcludeAPublicStaticFieldByName()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticField("PublicInstanceField")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicStaticFields() => DoShouldRetrieveNonPublicStaticFields();
+        [Fact]
+        public void ShouldRetrieveNonPublicStaticFields()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("NonPublicStaticField");
+        }
 
-        [Test]
-        public override void ShouldRetrieveANonPublicStaticFieldByName() =>
-            DoShouldRetrieveANonPublicStaticFieldByName();
+        [Fact]
+        public void ShouldRetrieveANonPublicStaticFieldByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticField("NonPublicStaticField")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeANonPublicStaticFieldByName() => DoShouldExcludeANonPublicStaticFieldByName();
+        [Fact]
+        public void ShouldExcludeANonPublicStaticFieldByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticField("NonPublicInstanceField")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrievePublicInstanceFields() => DoShouldRetrievePublicInstanceFields();
+        [Fact]
+        public void ShouldRetrievePublicInstanceFields()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceFields()
+                .ShouldHaveSingleItem()
+                .Name.ShouldBe("PublicInstanceField");
+        }
 
-        [Test]
-        public override void ShouldRetrieveAPublicInstanceFieldByName() => DoShouldRetrieveAPublicInstanceFieldByName();
+        [Fact]
+        public void ShouldRetrieveAPublicInstanceFieldByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceField("PublicInstanceField")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeAPublicInstanceFieldByName() => DoShouldExcludeAPublicInstanceFieldByName();
+        [Fact]
+        public void ShouldExcludeAPublicInstanceFieldByName()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceField("xxx")
+                .ShouldBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveNonPublicInstanceFields() => DoShouldRetrieveNonPublicInstanceFields();
+        [Fact]
+        public void ShouldRetrieveNonPublicInstanceFields()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceFields()
+                .FirstOrDefault(f => f.Name == "NonPublicInstanceField")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldRetrieveANonPublicInstanceFieldByName() =>
-            DoShouldRetrieveANonPublicInstanceFieldByName();
+        [Fact]
+        public void ShouldRetrieveANonPublicInstanceFieldByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceField("NonPublicInstanceField")
+                .ShouldNotBeNull();
+        }
 
-        [Test]
-        public override void ShouldExcludeANonPublicInstanceFieldByName() =>
-            DoShouldExcludeANonPublicInstanceFieldByName();
+        [Fact]
+        public void ShouldExcludeANonPublicInstanceFieldByName()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceField("yyy")
+                .ShouldBeNull();
+        }
     }
 }

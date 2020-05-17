@@ -1,65 +1,159 @@
-﻿namespace AgileObjects.NetStandardPolyfills.UnitTests.Net40
+﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
-    using NUnit.Framework;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using TestClasses;
+#if FEATURE_XUNIT
+    using Xunit;
+#else
+    using Fact = NUnit.Framework.TestAttribute;
 
-    [TestFixture]
-    public class WhenCheckingTypeData : TypeDataTestsBase
+    [NUnit.Framework.TestFixture]
+#endif
+    public class WhenCheckingTypeData
     {
-        [Test]
-        public override void ShouldDetermineThatATypeIsPublic() => DoShouldDetermineThatATypeIsPublic();
+        [Fact]
+        public void ShouldDetermineThatATypeIsPublic()
+        {
+            typeof(TestHelper).IsPublic().ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsNonPublic() => DoShouldDetermineThatATypeIsNonPublic();
+        [Fact]
+        public void ShouldDetermineThatATypeIsNonPublic()
+        {
+            typeof(Should).IsPublic().ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldFlagAParamsArray() => DoShouldFlagAParamsArray();
+        [Fact]
+        public void ShouldFlagAParamsArray()
+        {
+            var paramsParameter = typeof(TestHelper)
+                .GetPublicInstanceMethod("DoParamsStuff")
+                .GetParameters()
+                .First();
 
-        [Test]
-        public override void ShouldFlagANonParamsArray() => DoShouldFlagANonParamsArray();
+            paramsParameter.IsParamsArray().ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldFindATypeAttribute() => DoShouldFindATypeAttribute();
+        [Fact]
+        public void ShouldFlagANonParamsArray()
+        {
+            var paramsParameter = typeof(TestHelper)
+                .GetPublicInstanceMethod("DoNonParamsStuff")
+                .GetParameters()
+                .First();
 
-        [Test]
-        public override void ShouldNotFindATypeAttribute() => DoShouldNotFindATypeAttribute();
+            paramsParameter.IsParamsArray().ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldFlagAnAnonymousType() => DoShouldFlagAnAnonymousType();
+        [Fact]
+        public void ShouldFindATypeAttribute()
+        {
+            typeof(TestHelper).HasAttribute<MyAttribute>().ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldFlagANonAnonymousType() => DoShouldFlagANonAnonymousType();
+        [Fact]
+        public void ShouldNotFindATypeAttribute()
+        {
+            typeof(WhenCheckingTypeData).HasAttribute<MyAttribute>().ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldFlagAPrimitiveType() => DoShouldFlagAPrimitiveType();
+        [Fact]
+        public void ShouldFlagAnAnonymousType()
+        {
+            var anon = new { Value = "Value!" };
 
-        [Test]
-        public override void ShouldFlagANonPrimitiveType() => DoShouldFlagANonPrimitiveType();
+            anon.GetType().IsAnonymous().ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldGetGenericArguments() => DoShouldGetGenericArguments();
+        [Fact]
+        public void ShouldFlagANonAnonymousType()
+        {
+            typeof(IOrderedEnumerable<int>).IsAnonymous().ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldGetEmptyGenericArguments() => DoShouldGetEmptyGenericArguments();
+        [Fact]
+        public void ShouldFlagAPrimitiveType()
+        {
+            typeof(int).IsPrimitive().ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsDerived() => DoShouldDetermineThatATypeIsDerived();
+        [Fact]
+        public void ShouldFlagANonPrimitiveType()
+        {
+            typeof(object).IsPrimitive().ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsNotDerived() => DoShouldDetermineThatATypeIsNotDerived();
+        [Fact]
+        public void ShouldGetGenericArguments()
+        {
+            typeof(Dictionary<string, int>)
+                .GetGenericTypeArguments()
+                .SequenceEqual(new[] { typeof(string), typeof(int) })
+                .ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsAssignable() => DoShouldDetermineThatATypeIsAssignable();
+        [Fact]
+        public void ShouldGetOpenGenericArguments()
+        {
+            typeof(Dictionary<,>)
+                .GetGenericTypeArguments()
+                .Length
+                .ShouldBe(2);
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsNotAssignable() => DoShouldDetermineThatATypeIsNotAssignable();
+        [Fact]
+        public void ShouldGetEmptyGenericArguments()
+        {
+            typeof(string).GetGenericTypeArguments().ShouldBeEmpty();
+        }
 
-        [Test]
-        public override void ShouldRetrieveAllInterfaces() => DoShouldRetrieveAllInterfaces();
+        [Fact]
+        public void ShouldDetermineThatATypeIsDerived()
+        {
+            typeof(TestHelper).IsDerivedFrom(typeof(object)).ShouldBeTrue();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsAClosedType() => DoShouldDetermineThatATypeIsAClosedType();
+        [Fact]
+        public void ShouldDetermineThatATypeIsNotDerived()
+        {
+            typeof(TestHelper).IsDerivedFrom(typeof(string)).ShouldBeFalse();
+        }
 
-        [Test]
-        public override void ShouldDetermineThatATypeIsNotAClosedType() => DoShouldDetermineThatATypeIsNotAClosedType();
+        [Fact]
+        public void ShouldDetermineThatATypeIsAssignable()
+        {
+            typeof(TestHelper).IsAssignableTo(typeof(object)).ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineThatATypeIsNotAssignable()
+        {
+            typeof(TestHelper).IsAssignableTo(typeof(string)).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldRetrieveAllInterfaces()
+        {
+            var interfaces = typeof(Dictionary<string, string>).GetAllInterfaces();
+
+            (interfaces.Length > 0).ShouldBeTrue();
+            interfaces.ShouldContain(typeof(IEnumerable));
+            interfaces.ShouldContain(typeof(IDictionary<string, string>));
+            interfaces.ShouldContain(typeof(ICollection<KeyValuePair<string, string>>));
+        }
+
+        [Fact]
+        public void ShouldDetermineThatATypeIsAClosedType()
+        {
+            typeof(List<string>).IsClosedTypeOf(typeof(List<>)).ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineThatATypeIsNotAClosedType()
+        {
+            typeof(List<string>).IsClosedTypeOf(typeof(IEnumerable<>)).ShouldBeFalse();
+        }
     }
 }

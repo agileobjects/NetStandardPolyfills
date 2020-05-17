@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal static class TestExtensions
+    internal static class ShouldExtensions
     {
         public static void ShouldBeTrue(this bool boolValue)
         {
