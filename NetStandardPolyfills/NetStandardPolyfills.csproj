@@ -1,45 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net35;net40;netstandard1.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
-    <AssemblyTitle>AgileObjects.NetStandardPolyfills</AssemblyTitle>
-    <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
-    <RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<PropertyGroup>
+		<TargetFrameworks>net35;net40;netstandard1.0;netstandard2.0</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
+		<AssemblyTitle>AgileObjects.NetStandardPolyfills</AssemblyTitle>
+		<AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
+		<RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
+		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
-    <PackageId>AgileObjects.NetStandardPolyfills</PackageId>
-    <Title>NetStandardPolyfills</Title>
-    <Description>Type and Reflection polyfill extension methods for .NET 3.5+ and .NET Standard 1.0+</Description>
-    <PackageTags>.NETStandard;Polyfill;ExtensionMethods;Reflection</PackageTags>
-    <PackageProjectUrl>https://github.com/AgileObjects/NetStandardPolyfills</PackageProjectUrl>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.0' ">1.6.0</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>./Icon.png</PackageIcon>
-    <PackageReleaseNotes>- Fixing .NET Standard open generic type parameter retrieval
-- Adding package icon
-    </PackageReleaseNotes>
-  </PropertyGroup>
+		<PackageId>AgileObjects.NetStandardPolyfills</PackageId>
+		<Title>NetStandardPolyfills</Title>
+		<Description>Type and Reflection polyfill extension methods for .NET 3.5+ and .NET Standard 1.0+</Description>
+		<PackageTags>.NETStandard;Polyfill;ExtensionMethods;Reflection</PackageTags>
+		<PackageProjectUrl>https://github.com/AgileObjects/NetStandardPolyfills</PackageProjectUrl>
+		<NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.0' ">1.6.0</NetStandardImplicitPackageVersion>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>./Icon.png</PackageIcon>
+		<PackageReleaseNotes>
+			- Fixing .NET Standard open generic type parameter retrieval
+			- Adding package icon
+		</PackageReleaseNotes>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <FrameworkPathOverride Condition="'$(TargetFramework)' == 'net35'">$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
-  </PropertyGroup>
+	<PropertyGroup>
+		<FrameworkPathOverride Condition="'$(TargetFramework)' == 'net35'">$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="./Icon.png" Pack="true" PackagePath="./" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="./Icon.png" Pack="true" PackagePath="./" />
+	</ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
-    <DefineConstants>$(DefineConstants);NET_STANDARD</DefineConstants>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' ">
+		<DefineConstants>$(DefineConstants);NET_STANDARD</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+		<Reference Include="System" />
+		<Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
 
 </Project>
