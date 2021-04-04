@@ -11,8 +11,8 @@
     /// </summary>
     public static class OperatorExtensionsPolyfill
     {
-        private const string ImplicitOperatorName = "op_Implicit";
-        private const string ExplicitOperatorName = "op_Explicit";
+        private const string _implicitOperatorName = "op_Implicit";
+        private const string _explicitOperatorName = "op_Explicit";
 
         /// <summary>
         /// Returns a value indicating whether the <paramref name="method"/> is an implicit operator.
@@ -20,7 +20,7 @@
         /// <param name="method">The method for which to make the determination.</param>
         /// <returns>True if the <paramref name="method"/> is an implicit operator, otherwise false.</returns>
         public static bool IsImplicitOperator(this MethodInfo method)
-            => method.IsSpecialName && method.IsStatic && (method.Name == ImplicitOperatorName);
+            => method.IsSpecialName && method.IsStatic && (method.Name == _implicitOperatorName);
 
         /// <summary>
         /// Returns a value indicating whether the <paramref name="method"/> is an explicit operator.
@@ -28,7 +28,7 @@
         /// <param name="method">The method for which to make the determination.</param>
         /// <returns>True if the <paramref name="method"/> is an explicit operator, otherwise false.</returns>
         public static bool IsExplicitOperator(this MethodInfo method)
-            => method.IsSpecialName && method.IsStatic && (method.Name == ExplicitOperatorName);
+            => method.IsSpecialName && method.IsStatic && (method.Name == _explicitOperatorName);
 
         /// <summary>
         /// Gets the <paramref name="type" />'s implicit and explicit operators, optionally of the type 
@@ -41,7 +41,7 @@
         {
             var operators = type
                 .GetPublicStaticMembers()
-                .Filter(m => (m.Name == ImplicitOperatorName) || (m.Name == ExplicitOperatorName))
+                .Filter(m => (m.Name == _implicitOperatorName) || (m.Name == _explicitOperatorName))
                 .OfType<MethodInfo>();
 
             if (matcher == null)
@@ -64,7 +64,7 @@
         public static IEnumerable<MethodInfo> GetImplicitOperators(this Type type)
         {
             return type
-                .GetPublicStaticMembers(ImplicitOperatorName)
+                .GetPublicStaticMembers(_implicitOperatorName)
                 .OfType<MethodInfo>();
         }
 
@@ -95,7 +95,7 @@
         public static IEnumerable<MethodInfo> GetExplicitOperators(this Type type)
         {
             return type
-                .GetPublicStaticMembers(ExplicitOperatorName)
+                .GetPublicStaticMembers(_explicitOperatorName)
                 .OfType<MethodInfo>();
         }
 

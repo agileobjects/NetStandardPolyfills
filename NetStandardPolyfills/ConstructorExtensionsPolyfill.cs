@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-#if NET_STANDARD
+#if NETSTANDARD1_0
     using System.Linq;
 #endif
     using System.Reflection;
+#if NETSTANDARD1_0
     using Extensions;
+#endif
 
     /// <summary>
     /// Provides a set of static methods methods for obtaining constructor information in .NET Standard 1.0 and .NET 4.0.
@@ -20,7 +22,7 @@
         /// <returns>The given <paramref name="type"/>'s public, instance-scoped constructors.</returns>
         public static IEnumerable<ConstructorInfo> GetPublicInstanceConstructors(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetConstructors(type, isPublic: true, isStatic: false);
 #else
             return type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
@@ -41,7 +43,7 @@
         /// </returns>
         public static ConstructorInfo GetPublicInstanceConstructor(this Type type, params Type[] parameterTypes)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type
                 .GetPublicInstanceConstructors()
                 .GetConstructorWithTypes(parameterTypes);
@@ -57,7 +59,7 @@
         /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped constructors.</returns>
         public static IEnumerable<ConstructorInfo> GetNonPublicInstanceConstructors(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetConstructors(type, isPublic: false, isStatic: false);
 #else
             return type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
@@ -78,7 +80,7 @@
         /// </returns>
         public static ConstructorInfo GetNonPublicInstanceConstructor(this Type type, params Type[] parameterTypes)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type
                 .GetNonPublicInstanceConstructors()
                 .GetConstructorWithTypes(parameterTypes);
@@ -91,7 +93,7 @@
 #endif
         }
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         internal static IEnumerable<ConstructorInfo> GetConstructors(this Type type, bool isPublic, bool isStatic)
             => type.GetTypeInfo().DeclaredConstructors.Filter(c => (c.IsPublic == isPublic) && (c.IsStatic == isStatic));
 

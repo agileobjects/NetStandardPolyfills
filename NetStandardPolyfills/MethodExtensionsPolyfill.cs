@@ -5,10 +5,10 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-#if !NET_STANDARD
+    using Extensions;
+#if !NETSTANDARD1_0
     using static System.Reflection.BindingFlags;
 #endif
-    using Extensions;
 
     /// <summary>
     /// Provides a set of static methods for obtaining method and parameter information in .NET Standard 1.0 and .NET 4.0.
@@ -22,7 +22,7 @@
         /// <returns>True if the given <paramref name="parameter"/> is a params array, otherwise false.</returns>
         public static bool IsParamsArray(this ParameterInfo parameter)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return parameter.GetCustomAttribute<ParamArrayAttribute>(inherit: false) != null;
 #else
             return Attribute.IsDefined(parameter, typeof(ParamArrayAttribute));
@@ -53,7 +53,7 @@
         /// <returns>The given <paramref name="type"/>'s matching public methods.</returns>
         public static IEnumerable<MethodInfo> GetPublicMethods(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetMethods(type, name, isPublic: true);
 #else
             return GetMethods(type, name, Public | Instance | Static);
@@ -116,7 +116,7 @@
         /// <returns>The given <paramref name="type"/>'s matching public, static-scoped methods.</returns>
         public static IEnumerable<MethodInfo> GetPublicStaticMethods(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetMethods(type, name, isPublic: true, isStatic: true);
 #else
             return GetMethods(type, name, Public | Static);
@@ -179,7 +179,7 @@
         /// <returns>The given <paramref name="type"/>'s matching public, instance-scoped methods.</returns>
         public static IEnumerable<MethodInfo> GetPublicInstanceMethods(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetMethods(type, name, isPublic: true, isStatic: false);
 #else
             return GetMethods(type, name, Public | Instance);
@@ -241,7 +241,7 @@
         /// <returns>The given <paramref name="type"/>'s matching non-public, static-scoped methods.</returns>
         public static IEnumerable<MethodInfo> GetNonPublicStaticMethods(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetMethods(type, name, isPublic: false, isStatic: true);
 #else
             return GetMethods(type, name, NonPublic | Static);
@@ -304,7 +304,7 @@
         /// <returns>The given <paramref name="type"/>'s matching non-public, instance-scoped methods.</returns>
         public static IEnumerable<MethodInfo> GetNonPublicInstanceMethods(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetMethods(type, name, isPublic: false, isStatic: false);
 #else
             return GetMethods(type, name, NonPublic | Instance);
@@ -353,7 +353,7 @@
 
         #region Helper Methods
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         internal static IEnumerable<MethodInfo> GetMethods(this Type type, bool isPublic, bool? isStatic = null)
             => GetMethods(type, name: null, isPublic: isPublic, isStatic: isStatic);
 
@@ -375,10 +375,7 @@
             string name,
             Func<MethodInfo, bool> methodFilter = null)
         {
-            if (methodFilter == null)
-            {
-                methodFilter = m => true;
-            }
+            methodFilter ??= _ => true;
 
             return MemberFinder<MethodInfo>.EnumerateMembers(
                 type,

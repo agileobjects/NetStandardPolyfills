@@ -1,8 +1,8 @@
 ﻿namespace AgileObjects.NetStandardPolyfills
 {
     using System;
+#if NETSTANDARD1_0
     using System.Linq;
-#if NET_STANDARD
     using System.Collections.Generic;
 #endif
     using System.Reflection;
@@ -20,7 +20,7 @@
         /// <returns>True if the given <paramref name="type"/> is public, otherwise false.</returns>
         public static bool IsPublic(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsPublic;
 #else
             return type.IsPublic;
@@ -34,7 +34,7 @@
         /// <returns>True if the given <paramref name="type"/> is a class, otherwise false.</returns>
         public static bool IsClass(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsClass;
 #else
             return type.IsClass;
@@ -48,7 +48,7 @@
         /// <returns>True if the given <paramref name="type"/> is a value type, otherwise false.</returns>
         public static bool IsValueType(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsValueType;
 #else
             return type.IsValueType;
@@ -62,7 +62,7 @@
         /// <returns>True if the given <paramref name="type"/> is an interface, otherwise false.</returns>
         public static bool IsInterface(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsInterface;
 #else
             return type.IsInterface;
@@ -76,7 +76,7 @@
         /// <returns>True if the given <paramref name="type"/> is sealed, otherwise false.</returns>
         public static bool IsSealed(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsSealed;
 #else
             return type.IsSealed;
@@ -90,7 +90,7 @@
         /// <returns>True if the given <paramref name="type"/> is abstract, otherwise false.</returns>
         public static bool IsAbstract(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsAbstract;
 #else
             return type.IsAbstract;
@@ -110,7 +110,11 @@
             return type.IsGenericType() &&
                    type.Name.Contains("AnonymousType") &&
                    (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$")) &&
+#if NET35
                    (type.GetAttributes() & TypeAttributes.NotPublic) == TypeAttributes.NotPublic &&
+#else
+                   type.GetAttributes().HasFlag(TypeAttributes.NotPublic) &&
+#endif
                    type.HasAttribute<CompilerGeneratedAttribute>();
         }
 
@@ -121,7 +125,7 @@
         /// <returns>True if the given <paramref name="type"/> is an enum, otherwise false.</returns>
         public static bool IsEnum(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsEnum;
 #else
             return type.IsEnum;
@@ -135,7 +139,7 @@
         /// <returns>True if the given <paramref name="type"/> is a primitive, otherwise false.</returns>
         public static bool IsPrimitive(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsPrimitive;
 #else
             return type.IsPrimitive;
@@ -149,7 +153,7 @@
         /// <returns>True if the given <paramref name="type"/> is a generic type, otherwise false.</returns>
         public static bool IsGenericType(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().IsGenericType;
 #else
             return type.IsGenericType;
@@ -182,7 +186,7 @@
         /// </returns>
         public static Type[] GetGenericTypeArguments(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.IsConstructedGenericType
                 ? type.GetTypeInfo().GenericTypeArguments
                 : type.GetTypeInfo().GenericTypeParameters;
@@ -198,7 +202,7 @@
         /// <returns>The Assembly to which the given <paramref name="type"/> belongs.</returns>
         public static Assembly GetAssembly(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().Assembly;
 #else
             return type.Assembly;
@@ -212,7 +216,7 @@
         /// <returns>The given <paramref name="type"/>'s base type or null if there is none.</returns>
         public static Type GetBaseType(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().BaseType;
 #else
             return type.BaseType;
@@ -229,7 +233,7 @@
         /// </returns>
         public static Type[] GetAllInterfaces(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             var allInterfaces = new List<Type>();
 
             while (type != null)
@@ -257,7 +261,7 @@
         /// </returns>
         public static bool IsDerivedFrom(this Type childType, Type parentType)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return childType.GetTypeInfo().IsSubclassOf(parentType);
 #else
             return childType.IsSubclassOf(parentType);
@@ -280,7 +284,7 @@
         /// </returns>
         public static bool IsAssignableTo(this Type assignableType, Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type?.GetTypeInfo().IsAssignableFrom(assignableType.GetTypeInfo()) == true;
 #else
             return type?.IsAssignableFrom(assignableType) == true;
@@ -300,7 +304,7 @@
         public static bool HasAttribute<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().GetCustomAttribute<TAttribute>(inherit: false) != null;
 #else
             return Attribute.IsDefined(type, typeof(TAttribute), inherit: false);
@@ -314,14 +318,14 @@
         /// <returns>The TypeAttributes value applied to the given <paramref name="type"/>.</returns>
         public static TypeAttributes GetAttributes(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetTypeInfo().Attributes;
 #else
             return type.Attributes;
 #endif
         }
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         private static readonly Dictionary<Type, NetStandardTypeCode> _typeCodesByType = new Dictionary<Type, NetStandardTypeCode>
         {
             {typeof(bool), NetStandardTypeCode.Boolean },
@@ -349,7 +353,7 @@
         /// <returns>The appropriate <see cref="NetStandardTypeCode"/> value.</returns>
         public static NetStandardTypeCode GetTypeCode(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             if (type == null)
             {
                 return NetStandardTypeCode.Empty;

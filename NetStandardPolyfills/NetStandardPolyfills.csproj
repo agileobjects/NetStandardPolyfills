@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;netstandard1.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <TargetFrameworks>net35;net40;netstandard1.0;netstandard2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <AssemblyTitle>AgileObjects.NetStandardPolyfills</AssemblyTitle>
     <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
     <RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
@@ -20,8 +20,7 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>./Icon.png</PackageIcon>
-    <PackageReleaseNotes>- Fixing .NET Standard open generic type parameter retrieval
-- Adding package icon
+    <PackageReleaseNotes>- Adding .NET Standard 2.0 target
     </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -34,7 +33,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
-    <DefineConstants>$(DefineConstants);NET_STANDARD</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_0</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
