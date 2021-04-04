@@ -1,8 +1,6 @@
 ## .NET Standard Polyfills
 
 [![NuGet](http://img.shields.io/nuget/v/AgileObjects.NetStandardPolyfills.svg)](https://www.nuget.org/packages/AgileObjects.NetStandardPolyfills)
-[![Build status](https://img.shields.io/appveyor/ci/SteveWilkes/netstandardpolyfills.svg)](https://ci.appveyor.com/project/SteveWilkes/NetStandardPolyfills/branch/master)
-[![Tests status](https://img.shields.io/appveyor/tests/SteveWilkes/netstandardpolyfills/master.svg)](https://ci.appveyor.com/project/SteveWilkes/NetStandardPolyfills/branch/master)
 
 A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ and .NET v3.5+.
 
