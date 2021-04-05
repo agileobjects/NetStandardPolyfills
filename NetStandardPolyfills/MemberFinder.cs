@@ -16,10 +16,7 @@
             Func<TMember, bool> memberFilter,
             Func<TMember, ICollection<TMember>, bool> uniqueMemberFilter)
         {
-            if (memberFilter == null)
-            {
-                memberFilter = m => true;
-            }
+            memberFilter ??= _ => true;
 
             var membersSoFar = new List<TMember>();
 

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-#if !NET_STANDARD
+#if !NETSTANDARD1_0
     using static System.Reflection.BindingFlags;
 #endif
 
@@ -34,7 +34,7 @@
         /// <returns>The given <paramref name="type"/>'s public, static-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetPublicStaticProperties(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, isPublic: true, isStatic: true);
 #else
             return GetProperties(type, Public | Static);
@@ -52,7 +52,7 @@
         /// </returns>
         public static PropertyInfo GetPublicStaticProperty(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, name, isPublic: true, isStatic: true).FirstOrDefault();
 #else
             return GetProperties(type, name, Public | Static).FirstOrDefault();
@@ -66,7 +66,7 @@
         /// <returns>The given <paramref name="type"/>'s public, instance-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetPublicInstanceProperties(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, isPublic: true, isStatic: false);
 #else
             return GetProperties(type, Public | Instance);
@@ -84,7 +84,7 @@
         /// </returns>
         public static PropertyInfo GetPublicInstanceProperty(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, name, isPublic: true, isStatic: false).FirstOrDefault();
 #else
             return GetProperties(type, name, Public | Instance).FirstOrDefault();
@@ -98,7 +98,7 @@
         /// <returns>The given <paramref name="type"/>'s non-public, static-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetNonPublicStaticProperties(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, isPublic: false, isStatic: true);
 #else
             return GetProperties(type, NonPublic | Static);
@@ -116,7 +116,7 @@
         /// </returns>
         public static PropertyInfo GetNonPublicStaticProperty(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, name, isPublic: false, isStatic: true).FirstOrDefault();
 #else
             return GetProperties(type, name, NonPublic | Static).FirstOrDefault();
@@ -130,7 +130,7 @@
         /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetNonPublicInstanceProperties(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, isPublic: false, isStatic: false);
 #else
             return GetProperties(type, NonPublic | Instance);
@@ -148,7 +148,7 @@
         /// </returns>
         public static PropertyInfo GetNonPublicInstanceProperty(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetProperties(type, name, isPublic: false, isStatic: false).FirstOrDefault();
 #else
             return GetProperties(type, name, NonPublic | Instance).FirstOrDefault();
@@ -176,9 +176,7 @@
         /// <param name="property">The property for which to make the determination.</param>
         /// <returns>True if the given <paramref name="property"/> is an indexer, otherwise false.</returns>
         public static bool IsIndexer(this PropertyInfo property)
-        {
-            return property.GetIndexParameters().Length != 0;
-        }
+            => property.GetIndexParameters().Length != 0;
 
         /// <summary>
         /// Returns an array whose elements reflect the public and, if specified, non-public get, set, and 
@@ -198,7 +196,7 @@
         /// </returns>
         public static MethodInfo[] GetAccessors(this PropertyInfo property, bool nonPublic = false)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             var accessors = new List<MethodInfo>(2);
 
             if ((property.GetMethod != null) && (nonPublic || property.GetMethod.IsPublic))
@@ -232,7 +230,7 @@
         /// </returns>
         public static MethodInfo GetGetter(this PropertyInfo property, bool nonPublic = false)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             if (property.GetMethod != null && (nonPublic || property.GetMethod.IsPublic))
             {
                 return property.GetMethod;
@@ -259,7 +257,7 @@
         /// </returns>
         public static MethodInfo GetSetter(this PropertyInfo property, bool nonPublic = false)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             if (property.SetMethod != null && (nonPublic || property.SetMethod.IsPublic))
             {
                 return property.SetMethod;
@@ -273,7 +271,7 @@
 
         #region Helper Methods
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         internal static IEnumerable<PropertyInfo> GetProperties(this Type type, bool isPublic, bool isStatic)
             => GetProperties(type, name: null, isPublic: isPublic, isStatic: isStatic);
 

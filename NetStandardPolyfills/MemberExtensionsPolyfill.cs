@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+#if NETSTANDARD1_0
     using Extensions;
+#endif
 
     /// <summary>
     /// Provides a set of static methods for obtaining member information in .NET Standard 1.0 and .NET 4.0.
@@ -23,7 +25,7 @@
         /// </returns>
         public static bool HasAttribute<TAttribute>(this MemberInfo memberInfo)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return memberInfo
                 .CustomAttributes
                 .Any(a => a.AttributeType == typeof(TAttribute));
@@ -43,7 +45,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicStaticMembers(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetMembers(isPublic: true, isStatic: true);
 #else
             return type.GetMembers(BindingFlags.Public | BindingFlags.Static);
@@ -62,7 +64,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicStaticMembers(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetPublicStaticMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Static);
@@ -80,9 +82,7 @@
         /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetPublicStaticMember(this Type type, string name)
-        {
-            return type.GetPublicStaticMembers(name).GetSingleMember(name);
-        }
+            => type.GetPublicStaticMembers(name).GetSingleMember(name);
 
         /// <summary>
         /// Gets the public, instance-scoped members for the given <paramref name="type"/>.
@@ -93,7 +93,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetMembers(isPublic: true, isStatic: false);
 #else
             return type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
@@ -112,7 +112,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetPublicInstanceMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.Public | BindingFlags.Instance);
@@ -130,9 +130,7 @@
         /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetPublicInstanceMember(this Type type, string name)
-        {
-            return type.GetPublicInstanceMembers(name).GetSingleMember(name);
-        }
+            => type.GetPublicInstanceMembers(name).GetSingleMember(name);
 
         /// <summary>
         /// Gets the non-public, static-scoped members for the given <paramref name="type"/>.
@@ -143,7 +141,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicStaticMembers(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetMembers(isPublic: false, isStatic: true);
 #else
             return type.GetMembers(BindingFlags.NonPublic | BindingFlags.Static);
@@ -162,7 +160,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicStaticMembers(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetNonPublicStaticMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.NonPublic | BindingFlags.Static);
@@ -180,9 +178,7 @@
         /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetNonPublicStaticMember(this Type type, string name)
-        {
-            return type.GetNonPublicStaticMembers(name).GetSingleMember(name);
-        }
+            => type.GetNonPublicStaticMembers(name).GetSingleMember(name);
 
         /// <summary>
         /// Gets the non-public, instance-scoped members for the given <paramref name="type"/>.
@@ -193,7 +189,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicInstanceMembers(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetMembers(isPublic: false, isStatic: false);
 #else
             return type.GetMembers(BindingFlags.NonPublic | BindingFlags.Instance);
@@ -212,7 +208,7 @@
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicInstanceMembers(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return type.GetNonPublicInstanceMembers().Filter(m => m.Name == name);
 #else
             return type.GetMember(name, BindingFlags.NonPublic | BindingFlags.Instance);
@@ -230,13 +226,11 @@
         /// given <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetNonPublicInstanceMember(this Type type, string name)
-        {
-            return type.GetNonPublicInstanceMembers(name).GetSingleMember(name);
-        }
+            => type.GetNonPublicInstanceMembers(name).GetSingleMember(name);
 
         #region Helper Members
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         private static IEnumerable<MemberInfo> GetMembers(this Type type, bool isPublic, bool isStatic)
             => type.GetTypeInfo().DeclaredMembers.Filter(m => IsMatch(m, isPublic, isStatic));
 

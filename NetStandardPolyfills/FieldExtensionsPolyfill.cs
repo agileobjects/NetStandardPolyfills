@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-#if !NET_STANDARD
+#if !NETSTANDARD1_0
     using static System.Reflection.BindingFlags;
 #endif
 
@@ -20,7 +20,7 @@
         /// <returns>The given <paramref name="type"/>'s public, static-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetPublicStaticFields(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, isPublic: true, isStatic: true);
 #else
             return GetFields(type, Public | Static);
@@ -38,7 +38,7 @@
         /// </returns>
         public static FieldInfo GetPublicStaticField(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, name, isPublic: true, isStatic: true).FirstOrDefault();
 #else
             return GetFields(type, name, Public | Static).FirstOrDefault();
@@ -52,7 +52,7 @@
         /// <returns>The given <paramref name="type"/>'s public, instance-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetPublicInstanceFields(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, isPublic: true, isStatic: false);
 #else
             return GetFields(type, Public | Instance);
@@ -70,7 +70,7 @@
         /// </returns>
         public static FieldInfo GetPublicInstanceField(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, name, isPublic: true, isStatic: false).FirstOrDefault();
 #else
             return GetFields(type, name, Public | Instance).FirstOrDefault();
@@ -84,7 +84,7 @@
         /// <returns>The given <paramref name="type"/>'s non-public, static-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetNonPublicStaticFields(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, isPublic: false, isStatic: true);
 #else
             return GetFields(type, NonPublic | Static);
@@ -102,7 +102,7 @@
         /// </returns>
         public static FieldInfo GetNonPublicStaticField(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, name, isPublic: false, isStatic: true).FirstOrDefault();
 #else
             return GetFields(type, name, NonPublic | Static).FirstOrDefault();
@@ -116,7 +116,7 @@
         /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetNonPublicInstanceFields(this Type type)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, isPublic: false, isStatic: false);
 #else
             return GetFields(type, NonPublic | Instance);
@@ -134,7 +134,7 @@
         /// </returns>
         public static FieldInfo GetNonPublicInstanceField(this Type type, string name)
         {
-#if NET_STANDARD
+#if NETSTANDARD1_0
             return GetFields(type, name, isPublic: false, isStatic: false).FirstOrDefault();
 #else
             return GetFields(type, name, NonPublic | Instance).FirstOrDefault();
@@ -143,7 +143,7 @@
 
         #region Helper Methods
 
-#if NET_STANDARD
+#if NETSTANDARD1_0
         internal static IEnumerable<FieldInfo> GetFields(this Type type, bool isPublic, bool isStatic)
             => GetFields(type, name: null, isPublic: isPublic, isStatic: isStatic);
 
@@ -168,10 +168,7 @@
             string name,
             Func<FieldInfo, bool> fieldFilter = null)
         {
-            if (fieldFilter == null)
-            {
-                fieldFilter = f => true;
-            }
+            fieldFilter ??= _ => true;
 
             return MemberFinder<FieldInfo>.EnumerateMembers(
                 type,

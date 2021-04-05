@@ -1,22 +1,24 @@
 ## .NET Standard Polyfills
 
 [![NuGet](http://img.shields.io/nuget/v/AgileObjects.NetStandardPolyfills.svg)](https://www.nuget.org/packages/AgileObjects.NetStandardPolyfills)
-[![Build status](https://img.shields.io/appveyor/ci/SteveWilkes/netstandardpolyfills.svg)](https://ci.appveyor.com/project/SteveWilkes/NetStandardPolyfills/branch/master)
-[![Tests status](https://img.shields.io/appveyor/tests/SteveWilkes/netstandardpolyfills/master.svg)](https://ci.appveyor.com/project/SteveWilkes/NetStandardPolyfills/branch/master)
 
 A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ and .NET v3.5+.
 
 ### Type Info:
 
+* Type.CanBeNull()
+* Type.GetNonNullableType()
 * Type.IsAbstract()
 * Type.IsAnonymous()
+* Type.IsAssignableTo(Type type)
 * Type.IsClass()
 * Type.IsClosedTypeOf(Type genericTypeDefinition)
-* Type.IsAssignableTo(Type type)
 * Type.IsDerivedFrom(Type parentType)
 * Type.IsEnum()
-* Type.IsInterface()
+* Type.IsEnumerable()
 * Type.IsGenericType()
+* Type.IsInterface()
+* Type.IsNullableType()
 * Type.IsPrimitive()
 * Type.IsPublic()
 * Type.IsSealed()
