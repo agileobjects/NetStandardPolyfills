@@ -1,9 +1,10 @@
 ﻿namespace AgileObjects.NetStandardPolyfills
 {
     using System;
+    using System.Collections;
 #if NETSTANDARD1_0
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
 #endif
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -130,6 +131,18 @@
 #else
             return type.IsEnum;
 #endif
+        }
+
+        /// <summary>
+        /// Determines if this <paramref name="type"/> is an enumerable Type.
+        /// </summary>
+        /// <param name="type">The Type for which to make the determination.</param>
+        /// <returns>True if this <paramref name="type"/> is an enumerable Type, otherwise false.</returns>
+        public static bool IsEnumerable(this Type type)
+        {
+            return type.IsArray ||
+                   (type != typeof(string) &&
+                    type.IsAssignableTo(typeof(IEnumerable)));
         }
 
         /// <summary>
@@ -324,6 +337,33 @@
             return type.Attributes;
 #endif
         }
+
+        /// <summary>
+        /// Returns a value indicating if the given <paramref name="type"/> can be null.
+        /// </summary>
+        /// <param name="type">The type for which to make the determination.</param>
+        /// <returns>True if the given <paramref name="type"/> can be null, otherwise false.</returns>
+        public static bool CanBeNull(this Type type)
+            => type.IsClass() || type.IsInterface() || type.IsNullableType();
+
+        /// <summary>
+        /// Returns a value indicating if the given <paramref name="type"/> is a Nullable{T}.
+        /// </summary>
+        /// <param name="type">The type for which to make the determination.</param>
+        /// <returns>True if the given <paramref name="type"/> is a Nullable{T}, otherwise false.</returns>
+        public static bool IsNullableType(this Type type)
+            => Nullable.GetUnderlyingType(type) != null;
+
+        /// <summary>
+        /// Gets the underlying non-nullable Type of this <paramref name="type"/>, or returns this
+        /// <paramref name="type"/> if it is not nullable.
+        /// </summary>
+        /// <param name="type">The Type for which to retrieve the underlying non-nullable Type.</param>
+        /// <returns>
+        /// The underlying non-nullable Type of this <paramref name="type"/>, or returns this
+        /// <paramref name="type"/> if it is not nullable.
+        /// </returns>
+        public static Type GetNonNullableType(this Type type) => Nullable.GetUnderlyingType(type) ?? type;
 
 #if NETSTANDARD1_0
         private static readonly Dictionary<Type, NetStandardTypeCode> _typeCodesByType = new Dictionary<Type, NetStandardTypeCode>

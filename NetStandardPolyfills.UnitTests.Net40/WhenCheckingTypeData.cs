@@ -1,7 +1,9 @@
 ﻿namespace AgileObjects.NetStandardPolyfills.UnitTests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using TestClasses;
 #if FEATURE_XUNIT
@@ -154,6 +156,108 @@
         public void ShouldDetermineThatATypeIsNotAClosedType()
         {
             typeof(List<string>).IsClosedTypeOf(typeof(IEnumerable<>)).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldDetermineAClassCanBeNull()
+        {
+            typeof(object).CanBeNull().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAnInterfaceCanBeNull()
+        {
+            typeof(IDisposable).CanBeNull().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineANullableIntCanBeNull()
+        {
+            typeof(int?).CanBeNull().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAStringCanBeNull()
+        {
+            typeof(string).CanBeNull().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineADateTimeCannotBeNull()
+        {
+            typeof(DateTime).CanBeNull().ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldDetermineANullableLongIsNullable()
+        {
+            typeof(long?).IsNullableType().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineALongIsNotNullable()
+        {
+            typeof(long).IsNullableType().ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldGetAShortFromANullablehort()
+        {
+            typeof(short?).GetNonNullableType().ShouldBe(typeof(short));
+        }
+
+        [Fact]
+        public void ShouldGetATimeSpanFromATimeSpan()
+        {
+            typeof(TimeSpan).GetNonNullableType().ShouldBe(typeof(TimeSpan));
+        }
+
+        [Fact]
+        public void ShouldDetermineAGenericListIsEnumerable()
+        {
+            typeof(List<string>).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAnIntArrayIsEnumerable()
+        {
+            typeof(int[]).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAGenericIEnumerableIsEnumerable()
+        {
+            typeof(IEnumerable<object>).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAnICollectionIsEnumerable()
+        {
+            typeof(ICollection).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineACollectionIsEnumerable()
+        {
+            typeof(Collection<string>).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineADictionaryIsEnumerable()
+        {
+            typeof(Dictionary<string, object>).IsEnumerable().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineAStringIsNotEnumerable()
+        {
+            typeof(string).IsEnumerable().ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldDetermineAnObjectIsNotEnumerable()
+        {
+            typeof(object).IsEnumerable().ShouldBeFalse();
         }
     }
 }
