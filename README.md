@@ -37,6 +37,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * Type.GetPublicInstanceConstructor(params Type[] parameterTypes)
 * Type.GetNonPublicInstanceConstructors()
 * Type.GetNonPublicInstanceConstructor(params Type[] parameterTypes)
+* Type.GetStaticConstructor()
 
 ### Field Retrieval:
 

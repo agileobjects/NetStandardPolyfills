@@ -19,5 +19,10 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests.TestClasses
         private ConstructorTestsHelper(int intValue, string stringValue, DateTime dateValue)
         {
         }
+
+        static ConstructorTestsHelper()
+        {
+            Console.WriteLine("Static!");
+        }
     }
 }

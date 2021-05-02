@@ -99,5 +99,21 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
 
             constructor.ShouldBeNull();
         }
+
+        [Fact]
+        public void ShouldFindAStaticConstructor()
+        {
+            typeof(ConstructorTestsHelper)
+                .GetStaticConstructor()
+                .ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void ShouldHandleNoStaticConstructor()
+        {
+            typeof(TestHelper)
+                .GetStaticConstructor()
+                .ShouldBeNull();
+        }
     }
 }

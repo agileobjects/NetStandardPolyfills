@@ -93,6 +93,27 @@
 #endif
         }
 
+        /// <summary>
+        /// Gets the static constructor for the given <paramref name="type"/>. Static constructors
+        /// are always non-public and parameterless.
+        /// </summary>
+        /// <param name="type">The type for which to retrieve the static constructor.</param>
+        /// <returns>
+        /// The given <paramref name="type"/>'s static constructor, or null if none exists.
+        /// </returns>
+        public static ConstructorInfo GetStaticConstructor(this Type type)
+        {
+#if NETSTANDARD1_0
+            return GetConstructors(type, isPublic: false, isStatic: true).FirstOrDefault();
+#else
+            return type.GetConstructor(
+                BindingFlags.NonPublic | BindingFlags.Static,
+                null,
+                Type.EmptyTypes,
+                null);
+#endif
+        }
+
 #if NETSTANDARD1_0
         internal static IEnumerable<ConstructorInfo> GetConstructors(this Type type, bool isPublic, bool isStatic)
             => type.GetTypeInfo().DeclaredConstructors.Filter(c => (c.IsPublic == isPublic) && (c.IsStatic == isStatic));
