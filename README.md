@@ -108,6 +108,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 
 ### Assembly Info:
 
+* Assembly.GetLocation()
 * Assembly.GetAllTypes()
 
 ### Misc

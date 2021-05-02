@@ -15,6 +15,24 @@
     public static class AssemblyExtensionsPolyfill
     {
         /// <summary>
+        /// Gets the absolute path to this <paramref name="assembly"/>'s file on disk.
+        /// </summary>
+        /// <param name="assembly">The Assembly for which to retrieve the location.</param>
+        /// <returns>
+        /// The absolute path to this <paramref name="assembly"/>'s file on disk.
+        /// </returns>
+        public static string GetLocation(this Assembly assembly)
+        {
+#if NETSTANDARD1_0
+            return assembly.GetType()
+                .GetPublicInstanceProperty("Location")?
+                .GetValue(assembly) as string;
+#else
+            return assembly.Location;
+#endif
+        }
+
+        /// <summary>
         /// Gets the types defined in this <paramref name="assembly"/>.
         /// </summary>
         /// <param name="assembly">The Assembly for which to retrieve the Types.</param>
