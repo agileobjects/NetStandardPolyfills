@@ -10,7 +10,7 @@
 #endif
 
     /// <summary>
-    /// Provides a set of static methods for obtaining Assembly information in .NET Standard 1.0.
+    /// Provides a set of static methods for obtaining Assembly information in .NET Standard 1.0+ and .NET 3.5+.
     /// </summary>
     public static class AssemblyExtensionsPolyfill
     {
