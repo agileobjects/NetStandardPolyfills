@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal static class ShouldExtensions
+    internal static class FluentAssertionExtensions
     {
         public static void ShouldBeTrue(this bool boolValue)
         {
