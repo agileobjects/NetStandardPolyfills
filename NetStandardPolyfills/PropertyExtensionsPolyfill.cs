@@ -29,32 +29,28 @@
 
         /// <summary>
         /// Gets the PropertyInfo to which this <paramref name="method"/> belongs, if this method
-        /// is a property getter or setter.
+        /// is a property or indexer getter or setter.
         /// </summary>
         /// <param name="method">The MethodInfo for which to retrieve the PropertyInfo.</param>
         /// <returns>
         /// The PropertyInfo to which this <paramref name="method"/> belongs, if this method is a
-        /// property getter or setter, or null if this method is not a property getter or setter.
+        /// property or indexer getter or setter, or null if this method is not a property or indexer
+        /// getter or setter.
         /// </returns>
         public static PropertyInfo GetProperty(this MethodInfo method)
         {
-            var hasSingleArgument = method.GetParameters().Length == 1;
-            var hasReturnType = method.ReturnType != typeof(void);
-
-            if (hasSingleArgument == hasReturnType)
+            if (!method.IsSpecialName)
             {
                 return null;
             }
 
             var type = method.DeclaringType;
 
-            var properties = method.IsPublic
-                ? method.IsStatic
-                    ? type.GetPublicStaticProperties()
-                    : type.GetPublicInstanceProperties()
-                : method.IsStatic
-                    ? type.GetNonPublicStaticProperties()
-                    : type.GetNonPublicInstanceProperties();
+            var properties = method.IsStatic
+                ? type.GetPublicStaticProperties().Concat(type.GetNonPublicStaticProperties())
+                : type.GetPublicInstanceProperties().Concat(type.GetNonPublicInstanceProperties());
+
+            var hasReturnType = method.ReturnType != typeof(void);
 
             return properties.FirstOrDefault(property => Equals(
                 hasReturnType
@@ -215,37 +211,36 @@
             => property.GetIndexParameters().Length != 0;
 
         /// <summary>
-        /// Returns an array whose elements reflect the public and, if specified, non-public get, set, and 
-        /// other accessors of the property reflected by the current instance.
+        /// Returns an array containing this <paramref name="property"/>'s public and, if specified,
+        /// non-public accessors.
         /// </summary>
-        /// <param name="property">The property for which to make the determination.</param>
+        /// <param name="property">The property for which to retreive the accessors.</param>
         /// <param name="nonPublic">
-        /// Whether non-public methods should be returned in the MethodInfo array: true if non-public methods 
-        /// should be included; otherwise false. Defaults to false if not supplied.
+        /// Whether non-public methods should be included in the MethodInfo array: true if non-public
+        /// methods should be included; otherwise false. Defaults to false.
         /// </param>
         /// <returns>
-        /// An array of System.Reflection.MethodInfo objects whose elements reflect the get, set, and other 
-        /// accessors of the property reflected by the current instance. If <paramref name="nonPublic"/> is 
-        /// true, this array contains public and non-public get, set, and other accessors. If 
-        /// <paramref name="nonPublic"/> is false, this array contains only public get, set, and other 
-        /// accessors. If no accessors with the specified visibility are found, this method returns an empty array.
+        /// An array of MethodInfos containing this <paramref name="property"/>'s public and, if
+        /// specified, non-public accessors. If <paramref name="nonPublic"/> is true, this array
+        /// contains public and non-public accessors, otherwise this array only contains public 
+        /// accessors. If no accessors with the specified visibility are found, an empty array
+        /// is returned.
         /// </returns>
         public static MethodInfo[] GetAccessors(this PropertyInfo property, bool nonPublic = false)
         {
 #if NETSTANDARD1_0
-            var accessors = new List<MethodInfo>(2);
+            var getter = property.GetGetter(nonPublic);
+            var setter = property.GetSetter(nonPublic);
 
-            if ((property.GetMethod != null) && (nonPublic || property.GetMethod.IsPublic))
+            if (getter != null)
             {
-                accessors.Add(property.GetMethod);
+                return setter != null
+                    ? new[] { property.GetMethod, property.SetMethod }
+                    : new[] { property.GetMethod };
             }
 
-            if ((property.SetMethod != null) && (nonPublic || property.SetMethod.IsPublic))
-            {
-                accessors.Add(property.SetMethod);
-            }
+            return setter != null ? new[] { property.SetMethod } : new MethodInfo[0];
 
-            return accessors.ToArray();
 #else
             return property.GetAccessors(nonPublic);
 #endif

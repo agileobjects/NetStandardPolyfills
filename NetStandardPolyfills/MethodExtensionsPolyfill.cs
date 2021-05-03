@@ -16,10 +16,10 @@
     public static class MethodExtensionsPolyfill
     {
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="parameter"/> is a params array.
+        /// Returns a value indicating if this <paramref name="parameter"/> is a params array.
         /// </summary>
         /// <param name="parameter">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="parameter"/> is a params array, otherwise false.</returns>
+        /// <returns>True if this <paramref name="parameter"/> is a params array, otherwise false.</returns>
         public static bool IsParamsArray(this ParameterInfo parameter)
         {
 #if NETSTANDARD1_0
@@ -30,12 +30,55 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the <paramref name="method"/> is an extension method.
+        /// Returns a value indicating if this <paramref name="method"/> is an extension method.
         /// </summary>
         /// <param name="method">The method for which to make the determination.</param>
-        /// <returns>True if the <paramref name="method"/> is an extension method, otherwise false.</returns>
+        /// <returns>True if this <paramref name="method"/> is an extension method, otherwise false.</returns>
         public static bool IsExtensionMethod(this MethodInfo method)
             => method.IsStatic && method.IsDefined(typeof(ExtensionAttribute), false);
+
+        /// <summary>
+        /// Returns a value indicating if this <paramref name="method"/> is a property or indexer
+        /// get or set accessor.
+        /// </summary>
+        /// <param name="method">The MethodInfo for which to make the determination.</param>
+        /// <returns>
+        /// True if this <paramref name="method"/> is a property or indexer get or set accessor,
+        /// otherwise false.
+        /// </returns>
+        public static bool IsAccessor(this MethodInfo method)
+            => method.IsAccessor(out _);
+
+        /// <summary>
+        /// Returns a value indicating if this <paramref name="method"/> is a property or indexer
+        /// get or set accessor, outputting the owning PropertyInfo in <paramref name="property"/>
+        /// if so.
+        /// </summary>
+        /// <param name="method">The MethodInfo for which to make the determination.</param>
+        /// <param name="property">
+        /// Populated with the PropertyInfo to which this <paramref name="method"/> belongs, if it
+        /// represents an accessor.
+        /// </param>
+        /// <returns>
+        /// True if this <paramref name="method"/> is a property or indexer get or set accessor,
+        /// otherwise false.
+        /// </returns>
+        public static bool IsAccessor(this MethodInfo method, out PropertyInfo property)
+        {
+            if (method.IsSpecialName)
+            {
+                // Find declaring property
+                property = method.GetProperty();
+
+                if (property != null)
+                {
+                    return true;
+                }
+            }
+
+            property = null;
+            return false;
+        }
 
         /// <summary>
         /// Gets the public methods for the given <paramref name="type"/>.

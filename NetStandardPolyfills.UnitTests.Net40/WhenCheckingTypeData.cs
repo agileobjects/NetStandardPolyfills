@@ -28,28 +28,6 @@
         }
 
         [Fact]
-        public void ShouldFlagAParamsArray()
-        {
-            var paramsParameter = typeof(TestHelper)
-                .GetPublicInstanceMethod("DoParamsStuff")
-                .GetParameters()
-                .First();
-
-            paramsParameter.IsParamsArray().ShouldBeTrue();
-        }
-
-        [Fact]
-        public void ShouldFlagANonParamsArray()
-        {
-            var paramsParameter = typeof(TestHelper)
-                .GetPublicInstanceMethod("DoNonParamsStuff")
-                .GetParameters()
-                .First();
-
-            paramsParameter.IsParamsArray().ShouldBeFalse();
-        }
-
-        [Fact]
         public void ShouldFindATypeAttribute()
         {
             typeof(TestHelper).HasAttribute<MyAttribute>().ShouldBeTrue();

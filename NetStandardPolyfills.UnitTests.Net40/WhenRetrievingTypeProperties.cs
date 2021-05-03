@@ -261,73 +261,67 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
         [Fact]
         public void ShouldRetrieveAPublicInstanceGetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetPublicInstanceProperty("PublicInstanceProperty")
                 .GetGetter()
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("PublicInstanceProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicInstanceProperty");
         }
 
         [Fact]
         public void ShouldRetrieveAPublicStaticSetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetPublicStaticProperty("PublicStaticProperty")
                 .GetSetter()
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("PublicStaticProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicStaticProperty");
         }
 
         [Fact]
         public void ShouldRetrieveANonPublicStaticGetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetNonPublicStaticProperty("NonPublicStaticProperty")
                 .GetSetter(nonPublic: true)
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("NonPublicStaticProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticProperty");
         }
 
         [Fact]
         public void ShouldRetrieveANonPublicInstanceSetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
                 .GetSetter(nonPublic: true)
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("NonPublicInstanceProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicInstanceProperty");
         }
 
         [Fact]
         public void ShouldRetrieveAPublicInstanceGetOnlyGetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetPublicInstanceProperty("PublicReadOnlyProperty")
                 .GetGetter()
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("PublicReadOnlyProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicReadOnlyProperty");
         }
 
         [Fact]
         public void ShouldRetrieveAPublicInstanceSetOnlySetterMethodProperty()
         {
-            var property = typeof(TestHelper)
+            typeof(TestHelper)
                 .GetPublicInstanceProperty("PublicWriteOnlyProperty")
                 .GetSetter()
-                .GetProperty();
-
-            property.ShouldNotBeNull();
-            property.Name.ShouldBe("PublicWriteOnlyProperty");
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicWriteOnlyProperty");
         }
 
         [Fact]

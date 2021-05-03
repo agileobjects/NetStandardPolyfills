@@ -123,6 +123,8 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * PropertyInfo.GetAccessors(bool nonPublic)
 * PropertyInfo.GetGetter(bool nonPublic)
 * PropertyInfo.GetSetter(bool nonPublic)
+* MethodInfo.IsAccessor()
+* MethodInfo.IsAccessor(out PropertyInfo property)
 * MethodInfo.IsImplicitOperator()
 * MethodInfo.IsExplicitOperator()
 * MemberInfo.HasAttribute&lt;TAttribute&gt;()
