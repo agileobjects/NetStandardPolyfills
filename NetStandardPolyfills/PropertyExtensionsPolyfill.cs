@@ -28,6 +28,42 @@
         public static bool IsWritable(this PropertyInfo property) => property.GetSetter() != null;
 
         /// <summary>
+        /// Gets the PropertyInfo to which this <paramref name="method"/> belongs, if this method
+        /// is a property getter or setter.
+        /// </summary>
+        /// <param name="method">The MethodInfo for which to retrieve the PropertyInfo.</param>
+        /// <returns>
+        /// The PropertyInfo to which this <paramref name="method"/> belongs, if this method is a
+        /// property getter or setter, or null if this method is not a property getter or setter.
+        /// </returns>
+        public static PropertyInfo GetProperty(this MethodInfo method)
+        {
+            var hasSingleArgument = method.GetParameters().Length == 1;
+            var hasReturnType = method.ReturnType != typeof(void);
+
+            if (hasSingleArgument == hasReturnType)
+            {
+                return null;
+            }
+
+            var type = method.DeclaringType;
+
+            var properties = method.IsPublic
+                ? method.IsStatic
+                    ? type.GetPublicStaticProperties()
+                    : type.GetPublicInstanceProperties()
+                : method.IsStatic
+                    ? type.GetNonPublicStaticProperties()
+                    : type.GetNonPublicInstanceProperties();
+
+            return properties.FirstOrDefault(property => Equals(
+                hasReturnType
+                    ? property.GetGetter(nonPublic: true)
+                    : property.GetSetter(nonPublic: true),
+                method));
+        }
+
+        /// <summary>
         /// Gets the public, static-scoped properties for the given <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>

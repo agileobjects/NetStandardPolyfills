@@ -52,6 +52,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 
 ### Property Retrieval:
 
+* MethodInfo.GetProperty()
 * Type.GetPublicStaticProperties()
 * Type.GetPublicStaticProperty(string name)
 * Type.GetPublicInstanceProperties()
