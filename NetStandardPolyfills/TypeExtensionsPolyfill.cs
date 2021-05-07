@@ -209,6 +209,80 @@
         }
 
         /// <summary>
+        /// Determines if this <paramref name="type"/> represents a type paramter in the definition
+        /// of a generic type or method.
+        /// </summary>
+        /// <param name="type">The Type for which to make the determination.</param>
+        /// <returns>
+        /// True if this <paramref name="type"/> represents a type paramter in the definition of a
+        /// generic type or method, otherwise false.
+        /// </returns>
+        public static bool IsGenericParameter(this Type type)
+        {
+#if NETSTANDARD1_0
+            return type.GetTypeInfo().IsGenericParameter;
+#else
+            return type.IsGenericParameter;
+#endif
+        }
+
+        /// <summary>
+        /// Gets the GenericParameterAttributes describing this <paramref name="type"/>'s generic
+        /// parameter constraints. If this <paramref name="type"/> is not a generic parameter type,
+        /// returns GenericParameterAttributes.None.
+        /// </summary>
+        /// <param name="type">The Type for which to retrieve the GenericParameterAttributes.</param>
+        /// <returns>
+        /// The GenericParameterAttributes describing this <paramref name="type"/>'s generic
+        /// parameter constraints, or GenericParameterAttributes.None if this
+        /// <paramref name="type"/> is not a generic parameter type.
+        /// </returns>
+        public static GenericParameterAttributes GetConstraints(this Type type)
+        {
+            if (!IsGenericParameter(type))
+            {
+                return GenericParameterAttributes.None;
+            }
+
+#if NETSTANDARD1_0
+            return type.GetTypeInfo().GenericParameterAttributes;
+#else
+            return type.GenericParameterAttributes;
+#endif
+        }
+
+#if !FEATURE_ARRAY_EMPTY
+        private static readonly Type[] _empty = {};
+#endif
+        /// <summary>
+        /// Gets the Types to which this generic parameter <paramref name="type"/> is constrained,
+        /// if applicable. If this <paramref name="type"/> is not a generic parameter type, returns
+        /// an empty array.
+        /// </summary>
+        /// <param name="type">The Type for which to retrieve the constraint Types.</param>
+        /// <returns>
+        /// The Types to which this generic parameter <paramref name="type"/> is constrained, or
+        /// an empty array this <paramref name="type"/> is not a generic parameter type.
+        /// </returns>
+        public static Type[] GetConstraintTypes(this Type type)
+        {
+            if (!IsGenericParameter(type))
+            {
+#if FEATURE_ARRAY_EMPTY
+                return Array.Empty<Type>();
+#else
+                return _empty;
+#endif
+            }
+
+#if NETSTANDARD1_0
+            return type.GetTypeInfo().GetGenericParameterConstraints();
+#else
+            return type.GetGenericParameterConstraints();
+#endif
+        }
+
+        /// <summary>
         /// Gets the Assembly to which the given <paramref name="type"/> belongs.
         /// </summary>
         /// <param name="type">The type for which to retrieve the Assembly.</param>

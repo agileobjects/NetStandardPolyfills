@@ -4,11 +4,14 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Linq;
     using TestClasses;
 #if FEATURE_XUNIT
     using Xunit;
+    using static System.Reflection.GenericParameterAttributes;
 #else
+    using static System.Reflection.GenericParameterAttributes;
     using Fact = NUnit.Framework.TestAttribute;
 
     [NUnit.Framework.TestFixture]
@@ -16,13 +19,13 @@
     public class WhenCheckingTypeData
     {
         [Fact]
-        public void ShouldDetermineThatATypeIsPublic()
+        public void ShouldFlagAPublicType()
         {
             typeof(TestHelper).IsPublic().ShouldBeTrue();
         }
 
         [Fact]
-        public void ShouldDetermineThatATypeIsNonPublic()
+        public void ShouldFlagANonPublicType()
         {
             typeof(Should).IsPublic().ShouldBeFalse();
         }
@@ -63,6 +66,128 @@
         public void ShouldFlagANonPrimitiveType()
         {
             typeof(object).IsPrimitive().ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldFlagAGenericParameterType()
+        {
+            typeof(List<>)
+                .GetGenericTypeArguments()[0]
+                .IsGenericParameter()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldFlagANonGenericParameterType()
+        {
+            typeof(List<>)
+                .IsGenericParameter()
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterClassConstraint()
+        {
+            var constraints = typeof(ClassConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraints();
+
+            constraints.ShouldBe(ReferenceTypeConstraint);
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterStructConstraint()
+        {
+            var constraints = typeof(StructConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraints();
+
+            (constraints & NotNullableValueTypeConstraint).ShouldBe(NotNullableValueTypeConstraint);
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterClassAndInterfaceConstraints()
+        {
+            var constraints = typeof(DisposableClassConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraints();
+
+            constraints.ShouldBe(ReferenceTypeConstraint);
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterTypeAndInterfaceConstraints()
+        {
+            var constraints = typeof(ComparableStreamConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraints();
+
+            constraints.ShouldBe(None);
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterUnconstrainedConstraints()
+        {
+            var constraints = typeof(Unconstrained<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraints();
+
+            constraints.ShouldBe(None);
+        }
+
+        [Fact]
+        public void ShouldGetNonGenericParameterConstraints()
+        {
+            var constraints = typeof(Unconstrained<>).GetConstraints();
+            constraints.ShouldBe(None);
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterNonTypeConstrainedConstraintTypes()
+        {
+            var constraints = typeof(ClassConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraintTypes();
+
+            constraints.ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterInterfaceConstraintTypes()
+        {
+            var constraints = typeof(DisposableClassConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraintTypes();
+
+            constraints.ShouldHaveSingleItem().ShouldBe(typeof(IDisposable));
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterTypeAndInterfaceConstraintTypes()
+        {
+            var genericArgument = typeof(ComparableStreamConstraint<>).GetGenericTypeArguments()[0];
+            var constraints = genericArgument.GetConstraintTypes();
+
+            constraints.Length.ShouldBe(2);
+            constraints.First().ShouldBe(typeof(Stream));
+            constraints.Last().ShouldBe(typeof(IComparable<>).MakeGenericType(genericArgument));
+        }
+
+        [Fact]
+        public void ShouldGetGenericParameterUnconstrainedConstraintTypes()
+        {
+            var constraints = typeof(Unconstrained<>)
+                .GetGenericTypeArguments()[0]
+                .GetConstraintTypes();
+
+            constraints.ShouldBeEmpty();
+        }
+
+        [Fact]
+        public void ShouldGetNonGenericParameterConstraintTypes()
+        {
+            var constraints = typeof(Unconstrained<>).GetConstraintTypes();
+            constraints.ShouldBeEmpty();
         }
 
         [Fact]
@@ -237,5 +362,35 @@
         {
             typeof(object).IsEnumerable().ShouldBeFalse();
         }
+
+        #region Helper Members
+
+        // ReSharper disable UnusedTypeParameter
+        private class ClassConstraint<TClass>
+            where TClass : class
+        {
+        }
+
+        private class StructConstraint<TStruct>
+            where TStruct : struct
+        {
+        }
+
+        private class DisposableClassConstraint<T>
+            where T : class, IDisposable
+        {
+        }
+
+        private class ComparableStreamConstraint<TStream>
+            where TStream : Stream, IComparable<TStream>
+        {
+        }
+
+        private class Unconstrained<T>
+        {
+        }
+        // ReSharper restore UnusedTypeParameter
+
+        #endregion
     }
 }
