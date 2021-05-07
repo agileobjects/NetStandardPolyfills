@@ -2,12 +2,13 @@
 {
     using System;
     using System.Collections;
+    using System.Linq;
 #if NETSTANDARD1_0
     using System.Collections.Generic;
-    using System.Linq;
 #endif
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using static System.Reflection.GenericParameterAttributes;
 
     /// <summary>
     /// Provides a set of static methods for obtaining type information in .NET Standard 1.0.
@@ -241,7 +242,7 @@
         {
             if (!IsGenericParameter(type))
             {
-                return GenericParameterAttributes.None;
+                return None;
             }
 
 #if NETSTANDARD1_0
@@ -418,7 +419,27 @@
         /// <param name="type">The type for which to make the determination.</param>
         /// <returns>True if the given <paramref name="type"/> can be null, otherwise false.</returns>
         public static bool CanBeNull(this Type type)
-            => type.IsClass() || type.IsInterface() || type.IsNullableType();
+        {
+            if (!type.IsGenericParameter())
+            {
+                return type.IsClass() || type.IsInterface() || type.IsNullableType();
+            }
+
+            var typeConstraints = type.GetConstraints();
+
+            if ((typeConstraints & ReferenceTypeConstraint) == ReferenceTypeConstraint)
+            {
+                return true;
+            }
+
+            if ((typeConstraints & NotNullableValueTypeConstraint) == NotNullableValueTypeConstraint)
+            {
+                return false;
+            }
+
+            return type.GetConstraintTypes().Any(t => t.CanBeNull());
+
+        }
 
         /// <summary>
         /// Returns a value indicating if the given <paramref name="type"/> is a Nullable{T}.

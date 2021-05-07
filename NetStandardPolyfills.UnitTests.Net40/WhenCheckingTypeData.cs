@@ -286,9 +286,45 @@
         }
 
         [Fact]
+        public void ShouldDetermineAClassConstrainedGenericParameterCanBeNull()
+        {
+            typeof(ClassConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .CanBeNull()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldDetermineATypeConstrainedGenericParameterCanBeNull()
+        {
+            typeof(ComparableStreamConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .CanBeNull()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
         public void ShouldDetermineADateTimeCannotBeNull()
         {
             typeof(DateTime).CanBeNull().ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldDetermineAStructConstrainedGenericParameterCannotBeNull()
+        {
+            typeof(StructConstraint<>)
+                .GetGenericTypeArguments()[0]
+                .CanBeNull()
+                .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldDetermineAUnconstrainedGenericParameterCannotBeNull()
+        {
+            typeof(Unconstrained<>)
+                .GetGenericTypeArguments()[0]
+                .CanBeNull()
+                .ShouldBeFalse();
         }
 
         [Fact]
