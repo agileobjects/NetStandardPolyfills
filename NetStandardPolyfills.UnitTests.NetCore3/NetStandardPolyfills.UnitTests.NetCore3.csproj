@@ -2,12 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RuntimeFrameworkVersion>3.1.3</RuntimeFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
     <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests</RootNamespace>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors></WarningsAsErrors>
-    <NoWarn>0649;1701;1702</NoWarn>
     <DebugType>full</DebugType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <IsPackable>false</IsPackable>
@@ -18,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\NetStandardPolyfills.UnitTests.Net40\**\*.cs" Exclude="..\NetStandardPolyfills.UnitTests.Net40\obj\**\*.cs;">
+    <Compile Include="..\NetStandardPolyfills.UnitTests.Net461\**\*.cs" Exclude="..\NetStandardPolyfills.UnitTests.Net461\obj\**\*.cs;">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>

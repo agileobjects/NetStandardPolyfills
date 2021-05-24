@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>net35;net40;netstandard1.0;netstandard2.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
     <AssemblyTitle>AgileObjects.NetStandardPolyfills</AssemblyTitle>
     <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
     <RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
     <PackageId>AgileObjects.NetStandardPolyfills</PackageId>
     <Title>NetStandardPolyfills</Title>
