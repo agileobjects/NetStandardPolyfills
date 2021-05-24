@@ -21,6 +21,8 @@
     <PackageReleaseNotes>- Adding .NET Standard 2.0 target
 - Adding extra Type extensions
     </PackageReleaseNotes>
+    <PackageOutputPath>../NuGet</PackageOutputPath>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
   <PropertyGroup>
