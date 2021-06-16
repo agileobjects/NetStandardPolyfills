@@ -14,17 +14,17 @@
     public static class PropertyExtensionsPolyfill
     {
         /// <summary>
-        /// Returns a value indicating whether the <paramref name="property"/> is readable.
+        /// Returns a value indicating whether this <paramref name="property"/> is readable.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the <paramref name="property"/> is readable, otherwise false.</returns>
+        /// <returns>True if this <paramref name="property"/> is readable, otherwise false.</returns>
         public static bool IsReadable(this PropertyInfo property) => property.GetGetter() != null;
 
         /// <summary>
-        /// Returns a value indicating whether the <paramref name="property"/> is writable.
+        /// Returns a value indicating whether this <paramref name="property"/> is writable.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the <paramref name="property"/> is writable, otherwise false.</returns>
+        /// <returns>True if this <paramref name="property"/> is writable, otherwise false.</returns>
         public static bool IsWritable(this PropertyInfo property) => property.GetSetter() != null;
 
         /// <summary>
@@ -60,10 +60,10 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped properties for the given <paramref name="type"/>.
+        /// Gets the public, static-scoped properties for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>
-        /// <returns>The given <paramref name="type"/>'s public, static-scoped properties.</returns>
+        /// <returns>This <paramref name="type"/>'s public, static-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetPublicStaticProperties(this Type type)
         {
 #if NETSTANDARD1_0
@@ -74,13 +74,14 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped property with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, static-scoped property with the given <paramref name="name"/>, for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the property.</param>
         /// <param name="name">The name of the property to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching public, static-scoped property, or null if none exists.
+        /// This <paramref name="type"/>'s matching public, static-scoped property, or null if none
+        /// exists.
         /// </returns>
         public static PropertyInfo GetPublicStaticProperty(this Type type, string name)
         {
@@ -92,10 +93,10 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped properties for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped properties for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>
-        /// <returns>The given <paramref name="type"/>'s public, instance-scoped properties.</returns>
+        /// <returns>This <paramref name="type"/>'s public, instance-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetPublicInstanceProperties(this Type type)
         {
 #if NETSTANDARD1_0
@@ -106,13 +107,14 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped property with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, instance-scoped property with the given <paramref name="name"/>, for
+        /// this <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the property.</param>
         /// <param name="name">The name of the property to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching public, instance-scoped property, or null if none exists.
+        /// This <paramref name="type"/>'s matching public, instance-scoped property, or null if none
+        /// exists.
         /// </returns>
         public static PropertyInfo GetPublicInstanceProperty(this Type type, string name)
         {
@@ -124,10 +126,10 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped properties for the given <paramref name="type"/>.
+        /// Gets the non-public, static-scoped properties for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>
-        /// <returns>The given <paramref name="type"/>'s non-public, static-scoped properties.</returns>
+        /// <returns>This <paramref name="type"/>'s non-public, static-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetNonPublicStaticProperties(this Type type)
         {
 #if NETSTANDARD1_0
@@ -138,13 +140,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped property with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, static-scoped property with the given <paramref name="name"/>, for
+        /// this <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the property.</param>
         /// <param name="name">The name of the property to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching non-public, static-scoped property, or null if none exists.
+        /// This <paramref name="type"/>'s matching non-public, static-scoped property, or null if
+        /// none exists.
         /// </returns>
         public static PropertyInfo GetNonPublicStaticProperty(this Type type, string name)
         {
@@ -156,10 +159,10 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped properties for the given <paramref name="type"/>.
+        /// Gets the non-public, instance-scoped properties for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the properties.</param>
-        /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped properties.</returns>
+        /// <returns>This <paramref name="type"/>'s non-public, instance-scoped properties.</returns>
         public static IEnumerable<PropertyInfo> GetNonPublicInstanceProperties(this Type type)
         {
 #if NETSTANDARD1_0
@@ -170,13 +173,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped property with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, instance-scoped property with the given <paramref name="name"/>, for
+        /// this <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the property.</param>
         /// <param name="name">The name of the property to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching non-public, instance-scoped property, or null if none exists.
+        /// This <paramref name="type"/>'s matching non-public, instance-scoped property, or null if
+        /// none exists.
         /// </returns>
         public static PropertyInfo GetNonPublicInstanceProperty(this Type type, string name)
         {
@@ -188,25 +192,25 @@
         }
 
         /// <summary>
-        /// Determines whether the given <paramref name="property"/> has a public getter or setter.
+        /// Determines whether this <paramref name="property"/> has a public getter or setter.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="property"/> has a public getter or setter, otherwise falsek.</returns>
+        /// <returns>True if this <paramref name="property"/> has a public getter or setter, otherwise false.</returns>
         public static bool IsPublic(this PropertyInfo property) => property.GetAccessors().Length != 0;
 
         /// <summary>
-        /// Determines whether the given <paramref name="property"/> is static.
+        /// Determines whether this <paramref name="property"/> is static.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="property"/> is static, otherwise false.</returns>
+        /// <returns>True if this <paramref name="property"/> is static, otherwise false.</returns>
         public static bool IsStatic(this PropertyInfo property)
             => property.GetAccessors(nonPublic: true).Any(m => m.IsStatic);
 
         /// <summary>
-        /// Determines whether the given <paramref name="property"/> is an indexer.
+        /// Determines whether this <paramref name="property"/> is an indexer.
         /// </summary>
         /// <param name="property">The property for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="property"/> is an indexer, otherwise false.</returns>
+        /// <returns>True if this <paramref name="property"/> is an indexer, otherwise false.</returns>
         public static bool IsIndexer(this PropertyInfo property)
             => property.GetIndexParameters().Length != 0;
 

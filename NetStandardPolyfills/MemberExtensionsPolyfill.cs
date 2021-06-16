@@ -14,13 +14,13 @@
     public static class MemberExtensionsPolyfill
     {
         /// <summary>
-        /// Returns a value indicating if the <paramref name="memberInfo"/> has the Attribute given
+        /// Returns a value indicating if this <paramref name="memberInfo"/> has the Attribute given
         /// in the <typeparamref name="TAttribute"/> type argument.
         /// </summary>
         /// <typeparam name="TAttribute">The Attribute type for which to make the determination.</typeparam>
         /// <param name="memberInfo">The MemberInfo for which to make the determination.</param>
         /// <returns>
-        /// True if the <paramref name="memberInfo"/> has the given <typeparamref name="TAttribute"/>,
+        /// True if this <paramref name="memberInfo"/> has the given <typeparamref name="TAttribute"/>,
         /// otherwise false.
         /// </returns>
         public static bool HasAttribute<TAttribute>(this MemberInfo memberInfo)
@@ -37,11 +37,11 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped members for the given <paramref name="type"/>.
+        /// Gets the public, static-scoped members for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
         /// <returns>
-        /// The public, static-scoped members for the given <paramref name="type"/>.
+        /// The public, static-scoped members for this <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicStaticMembers(this Type type)
         {
@@ -54,13 +54,13 @@
 
         /// <summary>
         /// Gets the public, static-scoped members with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>.
+        /// for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the members.</param>
         /// <param name="name">The name of the members to find.</param>
         /// <returns>
         /// The public, static-scoped members with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>.
+        /// this <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicStaticMembers(this Type type, string name)
         {
@@ -72,24 +72,24 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, static-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The public, static-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// The public, static-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetPublicStaticMember(this Type type, string name)
             => type.GetPublicStaticMembers(name).GetSingleMember(name);
 
         /// <summary>
-        /// Gets the public, instance-scoped members for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped members for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
         /// <returns>
-        /// The public, instance-scoped members for the given <paramref name="type"/>.
+        /// The public, instance-scoped members for this <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type)
         {
@@ -101,14 +101,14 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped members with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped members with the given <paramref name="name"/> for this
+        /// <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the members.</param>
         /// <param name="name">The name of the members to find.</param>
         /// <returns>
-        /// The public, instance-scoped members with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>.
+        /// The public, instance-scoped members with the given <paramref name="name"/> for this
+        /// <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetPublicInstanceMembers(this Type type, string name)
         {
@@ -120,24 +120,24 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, instance-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The public, instance-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// The public, instance-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetPublicInstanceMember(this Type type, string name)
             => type.GetPublicInstanceMembers(name).GetSingleMember(name);
 
         /// <summary>
-        /// Gets the non-public, static-scoped members for the given <paramref name="type"/>.
+        /// Gets the non-public, static-scoped members for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
         /// <returns>
-        /// The non-public, static-scoped members for the given <paramref name="type"/>.
+        /// The non-public, static-scoped members for this <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicStaticMembers(this Type type)
         {
@@ -149,14 +149,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped members with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>.
+        /// Gets the non-public, static-scoped members with the given <paramref name="name"/> for
+        /// this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the members.</param>
         /// <param name="name">The name of the members to find.</param>
         /// <returns>
-        /// The non-public, static-scoped members with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>.
+        /// The non-public, static-scoped members with the given <paramref name="name"/> for this
+        /// <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicStaticMembers(this Type type, string name)
         {
@@ -168,24 +168,24 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, static-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The non-public, static-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// The non-public, static-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetNonPublicStaticMember(this Type type, string name)
             => type.GetNonPublicStaticMembers(name).GetSingleMember(name);
 
         /// <summary>
-        /// Gets the non-public, instance-scoped members for the given <paramref name="type"/>.
+        /// Gets the non-public, instance-scoped members for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the member.</param>
         /// <returns>
-        /// The non-public, instance-scoped members for the given <paramref name="type"/>.
+        /// The non-public, instance-scoped members for this <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicInstanceMembers(this Type type)
         {
@@ -197,14 +197,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped members with the given <paramref name="name"/>
-        /// for the given <paramref name="type"/>.
+        /// Gets the non-public, instance-scoped members with the given <paramref name="name"/> for
+        /// this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the members.</param>
         /// <param name="name">The name of the members to find.</param>
         /// <returns>
-        /// The non-public, instance-scoped members with the given <paramref name="name"/> for 
-        /// the given <paramref name="type"/>.
+        /// The non-public, instance-scoped members with the given <paramref name="name"/> for this
+        /// <paramref name="type"/>.
         /// </returns>
         public static IEnumerable<MemberInfo> GetNonPublicInstanceMembers(this Type type, string name)
         {
@@ -216,14 +216,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, instance-scoped member with the given <paramref name="name"/> for
+        /// this <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the named member.</param>
         /// <param name="name">The name of the member to find.</param>
         /// <returns>
-        /// The non-public, instance-scoped member with the given <paramref name="name"/> for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// The non-public, instance-scoped member with the given <paramref name="name"/> for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </returns>
         public static MemberInfo GetNonPublicInstanceMember(this Type type, string name)
             => type.GetNonPublicInstanceMembers(name).GetSingleMember(name);

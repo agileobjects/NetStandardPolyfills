@@ -16,10 +16,10 @@
     public static class TypeExtensionsPolyfill
     {
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is public.
+        /// Returns a value indicating if this <paramref name="type"/> is public.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is public, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is public, otherwise false.</returns>
         public static bool IsPublic(this Type type)
         {
 #if NETSTANDARD1_0
@@ -30,10 +30,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a class.
+        /// Returns a value indicating if this <paramref name="type"/> is a class.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is a class, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is a class, otherwise false.</returns>
         public static bool IsClass(this Type type)
         {
 #if NETSTANDARD1_0
@@ -44,10 +44,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a value type.
+        /// Returns a value indicating if this <paramref name="type"/> is a value type.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is a value type, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is a value type, otherwise false.</returns>
         public static bool IsValueType(this Type type)
         {
 #if NETSTANDARD1_0
@@ -58,10 +58,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is an interface.
+        /// Returns a value indicating if this <paramref name="type"/> is an interface.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is an interface, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is an interface, otherwise false.</returns>
         public static bool IsInterface(this Type type)
         {
 #if NETSTANDARD1_0
@@ -72,10 +72,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is sealed.
+        /// Returns a value indicating if this <paramref name="type"/> is sealed.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is sealed, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is sealed, otherwise false.</returns>
         public static bool IsSealed(this Type type)
         {
 #if NETSTANDARD1_0
@@ -86,10 +86,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is abstract.
+        /// Returns a value indicating if this <paramref name="type"/> is abstract.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is abstract, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is abstract, otherwise false.</returns>
         public static bool IsAbstract(this Type type)
         {
 #if NETSTANDARD1_0
@@ -100,13 +100,11 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is an
-        /// anonymous type. See http://stackoverflow.com/questions/2483023/how-to-test-if-a-type-is-anonymous
+        /// Returns a value indicating if this <paramref name="type"/> is an anonymous type.
+        /// See https://stackoverflow.com/questions/2483023/how-to-test-if-a-type-is-anonymous
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>
-        /// True if the given <paramref name="type"/> is an anonymous type, otherwise false.
-        /// </returns>
+        /// <returns>True if this <paramref name="type"/> is an anonymous type, otherwise false.</returns>
         public static bool IsAnonymous(this Type type)
         {
             return type.IsGenericType() &&
@@ -121,10 +119,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is an enum.
+        /// Returns a value indicating if this <paramref name="type"/> is an enum.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is an enum, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is an enum, otherwise false.</returns>
         public static bool IsEnum(this Type type)
         {
 #if NETSTANDARD1_0
@@ -147,10 +145,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a primitive.
+        /// Returns a value indicating if this <paramref name="type"/> is a primitive.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is a primitive, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is a primitive, otherwise false.</returns>
         public static bool IsPrimitive(this Type type)
         {
 #if NETSTANDARD1_0
@@ -161,10 +159,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a generic type.
+        /// Returns a value indicating if this <paramref name="type"/> is a generic type.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is a generic type, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is a generic type, otherwise false.</returns>
         public static bool IsGenericType(this Type type)
         {
 #if NETSTANDARD1_0
@@ -175,15 +173,15 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a closed version of the
+        /// Returns a value indicating if this <paramref name="type"/> is a closed version of the
         /// given <paramref name="genericTypeDefinition"/>.
         /// </summary>
-        /// <param name="type">The type for which to make the determination, e.g. List{string}.</param>
+        /// <param name="type">The type for which to make the determination, e.g. List&lt;string&gt;.</param>
         /// <param name="genericTypeDefinition">
-        /// The open generic type for which to make the determination, , e.g. List{}.
+        /// The open generic type for which to make the determination, , e.g. List&lt;&gt;.
         /// </param>
         /// <returns>
-        /// True if the given <paramref name="type"/> is a closed version of the given 
+        /// True if this <paramref name="type"/> is a closed version of the given 
         /// <paramref name="genericTypeDefinition"/>, otherwise false.
         /// </returns>
         public static bool IsClosedTypeOf(this Type type, Type genericTypeDefinition)
@@ -196,7 +194,7 @@
         /// <param name="type">The type for which to retrieve the generic arguments.</param>
         /// <returns>
         /// An array of Types that represent the type arguments of a generic type, or an empty array 
-        /// if the current type is not a generic type.
+        /// if this <paramref name="type"/> is not a generic type.
         /// </returns>
         public static Type[] GetGenericTypeArguments(this Type type)
         {
@@ -284,10 +282,10 @@
         }
 
         /// <summary>
-        /// Gets the Assembly to which the given <paramref name="type"/> belongs.
+        /// Gets the Assembly to which this <paramref name="type"/> belongs.
         /// </summary>
         /// <param name="type">The type for which to retrieve the Assembly.</param>
-        /// <returns>The Assembly to which the given <paramref name="type"/> belongs.</returns>
+        /// <returns>The Assembly to which this <paramref name="type"/> belongs.</returns>
         public static Assembly GetAssembly(this Type type)
         {
 #if NETSTANDARD1_0
@@ -298,10 +296,10 @@
         }
 
         /// <summary>
-        /// Gets the given <paramref name="type"/>'s base type or null if there is none.
+        /// Gets this <paramref name="type"/>'s base type or null if there is none.
         /// </summary>
         /// <param name="type">The type for which to retrieve the base type.</param>
-        /// <returns>The given <paramref name="type"/>'s base type or null if there is none.</returns>
+        /// <returns>This <paramref name="type"/>'s base type or null if there is none.</returns>
         public static Type GetBaseType(this Type type)
         {
 #if NETSTANDARD1_0
@@ -312,11 +310,11 @@
         }
 
         /// <summary>
-        /// Gets all the interfaces implemented or inherited by the current <paramref name="type"/>.
+        /// Gets all the interfaces implemented or inherited by this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The Type for which to retrieve the implemented interfaces.</param>
         /// <returns>
-        /// An array of Types representing all the interfaces implemented or inherited by the current 
+        /// An array of Types representing all the interfaces implemented or inherited by this
         /// <paramref name="type"/>, or an empty array if no interfaces are implemented or inherited.
         /// </returns>
         public static Type[] GetAllInterfaces(this Type type)
@@ -338,13 +336,13 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="childType"/> is derived from
-        /// the given <paramref name="parentType"/>.
+        /// Returns a value indicating if this <paramref name="childType"/> is derived from the given
+        /// <paramref name="parentType"/>.
         /// </summary>
         /// <param name="childType">The descendant type for which to make the determination.</param>
         /// <param name="parentType">The ancestor type for which to make the determination.</param>
         /// <returns>
-        /// True if the given <paramref name="childType"/> is derived from the given 
+        /// True if this <paramref name="childType"/> is derived from the given 
         /// <paramref name="parentType"/>, otherwise false.
         /// </returns>
         public static bool IsDerivedFrom(this Type childType, Type parentType)
@@ -357,18 +355,19 @@
         }
 
         /// <summary>
-        /// Determines whether an instance of the current <paramref name="assignableType"/> can be assigned 
-        /// to an instance of the given <paramref name="type"/>.
+        /// Determines whether an instance of this <paramref name="assignableType"/> can be assigned 
+        /// to an instance of this <paramref name="type"/>.
         /// </summary>
         /// <param name="assignableType">The Type the assignability of which should be determined.</param>
         /// <param name="type">The Type to compare with the current type.</param>
         /// <returns>
-        /// True if the <paramref name="type"/> and the current <paramref name="assignableType"/> represent 
-        /// the same type, or if the current <paramref name="assignableType"/> is in the inheritance hierarchy 
-        /// of the <paramref name="type"/>, or if the current <paramref name="assignableType"/> is an interface 
-        /// that the <paramref name="type"/> implements, or if the <paramref name="type"/> is a generic type 
-        /// parameter and the current <paramref name="assignableType"/> represents one of its constraints. 
-        /// False if none of these conditions are true, or if the <paramref name="type"/> is null.
+        /// True if the <paramref name="type"/> and this <paramref name="assignableType"/> represent 
+        /// the same type, or if the current <paramref name="assignableType"/> is in the inheritance
+        /// hierarchy of the <paramref name="type"/>, or if this <paramref name="assignableType"/> is
+        /// an interface that the <paramref name="type"/> implements, or if the
+        /// <paramref name="type"/> is a generic type parameter and this
+        /// <paramref name="assignableType"/> represents one of its constraints. False if none of
+        /// these conditions are true, or if the <paramref name="type"/> is null.
         /// </returns>
         public static bool IsAssignableTo(this Type assignableType, Type type)
         {
@@ -380,13 +379,13 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> has the Attribute
+        /// Returns a value indicating if this <paramref name="type"/> has the Attribute
         /// given in the <typeparamref name="TAttribute"/> type argument.
         /// </summary>
         /// <typeparam name="TAttribute">The Attribute type for which to make the determination.</typeparam>
         /// <param name="type">The type for which to make the determination.</param>
         /// <returns>
-        /// True if the given <paramref name="type"/> has the given <typeparamref name="TAttribute"/>,
+        /// True if this <paramref name="type"/> has the given <typeparamref name="TAttribute"/>,
         /// otherwise false.
         /// </returns>
         public static bool HasAttribute<TAttribute>(this Type type)
@@ -400,10 +399,10 @@
         }
 
         /// <summary>
-        /// Gets the TypeAttributes value applied to the given <paramref name="type"/>.
+        /// Gets the TypeAttributes value applied to this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the TypeAttributes value.</param>
-        /// <returns>The TypeAttributes value applied to the given <paramref name="type"/>.</returns>
+        /// <returns>The TypeAttributes value applied to this <paramref name="type"/>.</returns>
         public static TypeAttributes GetAttributes(this Type type)
         {
 #if NETSTANDARD1_0
@@ -414,10 +413,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> can be null.
+        /// Returns a value indicating if this <paramref name="type"/> can be null.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> can be null, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> can be null, otherwise false.</returns>
         public static bool CanBeNull(this Type type)
         {
             if (!type.IsGenericParameter())
@@ -442,10 +441,10 @@
         }
 
         /// <summary>
-        /// Returns a value indicating if the given <paramref name="type"/> is a Nullable{T}.
+        /// Returns a value indicating if this <paramref name="type"/> is a Nullable&lt;T&gt;.
         /// </summary>
         /// <param name="type">The type for which to make the determination.</param>
-        /// <returns>True if the given <paramref name="type"/> is a Nullable{T}, otherwise false.</returns>
+        /// <returns>True if this <paramref name="type"/> is a Nullable&lt;T&gt;, otherwise false.</returns>
         public static bool IsNullableType(this Type type)
             => Nullable.GetUnderlyingType(type) != null;
 
@@ -482,7 +481,7 @@
         };
 #endif
         /// <summary>
-        /// Gets the appropriate <see cref="NetStandardTypeCode"/> value for the given <paramref name="type"/>.
+        /// Gets the appropriate <see cref="NetStandardTypeCode"/> value for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the <see cref="NetStandardTypeCode"/>.</param>
         /// <returns>The appropriate <see cref="NetStandardTypeCode"/> value.</returns>

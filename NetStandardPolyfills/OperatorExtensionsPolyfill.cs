@@ -15,28 +15,28 @@
         private const string _explicitOperatorName = "op_Explicit";
 
         /// <summary>
-        /// Returns a value indicating whether the <paramref name="method"/> is an implicit operator.
+        /// Returns a value indicating whether this <paramref name="method"/> is an implicit operator.
         /// </summary>
         /// <param name="method">The method for which to make the determination.</param>
-        /// <returns>True if the <paramref name="method"/> is an implicit operator, otherwise false.</returns>
+        /// <returns>True if this <paramref name="method"/> is an implicit operator, otherwise false.</returns>
         public static bool IsImplicitOperator(this MethodInfo method)
             => method.IsSpecialName && method.IsStatic && (method.Name == _implicitOperatorName);
 
         /// <summary>
-        /// Returns a value indicating whether the <paramref name="method"/> is an explicit operator.
+        /// Returns a value indicating whether this <paramref name="method"/> is an explicit operator.
         /// </summary>
         /// <param name="method">The method for which to make the determination.</param>
-        /// <returns>True if the <paramref name="method"/> is an explicit operator, otherwise false.</returns>
+        /// <returns>True if this <paramref name="method"/> is an explicit operator, otherwise false.</returns>
         public static bool IsExplicitOperator(this MethodInfo method)
             => method.IsSpecialName && method.IsStatic && (method.Name == _explicitOperatorName);
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s implicit and explicit operators, optionally of the type 
-        /// specified by the given <paramref name="matcher"/>.
+        /// Gets this <paramref name="type" />'s implicit and explicit operators, optionally of the
+        /// type specified by the given <paramref name="matcher"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operators.</param>
         /// <param name="matcher">An action specifying the type of implicit operator to retrieve.</param>
-        /// <returns>The <paramref name="type" />'s implicit and explicit operators.</returns>
+        /// <returns>This <paramref name="type" />'s implicit and explicit operators.</returns>
         public static IEnumerable<MethodInfo> GetOperators(this Type type, Action<OperatorSelector> matcher = null)
         {
             var operators = type
@@ -57,10 +57,10 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s implicit operators.
+        /// Gets this <paramref name="type" />'s implicit operators.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operators.</param>
-        /// <returns>The <paramref name="type" />'s implicit operators.</returns>
+        /// <returns>This <paramref name="type" />'s implicit operators.</returns>
         public static IEnumerable<MethodInfo> GetImplicitOperators(this Type type)
         {
             return type
@@ -69,13 +69,13 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s implicit operator of the type specified by the given 
+        /// Gets this <paramref name="type" />'s implicit operator of the type specified by the given 
         /// <paramref name="matcher"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operator.</param>
         /// <param name="matcher">An action specifying the type of implicit operator to retrieve.</param>
         /// <returns>
-        /// The <paramref name="type" />'s implicit operator of the type specified by the given 
+        /// This <paramref name="type" />'s implicit operator of the type specified by the given 
         /// <paramref name="matcher"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetImplicitOperator(this Type type, Action<OperatorSelector> matcher)
@@ -88,10 +88,10 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s explicit operators.
+        /// Gets this <paramref name="type" />'s explicit operators.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operators.</param>
-        /// <returns>The <paramref name="type" />'s explicit operators.</returns>
+        /// <returns>This <paramref name="type" />'s explicit operators.</returns>
         public static IEnumerable<MethodInfo> GetExplicitOperators(this Type type)
         {
             return type
@@ -100,13 +100,13 @@
         }
 
         /// <summary>
-        /// Gets the <paramref name="type" />'s explicit operator of the type specified by the given 
+        /// Gets this <paramref name="type" />'s explicit operator of the type specified by the given 
         /// <paramref name="matcher"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the operator.</param>
         /// <param name="matcher">An action specifying the type of explicit operator to retrieve.</param>
         /// <returns>
-        /// The <paramref name="type" />'s explicit operator of the type specified by the given 
+        /// This <paramref name="type" />'s explicit operator of the type specified by the given 
         /// <paramref name="matcher"/>, or null if none exists.
         /// </returns>
         public static MethodInfo GetExplicitOperator(this Type type, Action<OperatorSelector> matcher)
