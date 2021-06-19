@@ -18,8 +18,10 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>./Icon.png</PackageIcon>
-    <PackageReleaseNotes>- Adding .NET Standard 2.0 target
-- Adding extra Type extensions
+    <PackageReleaseNotes>- Extra Type info extensions
+- Extra constructor info extensions
+- Extra MethodInfo extensions
+- Extra Assembly extension
     </PackageReleaseNotes>
     <PackageOutputPath>../NuGet</PackageOutputPath>
     <NoPackageAnalysis>true</NoPackageAnalysis>

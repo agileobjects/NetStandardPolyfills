@@ -7,7 +7,6 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 ### Type Info:
 
 * Type.CanBeNull()
-* Type.GetNonNullableType()
 * Type.IsAbstract()
 * Type.IsAnonymous()
 * Type.IsAssignableTo(Type type)
@@ -31,6 +30,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * Type.GetConstraintTypes()
 * Type.GetInterfaces()
 * Type.GetGenericTypeArguments()
+* Type.GetNonNullableType()
 * Type.GetTypeCode()
 * Type.HasAttribute&lt;TAttribute&gt;()
 
