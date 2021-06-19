@@ -7,7 +7,6 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 ### Type Info:
 
 * Type.CanBeNull()
-* Type.GetNonNullableType()
 * Type.IsAbstract()
 * Type.IsAnonymous()
 * Type.IsAssignableTo(Type type)
@@ -16,6 +15,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * Type.IsDerivedFrom(Type parentType)
 * Type.IsEnum()
 * Type.IsEnumerable()
+* Type.IsGenericParameter()
 * Type.IsGenericType()
 * Type.IsInterface()
 * Type.IsNullableType()
@@ -23,11 +23,14 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * Type.IsPublic()
 * Type.IsSealed()
 * Type.IsValueType()
-* Type.GetAttributes()
 * Type.GetAssembly()
+* Type.GetAttributes()
 * Type.GetBaseType()
+* Type.GetConstraints()
+* Type.GetConstraintTypes()
 * Type.GetInterfaces()
 * Type.GetGenericTypeArguments()
+* Type.GetNonNullableType()
 * Type.GetTypeCode()
 * Type.HasAttribute&lt;TAttribute&gt;()
 
@@ -37,6 +40,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * Type.GetPublicInstanceConstructor(params Type[] parameterTypes)
 * Type.GetNonPublicInstanceConstructors()
 * Type.GetNonPublicInstanceConstructor(params Type[] parameterTypes)
+* Type.GetStaticConstructor()
 
 ### Field Retrieval:
 
@@ -51,6 +55,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 
 ### Property Retrieval:
 
+* MethodInfo.GetProperty()
 * Type.GetPublicStaticProperties()
 * Type.GetPublicStaticProperty(string name)
 * Type.GetPublicInstanceProperties()
@@ -107,6 +112,7 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 
 ### Assembly Info:
 
+* Assembly.GetLocation()
 * Assembly.GetAllTypes()
 
 ### Misc
@@ -120,6 +126,8 @@ A set of Type and Reflection polyfill extension methods for .NET Standard v1.0+ 
 * PropertyInfo.GetAccessors(bool nonPublic)
 * PropertyInfo.GetGetter(bool nonPublic)
 * PropertyInfo.GetSetter(bool nonPublic)
+* MethodInfo.IsAccessor()
+* MethodInfo.IsAccessor(out PropertyInfo property)
 * MethodInfo.IsImplicitOperator()
 * MethodInfo.IsExplicitOperator()
 * MemberInfo.HasAttribute&lt;TAttribute&gt;()

@@ -11,12 +11,12 @@
 #endif
 
     /// <summary>
-    /// Provides a set of static methods methods for obtaining constructor information in .NET Standard 1.0 and .NET 4.0.
+    /// Provides a set of static methods methods for obtaining constructor information in .NET Standard 1.0+ and .NET 3.5+.
     /// </summary>
     public static class ConstructorExtensionsPolyfill
     {
         /// <summary>
-        /// Gets the public, instance-scoped constructors for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped constructors for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the constructors.</param>
         /// <returns>The given <paramref name="type"/>'s public, instance-scoped constructors.</returns>
@@ -30,16 +30,17 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped constructor for the given <paramref name="type"/> which has the 
-        /// given <paramref name="parameterTypes"/>.
+        /// Gets the public, instance-scoped constructor for this <paramref name="type"/> which has
+        /// the given <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the constructor.</param>
         /// <param name="parameterTypes">
-        /// Zero or more Types representing the number, order, and type of the parameters for the constructor 
-        /// to retrieve. This parameter is optional.
+        /// Zero or more Types representing the number, order, and type of the parameters for the
+        /// constructor to retrieve. This parameter is optional.
         /// </param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching public, instance-scoped constructor, or null if none exists.
+        /// The given <paramref name="type"/>'s matching public, instance-scoped constructor, or null
+        /// if none exists.
         /// </returns>
         public static ConstructorInfo GetPublicInstanceConstructor(this Type type, params Type[] parameterTypes)
         {
@@ -53,7 +54,7 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped constructors for the given <paramref name="type"/>.
+        /// Gets the non-public, instance-scoped constructors for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the constructors.</param>
         /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped constructors.</returns>
@@ -67,16 +68,17 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped constructor for the given <paramref name="type"/> which has the 
-        /// given <paramref name="parameterTypes"/>.
+        /// Gets the non-public, instance-scoped constructor for this <paramref name="type"/> which
+        /// has the given <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="type">The type for which to retrieve the constructor.</param>
         /// <param name="parameterTypes">
-        /// Zero or more Types representing the number, order, and type of the parameters for the constructor 
-        /// to retrieve. This parameter is optional.
+        /// Zero or more Types representing the number, order, and type of the parameters for the
+        /// constructor to retrieve. This parameter is optional.
         /// </param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching non-public, instance-scoped constructor, or null if none exists.
+        /// The given <paramref name="type"/>'s matching non-public, instance-scoped constructor, or
+        /// null if none exists.
         /// </returns>
         public static ConstructorInfo GetNonPublicInstanceConstructor(this Type type, params Type[] parameterTypes)
         {
@@ -89,6 +91,27 @@
                 BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 parameterTypes,
+                null);
+#endif
+        }
+
+        /// <summary>
+        /// Gets the static constructor for this <paramref name="type"/>. Static constructors are
+        /// always non-public and parameterless.
+        /// </summary>
+        /// <param name="type">The type for which to retrieve the static constructor.</param>
+        /// <returns>
+        /// The given <paramref name="type"/>'s static constructor, or null if none exists.
+        /// </returns>
+        public static ConstructorInfo GetStaticConstructor(this Type type)
+        {
+#if NETSTANDARD1_0
+            return GetConstructors(type, isPublic: false, isStatic: true).FirstOrDefault();
+#else
+            return type.GetConstructor(
+                BindingFlags.NonPublic | BindingFlags.Static,
+                null,
+                Type.EmptyTypes,
                 null);
 #endif
         }

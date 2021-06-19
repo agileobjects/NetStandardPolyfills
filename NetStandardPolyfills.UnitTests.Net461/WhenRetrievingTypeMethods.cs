@@ -14,6 +14,28 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
     public class WhenRetrievingTypeMethods
     {
         [Fact]
+        public void ShouldFlagAParamsArray()
+        {
+            var paramsParameter = typeof(TestHelper)
+                .GetPublicInstanceMethod("DoParamsStuff")
+                .GetParameters()
+                .First();
+
+            paramsParameter.IsParamsArray().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldFlagANonParamsArray()
+        {
+            var paramsParameter = typeof(TestHelper)
+                .GetPublicInstanceMethod("DoNonParamsStuff")
+                .GetParameters()
+                .First();
+
+            paramsParameter.IsParamsArray().ShouldBeFalse();
+        }
+
+        [Fact]
         public void ShouldFlagAnExtensionMethod()
         {
             typeof(Enumerable)
@@ -31,6 +53,88 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .ShouldNotBeNull()
                 .IsExtensionMethod()
                 .ShouldBeFalse();
+        }
+
+        [Fact]
+        public void ShouldFlagAPublicStaticGetterAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticProperty("PublicStaticProperty")
+                .GetGetter()
+                .IsAccessor()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldFlagANonPublicInstanceSetterAccessor()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .GetSetter(nonPublic: true)
+                .IsAccessor()
+                .ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ShouldFindAPublicInstanceGetterAccessor()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicInstanceProperty")
+                .GetGetter()
+                .IsAccessor(out var property)
+                .ShouldBeTrue();
+
+            property
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicInstanceProperty");
+        }
+
+        [Fact]
+        public void ShouldFindANonPublicStaticSetterAccessor()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticProperty("NonPublicStaticProperty")
+                .GetSetter(nonPublic: true)
+                .IsAccessor(out var property)
+                .ShouldBeTrue();
+
+            property
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticProperty");
+        }
+
+        [Fact]
+        public void ShouldFindAPublicInstanceIndexGetAccessorProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetAccessors()
+                .ShouldHaveSingleItem()
+                .IsAccessor(out var property)
+                .ShouldBeTrue();
+
+            property
+                .ShouldNotBeNull()
+                .Name.ShouldBe("Item");
+        }
+
+        [Fact]
+        public void ShouldFindANonPublicInstanceIndexSetAccessorProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperties()
+                .FirstOrDefault(p => p.IsIndexer())
+                .ShouldNotBeNull()
+                .GetSetter(nonPublic: true)
+                .ShouldNotBeNull()
+                .IsAccessor(out var property)
+                .ShouldBeTrue();
+
+            property
+                .ShouldNotBeNull()
+                .Name.ShouldBe("Item");
         }
 
         [Fact]

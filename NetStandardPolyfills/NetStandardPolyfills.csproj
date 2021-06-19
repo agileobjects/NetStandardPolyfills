@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>net35;net40;netstandard1.0;netstandard2.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
     <AssemblyTitle>AgileObjects.NetStandardPolyfills</AssemblyTitle>
     <AssemblyName>AgileObjects.NetStandardPolyfills</AssemblyName>
     <RootNamespace>AgileObjects.NetStandardPolyfills</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
     <PackageId>AgileObjects.NetStandardPolyfills</PackageId>
     <Title>NetStandardPolyfills</Title>
@@ -20,9 +18,13 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>./Icon.png</PackageIcon>
-    <PackageReleaseNotes>- Adding .NET Standard 2.0 target
-- Adding extra Type extensions
+    <PackageReleaseNotes>- Extra Type info extensions
+- Extra constructor info extensions
+- Extra MethodInfo extensions
+- Extra Assembly extension
     </PackageReleaseNotes>
+    <PackageOutputPath>../NuGet</PackageOutputPath>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,6 +37,10 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD1_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);FEATURE_ARRAY_EMPTY</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">

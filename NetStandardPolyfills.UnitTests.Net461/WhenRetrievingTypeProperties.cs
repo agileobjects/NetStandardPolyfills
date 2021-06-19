@@ -258,6 +258,90 @@ namespace AgileObjects.NetStandardPolyfills.UnitTests
                 .Name.ShouldBe("set_Item");
         }
 
+        [Fact]
+        public void ShouldRetrieveAPublicInstanceGetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicInstanceProperty")
+                .GetGetter()
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicInstanceProperty");
+        }
+
+        [Fact]
+        public void ShouldRetrieveAPublicStaticSetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicStaticProperty("PublicStaticProperty")
+                .GetSetter()
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicStaticProperty");
+        }
+
+        [Fact]
+        public void ShouldRetrieveANonPublicStaticGetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticProperty("NonPublicStaticProperty")
+                .GetSetter(nonPublic: true)
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicStaticProperty");
+        }
+
+        [Fact]
+        public void ShouldRetrieveANonPublicInstanceSetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetNonPublicInstanceProperty("NonPublicInstanceProperty")
+                .GetSetter(nonPublic: true)
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("NonPublicInstanceProperty");
+        }
+
+        [Fact]
+        public void ShouldRetrieveAPublicInstanceGetOnlyGetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicReadOnlyProperty")
+                .GetGetter()
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicReadOnlyProperty");
+        }
+
+        [Fact]
+        public void ShouldRetrieveAPublicInstanceSetOnlySetterMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceProperty("PublicWriteOnlyProperty")
+                .GetSetter()
+                .GetProperty()
+                .ShouldNotBeNull()
+                .Name.ShouldBe("PublicWriteOnlyProperty");
+        }
+
+        [Fact]
+        public void ShouldReturnNullForAPublicInstanceMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetPublicInstanceMethod("DoParamsStuff")
+                .GetProperty()
+                .ShouldBeNull();
+        }
+
+        [Fact]
+        public void ShouldReturnNullForANonPublicStaticMethodProperty()
+        {
+            typeof(TestHelper)
+                .GetNonPublicStaticMethod("NonPublicStaticMethod")
+                .GetProperty()
+                .ShouldBeNull();
+        }
+
         #region Helper Classes
 
         // ReSharper disable UnusedMember.Local

@@ -1,13 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RuntimeFrameworkVersion>2.2.8</RuntimeFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>AgileObjects.NetStandardPolyfills.UnitTests</RootNamespace>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors></WarningsAsErrors>
-    <NoWarn>0649;1701;1702</NoWarn>
     <DebugType>full</DebugType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <IsPackable>false</IsPackable>
@@ -17,16 +12,8 @@
     <DefineConstants>$(DefineConstants);TRACE;FEATURE_XUNIT</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="..\NetStandardPolyfills.UnitTests.Net40\**\*.cs" Exclude="..\NetStandardPolyfills.UnitTests.Net40\obj\**\*.cs;">
+    <Compile Include="..\NetStandardPolyfills.UnitTests.Net461\**\*.cs" Exclude="..\NetStandardPolyfills.UnitTests.Net461\obj\**\*.cs;">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>

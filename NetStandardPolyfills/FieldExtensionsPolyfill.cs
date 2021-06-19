@@ -9,15 +9,15 @@
 #endif
 
     /// <summary>
-    /// Provides a set of static methods for obtaining field information in .NET Standard 1.0 and .NET 4.0.
+    /// Provides a set of static methods for obtaining field information in .NET Standard 1.0+ and .NET 3.5+.
     /// </summary>
     public static class FieldExtensionsPolyfill
     {
         /// <summary>
-        /// Gets the public, static-scoped fields for the given <paramref name="type"/>.
+        /// Gets the public, static-scoped fields for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the fields.</param>
-        /// <returns>The given <paramref name="type"/>'s public, static-scoped fields.</returns>
+        /// <returns>This <paramref name="type"/>'s public, static-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetPublicStaticFields(this Type type)
         {
 #if NETSTANDARD1_0
@@ -28,13 +28,14 @@
         }
 
         /// <summary>
-        /// Gets the public, static-scoped field with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, static-scoped field with the given <paramref name="name"/>, for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the field.</param>
         /// <param name="name">The name of the field to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching public, static-scoped field, or null if none exists.
+        /// This <paramref name="type"/>'s matching public, static-scoped field, or null if none
+        /// exists.
         /// </returns>
         public static FieldInfo GetPublicStaticField(this Type type, string name)
         {
@@ -46,10 +47,10 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped fields for the given <paramref name="type"/>.
+        /// Gets the public, instance-scoped fields for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the fields.</param>
-        /// <returns>The given <paramref name="type"/>'s public, instance-scoped fields.</returns>
+        /// <returns>This <paramref name="type"/>'s public, instance-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetPublicInstanceFields(this Type type)
         {
 #if NETSTANDARD1_0
@@ -60,13 +61,14 @@
         }
 
         /// <summary>
-        /// Gets the public, instance-scoped field with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the public, instance-scoped field with the given <paramref name="name"/>, for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the field.</param>
         /// <param name="name">The name of the field to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching public, instance-scoped field, or null if none exists.
+        /// This <paramref name="type"/>'s matching public, instance-scoped field, or null if none
+        /// exists.
         /// </returns>
         public static FieldInfo GetPublicInstanceField(this Type type, string name)
         {
@@ -78,10 +80,10 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped fields for the given <paramref name="type"/>.
+        /// Gets the non-public, static-scoped fields for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the fields.</param>
-        /// <returns>The given <paramref name="type"/>'s non-public, static-scoped fields.</returns>
+        /// <returns>This <paramref name="type"/>'s non-public, static-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetNonPublicStaticFields(this Type type)
         {
 #if NETSTANDARD1_0
@@ -92,13 +94,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, static-scoped field with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, static-scoped field with the given <paramref name="name"/>, for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the field.</param>
         /// <param name="name">The name of the field to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching non-public, static-scoped field, or null if none exists.
+        /// This <paramref name="type"/>'s matching non-public, static-scoped field, or null if none
+        /// exists.
         /// </returns>
         public static FieldInfo GetNonPublicStaticField(this Type type, string name)
         {
@@ -110,10 +113,10 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped fields for the given <paramref name="type"/>.
+        /// Gets the non-public, instance-scoped fields for this <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type from which to retrieve the fields.</param>
-        /// <returns>The given <paramref name="type"/>'s non-public, instance-scoped fields.</returns>
+        /// <returns>This <paramref name="type"/>'s non-public, instance-scoped fields.</returns>
         public static IEnumerable<FieldInfo> GetNonPublicInstanceFields(this Type type)
         {
 #if NETSTANDARD1_0
@@ -124,13 +127,14 @@
         }
 
         /// <summary>
-        /// Gets the non-public, instance-scoped field with the given <paramref name="name"/>, for the 
-        /// given <paramref name="type"/>, or null if none exists.
+        /// Gets the non-public, instance-scoped field with the given <paramref name="name"/>, for this 
+        /// <paramref name="type"/>, or null if none exists.
         /// </summary>
         /// <param name="type">The type from which to retrieve the field.</param>
         /// <param name="name">The name of the field to retrieve.</param>
         /// <returns>
-        /// The given <paramref name="type"/>'s matching non-public, instance-scoped field, or null if none exists.
+        /// This <paramref name="type"/>'s matching non-public, instance-scoped field, or null if
+        /// none exists.
         /// </returns>
         public static FieldInfo GetNonPublicInstanceField(this Type type, string name)
         {

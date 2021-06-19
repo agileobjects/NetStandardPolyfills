@@ -5,16 +5,23 @@
     <Product>AgileObjects.NetStandardPolyfills</Product>
     <Authors>Steve Wilkes</Authors>
     <Copyright>Copyright © AgileObjects Ltd 2021</Copyright>
+    <LangVersion>latest</LangVersion>
     <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/AgileObjects/NetStandardPolyfills</RepositoryUrl>
+
     <AssemblyOriginatorKeyFile>..\NetStandardPolyfills.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/AgileObjects/NetStandardPolyfills</RepositoryUrl>
-    <Version>1.5.0</Version>
-    <VersionPrefix>1.5.0</VersionPrefix>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
+
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors></WarningsAsErrors>
+    <NoWarn>0649;1701;1702</NoWarn>
+
+    <Version>1.6.0</Version>
+    <VersionPrefix>1.6.0</VersionPrefix>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.0</FileVersion>
   </PropertyGroup>
 
 </Project>
